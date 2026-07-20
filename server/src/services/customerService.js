@@ -50,12 +50,7 @@ export default {
 
         return {
             customer: {
-                id: customer.rows[0],
-                firstName: customer.rows[1],
-                lastName: customer.rows[2],
-                email: customer.rows[3],
-                phone: customer.rows[5],
-                address: customer.rows[6]
+                ...customer.rows[0]
                 // accessToken: token
             }
             // ,refreshToken
@@ -108,12 +103,7 @@ export default {
 
         return {
             customer: {
-                id: customer.rows[0],
-                first_name: customer.rows[1],
-                last_name: customer.rows[2],
-                email: customer.rows[3],
-                phone: customer.rows[5],
-                address: customer.rows[6]
+                ...customer.rows[0]
                 //accessToken: token
             }
             //,refreshToken
@@ -133,7 +123,7 @@ export default {
             [customerId]
         );
 
-        return result.rows;
+        return result.rows[0];
     },
 
     async editProile(customerId, newData) {
@@ -156,7 +146,7 @@ export default {
             [firstName, lastName, email, phone, address, customerId]
         );
 
-        return result.rows;
+        return result.rows[0];
     },
 
     async changePassword(customerId, currentPassword, newPassword, repeatNewPassword) {
@@ -215,6 +205,6 @@ export default {
             [customerId]
         );
 
-        return deletedProfile.rows;
+        return deletedProfile.rows[0];
     }
 }
