@@ -1,10 +1,11 @@
 import pool from "../database/db.js";
 import errorApi from "../utils/errorUtil.js";
 import bcrypt from 'bcrypt';
+import { generateAuthToken, generateRefreshToken } from "../utils/tokenUtils.js";
 
 export default {
     async register(customerData) {
-        const {firstName, lastName, email, password, rePassword, phone, address} = customerData;
+        const {firstName, lastName, email, password, rePassword, phone} = customerData;
 
         const customerExists = await pool.query(
             ` 
@@ -37,23 +38,23 @@ export default {
         const customer = await pool.query(
             `
             INSERT INTO
-                customers(first_name, last_name, email, password, phone, address)
+                customers(first_name, last_name, email, password, phone)
             VALUES
-                ($1, $2, $3, $4, $5, $6)
+                ($1, $2, $3, $4, $5)
             RETURNING *;
             `,
-            [firstName, lastName, email, password, phone, address]
+            [firstName, lastName, email, password, phone]
         );
 
-        // const token = LATER
-        // const refreshToken = LATER
+        const token = generateAuthToken(customer);
+        const refreshToken = generateRefreshToken(customer);
 
         return {
             customer: {
-                ...customer.rows[0]
-                // accessToken: token
-            }
-            // ,refreshToken
+                ...customer.rows[0],
+                accessToken: token
+            },
+            refreshToken
         }
     },
 
@@ -98,15 +99,15 @@ export default {
             )
         }
 
-        // const token = LATER
-        // const refreshToken = LATER
+        const token = generateAuthToken(customer);
+        const refreshToken = generateRefreshToken(customer);
 
         return {
             customer: {
-                ...customer.rows[0]
-                //accessToken: token
-            }
-            //,refreshToken
+                ...customer.rows[0],
+                accessToken: token
+            },
+            refreshToken
         }
     },
 
@@ -114,7 +115,9 @@ export default {
         const result = await pool.query(
             `
             SELECT 
-                *
+                CONCAT_WS(' ', first_name, last_name) AS full_name,
+                email,
+                phone
             FROM
                 customers
             WHERE
@@ -127,7 +130,7 @@ export default {
     },
 
     async editProile(customerId, newData) {
-        const {firstName, lastName, email, phone, address} = newData;
+        const {firstName, lastName, email, phone} = newData;
 
         const result = await pool.query(
             `
@@ -137,13 +140,12 @@ export default {
                 first_name = $1,
                 last_name = $2,
                 email = $3,
-                phone = $4,
-                address = $5
+                phone = $4
             WHERE
                 id = $6;
             RETURNING *;
             `,
-            [firstName, lastName, email, phone, address, customerId]
+            [firstName, lastName, email, phone, customerId]
         );
 
         return result.rows[0];

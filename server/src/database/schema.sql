@@ -4,8 +4,7 @@ CREATE TABLE customers (
 	last_name VARCHAR(30) NOT NULL,
 	email VARCHAR(40) NOT NULL,
 	password VARCHAR(25) NOT NULL,
-	phone VARCHAR(30) NOT NULL,
-	address VARCHAR(150) NOT NULL
+	phone VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE products (
@@ -19,6 +18,7 @@ CREATE TABLE products (
 CREATE TABLE orders (
 	id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
 	customer_id INT REFERENCES customers(id) NOT NULL,
+	total_price DECIMAL(9, 2) NOT NULL CHECK(total_price > 0.00),
 	status VARCHAR(20) NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
