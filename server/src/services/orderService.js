@@ -1,6 +1,153 @@
 import pool from "../database/db.js"
 
 export default {
+    async getOrder(orderId) {
+        const order = await pool.query(
+            `
+            SELECT
+                o.id AS order_id,
+                CONCAT_WS(' ', c.first_name, c.last_name) AS full_name,
+                o.status,
+                o.created_at,
+                p.title AS product_name,
+                p.image AS product_image,
+                p.price AS product_price,
+                op.quantity,
+                o.total_price
+            FROM
+                orders_products AS op
+            JOIN
+                orders AS o
+                ON o.id = op.order_id
+            JOIN
+                products AS p
+                ON p.id = op.product_id
+            JOIN
+                customers AS c
+                ON c.id = o.customer_id
+            WHERE
+                o.id = $1;
+            `,
+            [orderId]
+        );
+
+        return order.rows;
+    },
+
+    async getAllConfirmedOrders() {
+        const result = await pool.query(
+            `
+            SELECT
+                o.id AS order_id,
+                CONCAT_WS(' ', c.first_name, c.last_name) AS full_name,
+                o.status,
+                o.created_at,
+                p.title AS product_name,
+                p.image AS product_image,
+                p.price AS product_price,
+                op.quantity,
+                o.total_price
+            FROM
+                orders_products AS op
+            JOIN
+                orders AS o
+                ON o.id = op.order_id
+            JOIN
+                products AS p
+                ON p.id = op.product_id
+            JOIN
+                customers AS c
+                ON c.id = o.customer_id
+            WHERE
+                o.status = 'CONFIRMED';
+            ORDER BY
+                order_id;
+            `
+        );
+
+        const orders = {};
+
+        for (const row of result.rows) {
+            if (!orders[row.order_id]) {
+                orders[row.order_id] = {
+                    id: row.order_id,
+                    customer = row.full_name,
+                    status = row.status,
+                    createdAt = row.created_at,
+                    totalPrice = row.totalPrice,
+                    products: []
+                };
+            }
+
+            orders[row.order_id].products.push({
+                name: row.product_name,
+                price: row.product_price,
+                image: row.product_image,
+                quantity: row.quantity
+            });
+        }
+
+        return Object.values(orders);
+    },
+
+    async getAllOrdersOfCustomer(customerId) {
+        const result = await pool.query(
+            `
+            SELECT
+                o.id AS order_id,
+                CONCAT_WS(' ', c.first_name, c.last_name) AS full_name,
+                o.status,
+                o.created_at,
+                p.title AS product_name,
+                p.image AS product_image,
+                p.price AS product_price,
+                op.quantity,
+                o.total_price
+            FROM
+                orders_products AS op
+            JOIN
+                orders AS o
+                ON o.id = op.order_id
+            JOIN
+                products AS p
+                ON p.id = op.product_id
+            JOIN
+                customers AS c
+                ON c.id = o.customer_id
+            WHERE
+                o.customer_id = $1
+            ORDER BY
+                order_id;
+            `,
+            [customerId]
+        );
+
+        const orders = {};
+
+        for (const row of result.rows) {
+            if (!orders[row.order_id]) {
+                orders[row.order_id] = {
+                    id: row.order_id,
+                    customer = row.full_name,
+                    status = row.status,
+                    createdAt = row.created_at,
+                    totalPrice = row.totalPrice,
+                    products: []
+                };
+            }
+
+            orders[row.order_id].products.push({
+                name: row.product_name,
+                price: row.product_price,
+                image: row.product_image,
+                quantity: row.quantity
+            });
+        }
+
+        return Object.values(orders);
+        
+    },
+
     async addProductToCart(customerId, productId, quantity) {
         const client = await pool.connect();
         let orderId = '';
@@ -48,6 +195,27 @@ export default {
                 RETURNING *;
                 `,
                 [orderId, productId, quantity]
+            );
+
+            await client.query(
+                `
+                UPDATE
+                    orders
+                SET total_price = (
+                    SELECT
+                        SUM(op.quantity * p.price)
+                    FROM
+                        orders_products AS op
+                    JOIN
+                        products AS p
+                        ON op.product_id = p.id
+                    WHERE
+                        op.order_id = $1
+                )
+                WHERE
+                    id = $1;
+                `,
+                [orderId]
             );
 
             await client.query(`COMMIT`)
@@ -103,6 +271,25 @@ export default {
                 `,
                     [orderId]
                 );
+            } else {
+                await client.query(
+                    `
+                    UPDATE
+                        orders
+                    SET total_price = COALESCE((
+                        SELECT
+                            SUM(op.quantity * p.price)
+                        FROM
+                            orders_products AS op
+                        JOIN
+                            products AS p
+                            ON op.product_id = p.id
+                        WHERE
+                            op.order_id = $1
+                            ), 0)
+                    WHERE
+                        id = $1;
+                    `)
             }
 
             await client.query(`COMMIT`);
@@ -125,37 +312,37 @@ export default {
                 orders
             WHERE
                 id = $1;
-            `,
+                `,
             [orderId]
         );
     },
 
-    finalizeOrder(orderId) {
+    async finalizeOrder(orderId) {
         await pool.query(
             `
-            UPDATE
-                orders
-            SET
-                status = "CONFIRMED"
-            WHERE
-                id = $1;
-            `,
+                UPDATE
+                    orders
+                SET
+                    status = "CONFIRMED"
+                WHERE
+                    id = $1;
+                `,
             [orderId]
         );
     },
 
-    cancelOrder(orderId) {
+    async cancelOrder(orderId) {
         await pool.query(
             `
-            UPDATE
-                orders
-            SET
-                status = "CANCELLED"
-            WHERE
-                id = $1
-                    AND
-                status = "CONFIRMED";
-            `,
+                UPDATE
+                    orders
+                SET
+                    status = "CANCELLED"
+                WHERE
+                    id = $1
+                        AND
+                    status = "CONFIRMED";
+                `,
             [orderId]
         )
     }

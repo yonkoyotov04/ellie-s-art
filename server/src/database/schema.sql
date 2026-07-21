@@ -18,7 +18,7 @@ CREATE TABLE products (
 CREATE TABLE orders (
 	id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
 	customer_id INT REFERENCES customers(id) NOT NULL,
-	total_price DECIMAL(9, 2) NOT NULL CHECK(total_price > 0.00),
+	total_price DECIMAL(9, 2) NOT NULL CHECK(total_price > 0.00) DEFAULT(0.00),
 	status VARCHAR(20) NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
