@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import routes from './routes.js';
 import dotenv from "dotenv"
+import authMiddleware from './middlewares/authMiddleware.js';
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ app.use(cors);
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(authMiddleware);
 
 app.use(routes);
 
