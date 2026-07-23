@@ -31,7 +31,7 @@ export default {
             [orderId]
         );
 
-        return order.rows;
+        return order.rows[0];
     },
 
     async getAllConfirmedOrders() {
@@ -191,8 +191,7 @@ export default {
                 INSERT INTO
                     orders_products(order_id, product_id, quantity)
                 VALUES
-                    ($1, $2, $3)
-                RETURNING *;
+                    ($1, $2, $3);
                 `,
                 [orderId, productId, quantity]
             );
@@ -311,8 +310,10 @@ export default {
             DELETE FROM
                 orders
             WHERE
-                id = $1;
-                `,
+                id = $1
+                    AND
+                status = "PENDING";
+            `,
             [orderId]
         );
     },
