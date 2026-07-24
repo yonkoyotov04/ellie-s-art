@@ -34,6 +34,60 @@ export default {
         return order.rows[0];
     },
 
+    async getAllOrders() {
+        const result = await pool.query(
+            `
+            SELECT
+                o.id AS order_id,
+                CONCAT_WS(' ', c.first_name, c.last_name) AS full_name,
+                o.status,
+                o.created_at,
+                p.title AS product_name,
+                p.image AS product_image,
+                p.price AS product_price,
+                op.quantity,
+                o.total_price
+            FROM
+                orders_products AS op
+            JOIN
+                orders AS o
+                ON o.id = op.order_id
+            JOIN
+                products AS p
+                ON p.id = op.product_id
+            JOIN
+                customers AS c
+                ON c.id = o.customer_id
+            ORDER BY
+                order_id;
+            `
+        );
+
+        const orders = {};
+
+        for (const row of result.rows) {
+            if (!orders[row.order_id]) {
+                orders[row.order_id] = {
+                    id: row.order_id,
+                    customer = row.full_name,
+                    status = row.status,
+                    createdAt = row.created_at,
+                    totalPrice = row.totalPrice,
+                    products: []
+                };
+            }
+
+            orders[row.order_id].products.push({
+                name: row.product_name,
+                price: row.product_price,
+                image: row.product_image,
+                quantity: row.quantity
+            });
+        }
+
+        return Object.values(orders);
+    },
+
     async getAllConfirmedOrders() {
         const result = await pool.query(
             `

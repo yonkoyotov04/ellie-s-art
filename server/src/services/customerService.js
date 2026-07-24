@@ -201,12 +201,9 @@ export default {
             DELETE FROM
                 customers
             WHERE
-                id = $1
-            RETURNING *;
+                id = $1;
             `,
             [customerId]
         );
-
-        return deletedProfile.rows[0];
     }
 }
