@@ -200,6 +200,8 @@ p {
     color: var(--ink-500);
     font-size: 16px;
     max-width: 46ch;
+    text-align: center;
+    margin-inline: auto;
 }
 
 .citrus-divider {
