@@ -7,7 +7,7 @@ export default function Catalogue() {
             <section className="page-header section--tint">
                 <div className="page-header__inner">
                     <span className="eyebrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="7" />
                             <path d="M21 21l-4.3-4.3" />
                         </svg>
@@ -27,7 +27,7 @@ export default function Catalogue() {
 
             <div className="catalogue-toolbar">
                 <div className="search-field">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                         <circle cx="11" cy="11" r="7" />
                         <path d="M21 21l-4.3-4.3" />
                     </svg>
@@ -51,7 +51,7 @@ export default function Catalogue() {
             <div className="filter-chips">
                 <a to="categories.html" className="chip is-selected">
                     Всички
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
                         <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 </a>
@@ -87,8 +87,8 @@ export default function Catalogue() {
 
                     <nav className="pagination" aria-label="Странициране">
                         <Link to="#" className="pagination-arrow" aria-label="Предишна страница">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
-                                strokeLinecap="round" strokeLinejoin="round">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                                stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M15 18l-6-6 6-6" />
                             </svg>
                         </Link>
@@ -99,15 +99,15 @@ export default function Catalogue() {
                         <span className="pagination-dots">…</span>
                         <Link to="#">12</Link>
                         <Link to="#" className="pagination-arrow" aria-label="Следваща страница">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
-                                strokeLinecap="round" strokeLinejoin="round">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                                stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M9 18l6-6-6-6" />
                             </svg>
                         </Link>
                     </nav>
 
                     {/* <div className="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
                         <h3>Няма намерени продукти</h3>
                         <p>Опитай с друга дума за търсене или премахни някой от филтрите.</p>
                     </div> */}

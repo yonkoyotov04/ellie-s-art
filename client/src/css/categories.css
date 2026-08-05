@@ -1,0 +1,115 @@
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 8px 24px 80px;
+}
+
+.category-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lift);
+}
+
+.category-card__media {
+    position: relative;
+    aspect-ratio: 4/3;
+    background: linear-gradient(155deg, var(--lemon-300), var(--lemon-100));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-card__media svg {
+    width: 52px;
+    height: 52px;
+    color: var(--teal-500);
+    opacity: .5;
+}
+
+.category-card__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(11, 74, 68, 0.72) 0%, rgba(11, 74, 68, 0.05) 55%, transparent 100%);
+}
+
+.category-card__count {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    background: var(--lemon-500);
+    color: var(--teal-900);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 6px 13px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-soft);
+}
+
+.category-card__title {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 16px;
+    z-index: 2;
+    color: var(--white);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 22px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.category-card__body {
+    padding: 20px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+}
+
+.category-card__desc {
+    color: var(--ink-500);
+    font-size: 14.5px;
+    line-height: 1.6;
+}
+
+.category-card__link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--teal-700);
+}
+
+.category-card__link svg {
+    width: 16px;
+    height: 16px;
+    transition: transform .18s ease;
+}
+
+.category-card:hover .category-card__link svg {
+    transform: translateX(4px);
+}
+
+@media (max-width: 480px) {
+    .category-card__title {
+        font-size: 19px;
+    }
+}

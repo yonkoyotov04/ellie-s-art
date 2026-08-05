@@ -6,6 +6,7 @@ import Home from './components/pages/Home.jsx'
 import { Route, Routes } from 'react-router'
 import Posts from './components/pages/Posts.jsx'
 import Catalogue from './components/pages/Catalogue.jsx'
+import Categories from './components/pages/Categories.jsx'
 
 function App() {
     const [count, setCount] = useState(0)
@@ -18,6 +19,7 @@ function App() {
                     <Route path='/' element={<Home />} />
                     <Route path='/posts' element={<Posts />} />
                     <Route path='/catalogue' element={<Catalogue />} />
+                    <Route path='/categories' element={<Categories />} />
                 </Routes>
             </main>
             <Footer />
