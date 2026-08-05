@@ -35,19 +35,19 @@ export default function Footer() {
                 <div className="footer__nav">
                     <h4>Разгледай</h4>
                     <div className="footer__links">
-                        <Link to="catalogue.html">Каталог</Link>
-                        <Link to="categories.html">Категории</Link>
-                        <Link to="posts.html">Публикации</Link>
-                        <Link to="about.html">За нас</Link>
+                        <Link to="/catalogue">Каталог</Link>
+                        <Link to="/categories">Категории</Link>
+                        <Link to="/posts">Публикации</Link>
+                        <Link to="/about">За нас</Link>
                     </div>
                 </div>
 
                 <div className="footer__account">
                     <h4>Акаунт</h4>
                     <div className="footer__links">
-                        <Link to="login.html">Вход</Link>
-                        <Link to="register.html">Регистрация</Link>
-                        <Link to="cart.html">Количка</Link>
+                        <Link to="/login">Вход</Link>
+                        <Link to="/register">Регистрация</Link>
+                        <Link to="/cart">Количка</Link>
                     </div>
                 </div>
 

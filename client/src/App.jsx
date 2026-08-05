@@ -8,6 +8,7 @@ import Posts from './components/pages/Posts.jsx'
 import Catalogue from './components/pages/Catalogue.jsx'
 import Categories from './components/pages/Categories.jsx'
 import AboutUs from './components/pages/About Us.jsx'
+import Register from './components/auth/Register.jsx'
 
 function App() {
     const [count, setCount] = useState(0)
@@ -22,6 +23,7 @@ function App() {
                     <Route path='/catalogue' element={<Catalogue />} />
                     <Route path='/categories' element={<Categories />} />
                     <Route path='/about' element={<AboutUs />} />
+                    <Route path='/register' element={<Register />} />
                 </Routes>
             </main>
             <Footer />
