@@ -10,6 +10,7 @@ import Categories from './components/pages/Categories.jsx'
 import AboutUs from './components/pages/About Us.jsx'
 import Register from './components/auth/Register.jsx'
 import Login from './components/auth/Login.jsx'
+import Cart from './components/pages/Cart.jsx'
 
 function App() {
     const [count, setCount] = useState(0)
@@ -26,6 +27,7 @@ function App() {
                     <Route path='/about' element={<AboutUs />} />
                     <Route path='/register' element={<Register />} />
                     <Route path='/login' element={<Login />} />
+                    <Route path='/cart' element={<Cart />} />
                 </Routes>
             </main>
             <Footer />
