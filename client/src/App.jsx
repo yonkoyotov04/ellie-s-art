@@ -18,33 +18,35 @@ import AdminProducts from './components/admin/AdminProducts/AdminProducts.jsx'
 import AddProduct from './components/admin/AdminProducts/AddProduct.jsx'
 import AdminPosts from './components/admin/AdminPosts/AdminPosts.jsx'
 import AddPost from './components/admin/AdminPosts/AddPost.jsx'
+import { ErrorContext, ErrorProvider } from './contexts/ErrorContext.jsx'
 
 function App() {
     const [count, setCount] = useState(0)
 
     return (
-        <Routes>
-            <Route element={<PublicLayout />}>
-                <Route path='/' element={<Home />} />
-                <Route path='/posts' element={<Posts />} />
-                <Route path='/catalogue' element={<Catalogue />} />
-                <Route path='/categories' element={<Categories />} />
-                <Route path='/about' element={<AboutUs />} />
-                <Route path='/register' element={<Register />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/cart' element={<Cart />} />
-            </Route>
+        <ErrorProvider>
+            <Routes>
+                <Route element={<PublicLayout />}>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/posts' element={<Posts />} />
+                    <Route path='/catalogue' element={<Catalogue />} />
+                    <Route path='/categories' element={<Categories />} />
+                    <Route path='/about' element={<AboutUs />} />
+                    <Route path='/register' element={<Register />} />
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/cart' element={<Cart />} />
+                </Route>
 
-            <Route path='/admin' element={<AdminLayout />}>
-                <Route path='dashboard' element={<Dashboard />} />
-                <Route path='products' element={<AdminProducts />} />
-                <Route path='products/add' element={<AddProduct />} />
-                <Route path='posts' element={<AdminPosts />} />
-                <Route path='posts/add' element={<AddPost />} />
-            </Route>
+                <Route path='/admin' element={<AdminLayout />}>
+                    <Route path='dashboard' element={<Dashboard />} />
+                    <Route path='products' element={<AdminProducts />} />
+                    <Route path='products/add' element={<AddProduct />} />
+                    <Route path='posts' element={<AdminPosts />} />
+                    <Route path='posts/add' element={<AddPost />} />
+                </Route>
 
-        </Routes>
-
+            </Routes>
+        </ErrorProvider>
     )
 }
 
