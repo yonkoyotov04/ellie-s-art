@@ -69,10 +69,10 @@ export default {
             if (!orders[row.order_id]) {
                 orders[row.order_id] = {
                     id: row.order_id,
-                    customer = row.full_name,
-                    status = row.status,
-                    createdAt = row.created_at,
-                    totalPrice = row.totalPrice,
+                    customer: row.full_name,
+                    status: row.status,
+                    createdAt: row.created_at,
+                    totalPrice: row.totalPrice,
                     products: []
                 };
             }
@@ -125,10 +125,10 @@ export default {
             if (!orders[row.order_id]) {
                 orders[row.order_id] = {
                     id: row.order_id,
-                    customer = row.full_name,
-                    status = row.status,
-                    createdAt = row.created_at,
-                    totalPrice = row.totalPrice,
+                    customer: row.full_name,
+                    status: row.status,
+                    createdAt: row.created_at,
+                    totalPrice: row.totalPrice,
                     products: []
                 };
             }
@@ -182,10 +182,10 @@ export default {
             if (!orders[row.order_id]) {
                 orders[row.order_id] = {
                     id: row.order_id,
-                    customer = row.full_name,
-                    status = row.status,
-                    createdAt = row.created_at,
-                    totalPrice = row.totalPrice,
+                    customer: row.full_name,
+                    status: row.status,
+                    createdAt: row.created_at,
+                    totalPrice: row.totalPrice,
                     products: []
                 };
             }
