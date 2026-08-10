@@ -32,3 +32,5 @@ export function ErrorProvider({children}) {
         </ErrorContext.Provider>
     )
 }
+
+export default ErrorContext;

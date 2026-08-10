@@ -17,7 +17,7 @@ export function UserProvider({children}) {
     }
 
     const onLogout = async () => {
-        await fetch('http://localhost:2105/logout', {method: 'GET', credentials: 'include'});
+        await fetch('http://localhost:2105/customers/logout', {method: 'GET', credentials: 'include'});
         setUser(null);
     }
 
@@ -35,3 +35,5 @@ export function UserProvider({children}) {
         </UserContext.Provider>
     )
 }
+
+export default UserContext;
