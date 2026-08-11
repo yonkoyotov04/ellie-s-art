@@ -51,10 +51,10 @@ export default function useFetch(url, setData) {
 
         options.credentials = 'include'
 
-        let response = await fetch(`http://localhost:2105/${url}`, options);
+        let response = await fetch(`http://localhost:2105${url}`, options);
 
         if (!response.ok) {
-            if (response.status = 401) {
+            if (response.status === 401) {
                 const newToken = await refreshToken();
 
                 if (!newToken) {

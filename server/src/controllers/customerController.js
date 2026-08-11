@@ -10,12 +10,14 @@ const customerController = Router();
 customerController.post('/register', isGuest, async (req, res) => {
     let customerData = req.body;
 
+    console.log(customerData);
+
     customerData['firstName'] = customerData.firstName.trim();
     customerData['lastName'] = customerData.lastName.trim();
     customerData['email'] = customerData.email.trim();
-    customerData['password'] = customerData.trim();
-    customerData['rePassword'] = customerData.trim();
-    customerData['phone'] = customerData.trim();
+    customerData['password'] = customerData.password.trim();
+    customerData['rePassword'] = customerData.rePassword.trim();
+    customerData['phone'] = customerData.phone.trim();
 
     try {
         const {customer, refreshToken} = await customerService.register(customerData);

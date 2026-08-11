@@ -20,7 +20,7 @@ export default function useControlledForm(initialValues, onSubmit) {
             await onSubmit(values);
         } catch (error) {
             errorSetter(error.message);
-            throw error.message
+            throw error;
         }
     }
 

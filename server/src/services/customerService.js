@@ -5,7 +5,7 @@ import { generateAuthToken, generateRefreshToken } from "../utils/tokenUtils.js"
 
 export default {
     async register(customerData) {
-        const {firstName, lastName, email, password, rePassword, phone} = customerData;
+        const { firstName, lastName, email, password, rePassword, phone } = customerData;
 
         const customerExists = await pool.query(
             ` 
@@ -19,7 +19,7 @@ export default {
             [email]
         );
 
-        if (!customerExists.rows.length > 0) {
+        if (customerExists.rows.length > 0) {
             throw new errorApi(
                 409,
                 'This email is already registered!'
@@ -33,7 +33,7 @@ export default {
             )
         }
 
-        password = await bcrypt.hash(password, 12);
+        const hashedPassword = await bcrypt.hash(password, 12);
 
         const customer = await pool.query(
             `
@@ -43,11 +43,13 @@ export default {
                 ($1, $2, $3, $4, $5)
             RETURNING *;
             `,
-            [firstName, lastName, email, password, phone]
+            [firstName, lastName, email, hashedPassword, phone]
         );
 
-        const token = generateAuthToken(customer);
-        const refreshToken = generateRefreshToken(customer);
+        console.log('Passed register')
+
+        const token = generateAuthToken(customer.rows[0]);
+        const refreshToken = generateRefreshToken(customer.rows[0]);
 
         return {
             customer: {
@@ -130,7 +132,7 @@ export default {
     },
 
     async editProile(customerId, newData) {
-        const {firstName, lastName, email, phone} = newData;
+        const { firstName, lastName, email, phone } = newData;
 
         const result = await pool.query(
             `

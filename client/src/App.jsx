@@ -18,7 +18,7 @@ import AdminProducts from './components/admin/AdminProducts/AdminProducts.jsx'
 import AddProduct from './components/admin/AdminProducts/AddProduct.jsx'
 import AdminPosts from './components/admin/AdminPosts/AdminPosts.jsx'
 import AddPost from './components/admin/AdminPosts/AddPost.jsx'
-import { ErrorContext, ErrorProvider } from './contexts/ErrorContext.jsx'
+import { ErrorProvider } from './contexts/ErrorContext.jsx'
 
 function App() {
     const [count, setCount] = useState(0)
