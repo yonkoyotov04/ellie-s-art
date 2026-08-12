@@ -46,8 +46,6 @@ export default {
             [firstName, lastName, email, hashedPassword, phone]
         );
 
-        console.log('Passed register')
-
         const token = generateAuthToken(customer.rows[0]);
         const refreshToken = generateRefreshToken(customer.rows[0]);
 
@@ -92,7 +90,7 @@ export default {
             [email]
         );
 
-        const isValidPassword = bcrypt.compare(password, customerPassword);
+        const isValidPassword = bcrypt.compare(password, customerPassword.rows[0].password);
 
         if (!isValidPassword) {
             throw new errorApi(

@@ -1,6 +1,32 @@
-import { Link } from "react-router"
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router"
+import UserContext from "../../contexts/UserContext.jsx";
+import useFetch from "../../hooks/useFetch.js";
+import { useState } from "react";
+import useControlledForm from "../../hooks/useControlledForm.js";
 
 export default function Login() {
+    const navigate = useNavigate();
+    const { loginHandler } = useContext(UserContext);
+    const { fetcher } = useFetch();
+
+    const data = {
+        email: '',
+        password: ''
+    }
+
+    const [initialValues, setInitialValues] = useState(data);
+
+    const onSubmit = async (values) => {
+        const formValues = values;
+
+        const result = await fetcher('/customers/login', 'POST', formValues);
+
+        loginHandler(result);
+        navigate('/');
+    }
+
+    const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
 
     return (
         <>
@@ -8,14 +34,14 @@ export default function Login() {
                 <div className="auth__showcase">
                     <div className="auth__showcase-content">
                         <img src="./logo.png" alt="Ellie Art лого" className="nav-logo__img" />
-                            <h2>Радваме се да те видим отново 🍋</h2>
-                            <p>Влез в акаунта си, за да продължиш пазаруването, следиш поръчките си и се включиш в разговора под
-                                последните публикации.</p>
+                        <h2>Радваме се да те видим отново 🍋</h2>
+                        <p>Влез в акаунта си, за да продължиш пазаруването, следиш поръчките си и се включиш в разговора под
+                            последните публикации.</p>
 
-                            <div className="auth__quote">
-                                „Всяка поръчка е опакована с толкова грижа, сякаш е за близък приятел.“
-                                <strong>— Мария, клиент на Ellie Art</strong>
-                            </div>
+                        <div className="auth__quote">
+                            „Всяка поръчка е опакована с толкова грижа, сякаш е за близък приятел.“
+                            <strong>— Мария, клиент на Ellie Art</strong>
+                        </div>
                     </div>
                 </div>
 
@@ -25,7 +51,7 @@ export default function Login() {
                         <h1>Вход в акаунта</h1>
                         <p>Въведи данните си, за да продължиш.</p>
 
-                        <form>
+                        <form method="POST" onSubmit={submitHandler}>
                             <div className="field">
                                 <label htmlFor="login-email">Имейл</label>
                                 <div className="field-input">
@@ -34,7 +60,14 @@ export default function Login() {
                                         <rect x="2" y="4" width="20" height="16" rx="2" />
                                         <path d="m22 6-10 7L2 6" />
                                     </svg>
-                                    <input type="email" id="login-email" placeholder="ti@example.com" autoComplete="email" />
+                                    <input
+                                        type="email"
+                                        id="login-email"
+                                        name="email"
+                                        onChange={changeHandler}
+                                        value={values.email}
+                                        placeholder="ti@example.com"
+                                        autoComplete="email" />
                                 </div>
                             </div>
 
@@ -46,15 +79,21 @@ export default function Login() {
                                         <rect x="3" y="11" width="18" height="10" rx="2" />
                                         <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                                     </svg>
-                                    <input type="password" id="login-password" placeholder="Твоята парола"
+                                    <input
+                                        type="password"
+                                        id="login-password"
+                                        name="password"
+                                        onChange={changeHandler}
+                                        value={values.password}
+                                        placeholder="Твоята парола"
                                         autoComplete="current-password" />
-                                        <button type="button" className="field-input__toggle" aria-label="Покажи паролата">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                                strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
-                                                <circle cx="12" cy="12" r="3" />
-                                            </svg>
-                                        </button>
+                                    <button type="button" className="field-input__toggle" aria-label="Покажи паролата">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                            strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
 

@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import useLocalStorage from "../hooks/useLocalStorage.js";
+import { useNavigate } from "react-router";
 
 const UserContext = createContext({
     user: {},
@@ -11,6 +12,7 @@ const UserContext = createContext({
 
 export function UserProvider({children}) {
     const [user, setUser] = useLocalStorage(null, 'user');
+    const navigate = useNavigate();
 
     const onLogin = (user) => {
         setUser(user)
@@ -19,6 +21,7 @@ export function UserProvider({children}) {
     const onLogout = async () => {
         await fetch('http://localhost:2105/customers/logout', {method: 'GET', credentials: 'include'});
         setUser(null);
+        navigate('/');
     }
 
     const contextValues = {

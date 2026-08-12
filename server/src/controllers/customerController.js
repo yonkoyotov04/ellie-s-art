@@ -10,8 +10,6 @@ const customerController = Router();
 customerController.post('/register', isGuest, async (req, res) => {
     let customerData = req.body;
 
-    console.log(customerData);
-
     customerData['firstName'] = customerData.firstName.trim();
     customerData['lastName'] = customerData.lastName.trim();
     customerData['email'] = customerData.email.trim();
@@ -61,7 +59,7 @@ customerController.post('/login', isGuest, async (req, res) => {
     }
 });
 
-customerController.get('/logout', isAuth, async (req, res) => {
+customerController.get('/logout', async (req, res) => {
     res.clearCookie('refreshToken');
     res.sendStatus(204);
 })
