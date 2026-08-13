@@ -27,17 +27,17 @@ export default {
     },
 
     async addNewProduct(productData) {
-        const {title, description, price, category} = productData;
+        const {title, description, price, category, image} = productData;
 
         const result = await pool.query(
             `
             INSERT INTO
-                products(title, description, price, category)
+                products(title, description, price, category_id, image)
             VALUES
-                ($1, $2, $3, $4)
+                ($1, $2, $3, $4, $5)
             RETURNING *;
             `,
-            [title, description, price, category]
+            [title, description, price, category, image]
         );
 
         return result.rows[0];

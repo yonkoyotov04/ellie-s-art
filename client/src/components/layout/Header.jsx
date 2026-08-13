@@ -3,7 +3,7 @@ import { Link } from "react-router"
 import UserContext from "../../contexts/UserContext.jsx"
 
 export default function Header() {
-    const { user, isAuthenticated, logoutHandler } = useContext(UserContext);
+    const { user, isAuthenticated, isAdmin, logoutHandler } = useContext(UserContext);
 
     return (
         <header className="site-header">
@@ -46,6 +46,7 @@ export default function Header() {
                             </svg>
                             <span className="nav-cart__count">2</span>
                         </Link>
+                        {isAdmin ? <li className="btn btn-ghost"><Link to="/admin/dashboard">Управление</Link></li> : ''}
                     </> : <>
                         <Link to="/login" className="btn btn-ghost">Вход</Link>
                         <Link to="/register" className="btn btn-outline">Регистрация</Link>

@@ -27,7 +27,7 @@ export function UserProvider({children}) {
     const contextValues = {
         user,
         isAuthenticated: !!user?.email,
-        isAdmin: user?.email === 'elena.stiliyanova07@gmail.com' ? true : false,
+        isAdmin: user?.email === 'elena.stiliyanova07@gmail.com' || user?.email === 'yonkoyotov04@gmail.com' ? true : false,
         loginHandler: onLogin,
         logoutHandler: onLogout
     }

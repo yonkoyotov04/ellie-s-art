@@ -13,8 +13,8 @@ export default function AdminHeader() {
                 </Link>
                 <span className="dash-topbar__tag">Табло за управление</span>
                 <div className="dash-topbar__actions">
-                    <Link to="Home.html" className="btn btn-ghost btn-sm">← Към сайта</Link>
-                    <Link to="logout.html" className="btn btn-outline btn-sm">Изход</Link>
+                    <Link to="/" className="btn btn-ghost btn-sm">← Към сайта</Link>
+                    <Link to="/" className="btn btn-outline btn-sm">Изход</Link>
                 </div>
             </div>
         </header>

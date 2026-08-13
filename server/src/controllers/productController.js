@@ -2,6 +2,7 @@ import { Router } from "express"
 import productService from "../services/productService.js";
 import { getErrorMessage } from "../utils/errorUtil.js";
 import { isAuth } from "../middlewares/authMiddleware.js";
+import upload from "../middlewares/upload.js";
 
 const productController = Router();
 
@@ -19,13 +20,18 @@ productController.get('/:productId', async (req, res) => {
     res.status(200).json(product ?? {});
 });
 
-productController.post('/', isAuth, async (req, res) => {
+productController.post('/', isAuth, upload.single('image'), async (req, res) => {
     const productData = req.body;
+
+    if (!req.file) {
+        return res.status(400).json({message: 'Product image is required!'})
+    }
 
     productData['title'] = productData.title.trim();
     productData['description'] = productData.description.trim();
     productData['price'] = productData.price.trim();
     productData['category'] = productData.category.trim();
+    productData['image'] = `/uploads/${req.file.filename}`
 
     try {
         const product = await productService.addNewProduct(productData);

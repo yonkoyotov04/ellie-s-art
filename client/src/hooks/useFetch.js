@@ -36,10 +36,14 @@ export default function useFetch(url, setData) {
         }
 
         if (data) {
-            options.headers = {
-                'content-type': 'application/json'
+            if (data instanceof FormData) {
+                options.body = data;
+            } else {
+                options.headers = {
+                    'content-type': 'application/json'
+                }
+                options.body = JSON.stringify(data);
             }
-            options.body = JSON.stringify(data);
         }
 
         if (isAuthenticated || config.accessToken) {
