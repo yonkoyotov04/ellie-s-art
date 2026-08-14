@@ -27,7 +27,9 @@ export default {
     },
 
     async addNewProduct(productData) {
-        const {title, description, price, category, image} = productData;
+        const {title, description, price, category_id, image} = productData;
+
+        console.log(category_id);
 
         const result = await pool.query(
             `
@@ -37,14 +39,14 @@ export default {
                 ($1, $2, $3, $4, $5)
             RETURNING *;
             `,
-            [title, description, price, category, image]
+            [title, description, price, category_id, image]
         );
 
         return result.rows[0];
     },
 
     async editProduct(productId, newProductData) {
-        const {title, description, price, category} = newProductData;
+        const {title, description, price, category_id, image} = newProductData;
 
         const result = await pool.query(
             `
@@ -54,12 +56,13 @@ export default {
                 title = $1,
                 description = $2,
                 price = $3,
-                category = $4
+                category_id = $4
+                image = $5
             WHERE
-                id = $5
+                id = $6
             RETURNING *;
             `,
-            [title, description, price, category, productId]
+            [title, description, price, category_id, image, productId]
         );
 
         return result.rows[0];
@@ -78,5 +81,20 @@ export default {
         );
 
         return result.rows[0];
+    },
+
+    async getCategories() {
+        const result = await pool.query(
+            `
+            SELECT 
+                *
+            FROM
+                categories
+            ORDER BY
+                id;
+            `
+        );
+
+        return result.rows
     }
 }

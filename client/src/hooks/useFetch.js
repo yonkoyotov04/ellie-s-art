@@ -74,8 +74,10 @@ export default function useFetch(url, setData) {
 
                 response = await fetch(`http://localhost:2105/${url}`, options);
             } else {
-                errorSetter(response.statusText);
-                throw response.statusText;
+                const errorBody = await response.json().catch(() => ({}));
+                const message = errorBody.message || response.statusText;
+                errorSetter(message);
+                throw new Error(message)
             }
         }
 
@@ -90,9 +92,9 @@ export default function useFetch(url, setData) {
 
         setIsLoading(true);
 
-        fetcher(url)
+        fetcher(url, 'GET', null, { accessToken: user?.accessToken })
             .then(result => setData(result))
-            .catch(error => errorSetter(error.message))
+            .catch(error => console.log(error.message))
             .finally(() => setIsLoading(false));
     }, [url, refresh])
 

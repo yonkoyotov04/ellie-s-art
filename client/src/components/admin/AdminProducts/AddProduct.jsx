@@ -5,11 +5,12 @@ import UserContext from "../../../contexts/UserContext.jsx";
 import useControlledForm from "../../../hooks/useControlledForm.js";
 
 export default function AddProduct() {
-    const { fetcher } = useFetch();
+    const [categories, setCategories] = useState([]);
+
+    const { fetcher } = useFetch('/products/categories', setCategories);
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
 
-    const [imageFile, setImageFile] = useState(null);
     const [previewURL, setPreviewURL] = useState(null);
 
     const data = {
@@ -23,9 +24,8 @@ export default function AddProduct() {
     const [initialValues, setInitialValues] = useState(data);
 
     const onSubmit = async (e) => {
-        e.preventDefault();
-
         const formData = new FormData();
+
         Object.entries(values).forEach(([key, value]) => {
             if (value !== null & value !== undefined) {
                 formData.append(key, value);
@@ -37,6 +37,15 @@ export default function AddProduct() {
     }
 
     const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
+
+    const imageChangeHandler = (e) => {
+        changeHandler(e);
+
+        const file = e.target.files[0];
+        if (file) {
+            setPreviewURL(URL.createObjectURL(file));
+        }
+    }
 
     return (
         <>
@@ -54,40 +63,10 @@ export default function AddProduct() {
             <form className="admin-form" method="POST" onSubmit={submitHandler}>
                 <div className="admin-form__grid">
 
-                    <div className="admin-form__col admin-form__col--media">
-                        <div className="form-field">
-                            <label htmlFor="product-image" className="form-field__label">Снимка на продукта</label>
-                            <label htmlFor="product-image" className="image-drop">
-                                {previewURL ?
-                                    <img src={previewUrl} alt="Преглед" className="image-drop__preview" />
-                                    :
-                                    <>
-                                        <svg className="image-drop__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M4 16.8V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10.8" />
-                                            <path d="M4 17l4.5-5 3.5 3.5L16 11l4 4" />
-                                            <circle cx="8.5" cy="8" r="1.4" />
-                                        </svg>
-                                        <span className="image-drop__title">Провлачи снимка тук или натисни за избор</span>
-                                        <span className="image-drop__hint">PNG или JPG, до 5 MB</span>
-                                    </>}
-
-                                <input
-                                    type="file"
-                                    id="product-image"
-                                    name="image"
-                                    accept="image/png, image/jpeg"
-                                    className="sr-only"
-                                    onChange={changeHandler} />
-                            </label>
-                            <p className="form-field__hint">Качва се файл — не се приемат връзки (URL) към снимки.</p>
-                        </div>
-                    </div>
-
                     <div className="admin-form__col admin-form__col--fields">
 
                         <div className="form-field">
-                            <label for="product-title" className="form-field__label">Заглавие на продукта</label>
+                            <label htmlFor="product-title" className="form-field__label">Заглавие на продукта</label>
                             <input
                                 type="text"
                                 id="product-title"
@@ -104,10 +83,9 @@ export default function AddProduct() {
                                 id="product-description"
                                 name="description"
                                 onChange={changeHandler}
-                                value={values.descriptipn}
                                 className="form-field__input form-field__textarea"
                                 rows="5"
-                                placeholder="Разкажи малко повече за продукта — материали, размери, история..."></textarea>
+                                placeholder="Разкажи малко повече за продукта — материали, размери, история...">{values.descriptipn}</textarea>
                         </div>
 
                         <div className="form-field__row">
@@ -133,13 +111,10 @@ export default function AddProduct() {
                                 <div className="category-field">
                                     <input type="checkbox" id="category-toggle" className="category-toggle sr-only" />
 
-                                    <select id="product-category" name="category" value={}
+                                    <select id="product-category" name="category_id" onChange={changeHandler}
                                         className="form-field__input category-field__select select-input">
                                         <option value="">Избери категория</option>
-                                        <option value="platna">Платна</option>
-                                        <option value="kartichki">Картички</option>
-                                        <option value="keramika">Керамика</option>
-                                        <option value="portreti">Портрети по поръчка</option>
+                                        {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
                                     </select>
 
                                     <input type="text" id="category-new" name="new_category"
@@ -159,6 +134,36 @@ export default function AddProduct() {
                             </div>
                         </div>
 
+                    </div>
+
+                    <div className="admin-form__col admin-form__col--media">
+                        <div className="form-field">
+                            <label htmlFor="product-image" className="form-field__label">Снимка на продукта</label>
+                            <label htmlFor="product-image" className="image-drop">
+                                {previewURL ?
+                                    <img src={previewURL} alt="Преглед" className="image-drop__preview" />
+                                    :
+                                    <>
+                                        <svg className="image-drop__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M4 16.8V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10.8" />
+                                            <path d="M4 17l4.5-5 3.5 3.5L16 11l4 4" />
+                                            <circle cx="8.5" cy="8" r="1.4" />
+                                        </svg>
+                                        <span className="image-drop__title">Провлачи снимка тук или натисни за избор</span>
+                                        <span className="image-drop__hint">PNG или JPG, до 5 MB</span>
+                                    </>}
+
+                                <input
+                                    type="file"
+                                    id="product-image"
+                                    name="image"
+                                    accept="image/png, image/jpeg"
+                                    className="sr-only"
+                                    onChange={imageChangeHandler} />
+                            </label>
+                            <p className="form-field__hint">Качва се файл — не се приемат връзки (URL) към снимки.</p>
+                        </div>
                     </div>
                 </div>
 

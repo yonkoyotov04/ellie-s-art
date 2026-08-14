@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
+const uploadDir = path.join(__dirname, '..', 'uploads');
 fs.mkdirSync(__dirname, {recursive: true});
 
 const storage = multer.diskStorage({
@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    const allowed = ['images/png', 'images/jpeg'];
+    const allowed = ['image/png', 'image/jpeg'];
 
     if (!allowed.includes(file.mimetype)) {
         return cb(new Error('Only png and jpeg images are allowed'));

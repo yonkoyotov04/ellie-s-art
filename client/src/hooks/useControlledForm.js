@@ -10,7 +10,9 @@ export default function useControlledForm(initialValues, onSubmit) {
     }, [initialValues])
 
     const changeHandler = (e) => {
-        setValues(state => ({...state, [e.target.name]: e.target.value}))
+        const { name, type, value, files } = e.target;
+        
+        setValues(state => ({...state, [name]: type === 'file' ? files[0] : value}))
     }
 
     const submitHandler = async (e) => {

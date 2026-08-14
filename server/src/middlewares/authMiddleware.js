@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import 'dotenv/config'
 
 export default function authMiddleware(req, res, next) {
     const token = req.header('X-Authorization');
@@ -8,19 +9,22 @@ export default function authMiddleware(req, res, next) {
     }
 
     try {
-        const decodedToken = jwt.verify(token, process.env.JTW_SECRET);
+        console.log(token);
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
         req.user = decodedToken;
         req.isAuthenticated = true;
 
         return next();
     } catch (error) {
+        console.log('AuthMiddleware error')
         res.status(401).end();
     }
 }
 
 export function isAuth(req, res, next) {
     if (!req.isAuthenticated) {
+        console.log('IsAuth error')
         return res.status(401);
     }
 

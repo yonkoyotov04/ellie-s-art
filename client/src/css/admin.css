@@ -121,7 +121,7 @@ body.dash {
 
 .admin-form__grid {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 1fr 300px;
     gap: 36px;
 }
 
