@@ -67,6 +67,8 @@ customerController.get('/logout', async (req, res) => {
 customerController.get('/refresh', async (req, res) => {
     const token = req.cookies('refreshToken');
 
+    console.log(`Refresh Token: ${token}`)
+
     if (!token) {
         return res.sendStatus(401);
     }

@@ -27,19 +27,48 @@ export default {
     },
 
     async addNewProduct(productData) {
-        const {title, description, price, category_id, image} = productData;
-
-        console.log(category_id);
+        const {title, description, price, category, image} = productData;
 
         const result = await pool.query(
             `
             INSERT INTO
-                products(title, description, price, category_id, image)
+                products(title, description, price, category, image)
             VALUES
                 ($1, $2, $3, $4, $5)
             RETURNING *;
             `,
-            [title, description, price, category_id, image]
+            [title, description, price, category, image]
+        );
+
+        return result.rows[0];
+    },
+
+    async checkCategory(categoryName) {
+        const result = await pool.query(
+            `
+                SELECT
+                    *
+                FROM
+                    categories
+                WHERE
+                    name = $1;
+            `,
+            [categoryName]
+        )
+
+        return result.rows;
+    },
+
+    async addNewCategory(categoryName) {
+        const result = await pool.query(
+            `
+            INSERT INTO
+                categories(name)
+            VALUES
+                ($1)
+            RETURNING *;
+            `,
+            [categoryName]
         );
 
         return result.rows[0];

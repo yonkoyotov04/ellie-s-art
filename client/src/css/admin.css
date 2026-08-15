@@ -225,13 +225,6 @@ body.dash {
     min-width: 0;
 }
 
-.category-field__new-input {
-    order: 2;
-    flex: 1;
-    min-width: 0;
-    display: none;
-}
-
 .category-field__toggle-btn {
     order: 3;
     flex-shrink: 0;
@@ -255,14 +248,6 @@ body.dash {
 .category-field__toggle-btn:hover {
     background: var(--lemon-500);
     color: var(--teal-900);
-}
-
-.category-toggle:checked~.category-field__select {
-    display: none;
-}
-
-.category-toggle:checked~.category-field__new-input {
-    display: block;
 }
 
 .category-toggle:checked~.category-field__toggle-btn {

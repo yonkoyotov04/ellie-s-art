@@ -19,7 +19,7 @@ productController.get('/categories', async (req, res) => {
         res.status(200).json(categories ?? []);
     } catch (error) {
         const errorMessage = getErrorMessage(error);
-        res.status(400).json({message: errorMessage});
+        res.status(400).json({ message: errorMessage });
     }
 })
 
@@ -33,27 +33,41 @@ productController.get('/:productId', async (req, res) => {
 
 productController.post('/', isAuth, upload.single('image'), async (req, res) => {
     const productData = req.body;
-    
-    console.log(productData);
+
+    if (!isNaN(Number(productData.category)) && productData.category.trim() !== '') {
+        productData['category'] = Number(productData.category);
+    } else {
+        productData['category'] = productData.category.trim();
+        const checkExistance = await productService.checkCategory(productData.category);
+
+        if (!checkExistance.length > 0) {
+            const newCategory = await productService.addNewCategory(productData.category);
+
+            console.log(newCategory);
+            productData['category'] = Number(newCategory.id);
+        } else {
+            productData['category'] = checkExistance[0].id;
+        }
+
+    }
 
     if (!req.file) {
-        return res.status(400).json({message: 'Product image is required!'})
+        return res.status(400).json({ message: 'Product image is required!' })
     }
 
     productData['title'] = productData.title.trim();
     productData['description'] = productData.description?.trim() ?? '';
     productData['price'] = productData.price.trim();
-    productData['category_id'] = Number(productData.category_id);
     productData['image'] = `../uploads/${req.file.filename}`
 
-    console.log(productData)
+    console.log(productData);
 
     try {
         const product = await productService.addNewProduct(productData);
         res.status(200).json(product ?? {});
     } catch (error) {
         const errorMessage = getErrorMessage(error);
-        res.status(400).json({message: errorMessage});
+        res.status(400).json({ message: errorMessage });
     }
 });
 
@@ -71,7 +85,7 @@ productController.put('/:productId', isAuth, async (req, res) => {
         res.status(200).json(updatedProduct ?? {});
     } catch (error) {
         const errorMessage = getErrorMessage(error);
-        res.status(400).json({message: errorMessage});
+        res.status(400).json({ message: errorMessage });
     }
 });
 
@@ -83,10 +97,8 @@ productController.delete('/:productId', isAuth, async (req, res) => {
         res.status(200).json(deletedProduct ?? {});
     } catch (error) {
         const errorMessage = getErrorMessage(error);
-        res.status(400).json({message: errorMessage});
+        res.status(400).json({ message: errorMessage });
     }
 });
-
-
 
 export default productController;

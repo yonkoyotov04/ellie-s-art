@@ -12,6 +12,7 @@ export default function AddProduct() {
     const navigate = useNavigate();
 
     const [previewURL, setPreviewURL] = useState(null);
+    const [manualCategoryInput, setManualCategoryInput] = useState(false);
 
     const data = {
         title: '',
@@ -22,6 +23,10 @@ export default function AddProduct() {
     }
 
     const [initialValues, setInitialValues] = useState(data);
+
+    const changeCategoryInput = () => {
+        setManualCategoryInput(state => !state)
+    }
 
     const onSubmit = async (e) => {
         const formData = new FormData();
@@ -102,32 +107,42 @@ export default function AddProduct() {
                                         placeholder="0.00"
                                         min="0"
                                         step="0.01" />
-                                    <span className="price-field__suffix">лв.</span>
+                                    <span className="price-field__suffix">€</span>
                                 </div>
                             </div>
 
                             <div className="form-field">
                                 <label htmlFor="product-category" className="form-field__label">Категория</label>
                                 <div className="category-field">
-                                    <input type="checkbox" id="category-toggle" className="category-toggle sr-only" />
+                                    {manualCategoryInput ?
+                                        <input
+                                            type="text"
+                                            id="category-new"
+                                            name="category"
+                                            onChange={changeHandler}
+                                            value={values.category}
+                                            className="form-field__input category-field__new-input"
+                                            placeholder="Име на новата категория" />
+                                        :
+                                        <select id="product-category" name="category" onChange={changeHandler}
+                                            className="form-field__input category-field__select select-input">
+                                            <option value="">Избери категория</option>
+                                            {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
+                                        </select>
+                                    }
 
-                                    <select id="product-category" name="category_id" onChange={changeHandler}
-                                        className="form-field__input category-field__select select-input">
-                                        <option value="">Избери категория</option>
-                                        {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
-                                    </select>
-
-                                    <input type="text" id="category-new" name="new_category"
-                                        className="form-field__input category-field__new-input"
-                                        placeholder="Име на новата категория" />
-
-                                    <label htmlFor="category-toggle" className="category-field__toggle-btn"
+                                    <button
+                                        type="button"
+                                        id="category-toggle"
+                                        onClick={changeCategoryInput}
+                                        className="category-field__toggle-btn"
                                         aria-label="Добави нова категория">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
                                             strokeLinecap="round">
                                             <path d="M12 5v14M5 12h14" />
                                         </svg>
-                                    </label>
+                                    </button>
+
                                 </div>
                                 <p className="form-field__hint">Натисни <strong>+</strong>, за да добавиш нова категория
                                     вместо да избереш съществуваща.</p>
