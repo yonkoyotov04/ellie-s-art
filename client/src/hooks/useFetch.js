@@ -15,7 +15,7 @@ export default function useFetch(url, setData) {
     }
 
     const refreshToken = async () => {
-        const result = await fetch('http://localhost:2105/customers/refresh', { method: 'POST', credentials: 'include' });
+        const result = await fetch('http://localhost:2105/customers/refresh', { method: 'GET', credentials: 'include' });
 
         if (!result.ok) {
             return false;

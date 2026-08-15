@@ -1,13 +1,22 @@
 import { Link } from "react-router";
 import ProductCard from "../products/ProductCard.jsx";
+import { useState } from "react";
+import useFetch from "../../hooks/useFetch.js";
 
 export default function Catalogue() {
+
+    const [products, setProducts] = useState([]);
+
+    useFetch('/products', setProducts)
+
+    console.log(products);
+
     return (
         <>
             <section className="page-header section--tint">
                 <div className="page-header__inner">
                     <span className="eyebrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <circle cx="11" cy="11" r="7" />
                             <path d="M21 21l-4.3-4.3" />
                         </svg>
@@ -27,7 +36,7 @@ export default function Catalogue() {
 
             <div className="catalogue-toolbar">
                 <div className="search-field">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                         <circle cx="11" cy="11" r="7" />
                         <path d="M21 21l-4.3-4.3" />
                     </svg>
@@ -36,7 +45,7 @@ export default function Catalogue() {
                 </div>
 
                 <div className="sort-field">
-                    <label for="catalogue-sort">Подреди по:</label>
+                    <label htmlFor="catalogue-sort">Подреди по:</label>
                     <select id="catalogue-sort">
                         <option value="newest">Най-нови</option>
                         <option value="bestselling">Най-продавани</option>
@@ -49,17 +58,17 @@ export default function Catalogue() {
             </div>
 
             <div className="filter-chips">
-                <a to="categories.html" className="chip is-selected">
+                <Link to="/categories" className="chip is-selected">
                     Всички
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
                         <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
-                </a>
-                <a to="catalogue.html?category=paintings" className="chip">Картини</a>
-                <a to="catalogue.html?category=cards" className="chip">Картички</a>
-                <a to="catalogue.html?category=ceramics" className="chip">Керамика</a>
-                <a to="catalogue.html?category=accessories" className="chip">Аксесоари</a>
-                <a to="catalogue.html?category=gifts" className="chip">Комплекти подаръци</a>
+                </Link>
+                <Link to="catalogue.html?category=paintings" className="chip">Картини</Link>
+                <Link to="catalogue.html?category=cards" className="chip">Картички</Link>
+                <Link to="catalogue.html?category=ceramics" className="chip">Керамика</Link>
+                <Link to="catalogue.html?category=accessories" className="chip">Аксесоари</Link>
+                <Link to="catalogue.html?category=gifts" className="chip">Комплекти подаръци</Link>
             </div>
 
             <div className="results-row">
@@ -70,25 +79,14 @@ export default function Catalogue() {
                 <div className="catalogue-section__inner">
                     <div className="product-grid">
 
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
+                        {products.map(product => <ProductCard key={product.id} {...product} />)}
                         
                     </div>
 
                     <nav className="pagination" aria-label="Странициране">
                         <Link to="#" className="pagination-arrow" aria-label="Предишна страница">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
-                                stroke-linecap="round" stroke-linejoin="round">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
+                                strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M15 18l-6-6 6-6" />
                             </svg>
                         </Link>
@@ -99,15 +97,15 @@ export default function Catalogue() {
                         <span className="pagination-dots">…</span>
                         <Link to="#">12</Link>
                         <Link to="#" className="pagination-arrow" aria-label="Следваща страница">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
-                                stroke-linecap="round" stroke-linejoin="round">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
+                                strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M9 18l6-6-6-6" />
                             </svg>
                         </Link>
                     </nav>
 
                     {/* <div className="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
                         <h3>Няма намерени продукти</h3>
                         <p>Опитай с друга дума за търсене или премахни някой от филтрите.</p>
                     </div> */}

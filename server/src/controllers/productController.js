@@ -43,7 +43,6 @@ productController.post('/', isAuth, upload.single('image'), async (req, res) => 
         if (!checkExistance.length > 0) {
             const newCategory = await productService.addNewCategory(productData.category);
 
-            console.log(newCategory);
             productData['category'] = Number(newCategory.id);
         } else {
             productData['category'] = checkExistance[0].id;
@@ -58,7 +57,7 @@ productController.post('/', isAuth, upload.single('image'), async (req, res) => 
     productData['title'] = productData.title.trim();
     productData['description'] = productData.description?.trim() ?? '';
     productData['price'] = productData.price.trim();
-    productData['image'] = `../uploads/${req.file.filename}`
+    productData['image'] = `uploads/${req.file.filename}`
 
     console.log(productData);
 

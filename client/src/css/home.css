@@ -251,7 +251,10 @@
 }
 
 .product-card {
+    display: flex;
+    flex-direction: column;
     position: relative;
+    height: 100%;
     background: var(--white);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-soft);
@@ -266,11 +269,17 @@
 
 .product-card__media {
     position: relative;
+    max-height: 350px;
     aspect-ratio: 4/3;
     background: linear-gradient(150deg, var(--lemon-300), var(--lemon-100));
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.product-card__media img {
+    width: 100%;
+    height: 350px;
 }
 
 .product-card__media svg {
@@ -301,6 +310,9 @@
 }
 
 .product-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     padding: 18px;
 }
 
@@ -316,7 +328,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: auto;
 }
 
 .product-card__price {
