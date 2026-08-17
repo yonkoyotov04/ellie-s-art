@@ -4,7 +4,18 @@ export default {
     async getAllProducts() {
         const result = await pool.query(
             `
-            SELECT * FROM products;
+            SELECT 
+                p.id,
+                p.title,
+                p.price,
+                p.image,
+                c.name AS category
+            FROM 
+                products AS p
+            JOIN
+                categories AS c
+            ON
+                p.category = c.id;
             `
         );
 

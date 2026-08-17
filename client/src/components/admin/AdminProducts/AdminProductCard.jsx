@@ -1,25 +1,33 @@
 import { Link } from "react-router";
 
-export default function AdminProductCard() {
+export default function AdminProductCard({ id, title, price, image, category }) {
+
+    const apiURL = 'http://localhost:2105/';
+
     return (
         <tr>
             <td>
                 <div className="table-product">
                     <span className="table-product__media">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                            <rect x="3" y="3" width="18" height="18" rx="3" />
-                            <circle cx="8.5" cy="8.5" r="1.6" />
-                            <path d="M21 15l-5-5L5 21" />
-                        </svg>
+                        {image
+                            ?
+                            <img src={`${apiURL}${image}`} />
+                            :
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                                <rect x="3" y="3" width="18" height="18" rx="3" />
+                                <circle cx="8.5" cy="8.5" r="1.6" />
+                                <path d="M21 15l-5-5L5 21" />
+                            </svg>}
+
                     </span>
                     <span>
-                        <span className="table-product__name">Лимонова градина — платно 30×40</span><br />
-                        <span className="table-product__id">ID: PRD-001</span>
+                        <span className="table-product__name">{title}</span><br />
+                        <span className="table-product__id">ID: {id}</span>
                     </span>
                 </div>
             </td>
-            <td>Платна</td>
-            <td className="col-price"><span className="table-price">45.00 лв.</span></td>
+            <td>{category}</td>
+            <td className="col-price"><span className="table-price">{price} €</span></td>
             <td className="col-status"><span className="status-badge status-badge--active">Активен</span></td>
             <td className="col-actions">
                 <span className="row-actions">

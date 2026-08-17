@@ -1,7 +1,13 @@
-import { Link } from "react-router";
+import { Link, useFetcher } from "react-router";
 import AdminProductCard from "./AdminProductCard.jsx";
+import { useState } from "react";
+import useFetch from "../../../hooks/useFetch.js";
 
 export default function AdminProducts() {
+
+    const [products, setProducts] = useState([]);
+    useFetch('/products', setProducts);
+
     return (
         <>
             <div className="dash-content__head">
@@ -36,7 +42,7 @@ export default function AdminProducts() {
                     <option value="portreti">Портрети по поръчка</option>
                 </select>
 
-                <Link to="add-product.html" className="btn btn-primary btn-sm">
+                <Link to="/admin/products/add" className="btn btn-primary btn-sm">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"
                         width="16" height="16">
                         <path d="M12 5v14M5 12h14" />
@@ -58,12 +64,7 @@ export default function AdminProducts() {
                     </thead>
                     <tbody>
 
-                        <AdminProductCard />
-                        <AdminProductCard />
-                        <AdminProductCard />
-                        <AdminProductCard />
-                        <AdminProductCard />
-                        <AdminProductCard />
+                        {products.map(product => <AdminProductCard key={product.id} {...product} />)}
 
                     </tbody>
                 </table>

@@ -787,6 +787,11 @@ body.dash {
     opacity: .6;
 }
 
+.table-product__media img {
+    height: 52px;
+    width: 52px;
+}
+
 .table-product__name {
     font-family: var(--font-heading);
     font-weight: 600;
