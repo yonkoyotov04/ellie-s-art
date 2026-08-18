@@ -12,7 +12,10 @@ CREATE TABLE products (
 	title VARCHAR(100) NOT NULL,
 	description TEXT,
 	price DECIMAL(5, 2) NOT NULL CHECK(price > 0.00),
-	category_id INT NOT NULL,
+	category_id INT REFERENCES categories(id) 
+	ON DELETE CASCADE 
+	ON UPDATE CASCADE
+	NOT NULL,
 	image TEXT NOT NULL
 );
 
@@ -39,3 +42,13 @@ CREATE TABLE orders_products (
 	CONSTRAINT order_item_pk
 	PRIMARY KEY(order_id, product_id)
 );
+
+CREATE TABLE comments(
+	id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
+	text TEXT NOT NULL,
+	customer_id INT REFERENCES customers(id)
+	NOT NULL
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
