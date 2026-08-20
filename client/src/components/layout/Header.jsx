@@ -30,22 +30,12 @@ export default function Header() {
                     <li><Link to="/" className="is-active">Начало</Link></li>
                     <li><Link to="/catalogue">Каталог</Link></li>
                     <li><Link to="/categories">Категории</Link></li>
-                    <li><Link to="/posts">Публикации</Link></li>
                     <li><Link to="/about">За нас</Link></li>
                 </ul>
 
                 <div className="nav-actions">
                     {isAuthenticated ? <>
                         <button onClick={logoutHandler} className="btn btn-outline">Изход</button>
-                        <Link to="/cart" className="nav-cart" aria-label="Количка">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                                strokeLinejoin="round">
-                                <circle cx="9" cy="21" r="1" />
-                                <circle cx="20" cy="21" r="1" />
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                            </svg>
-                            <span className="nav-cart__count">2</span>
-                        </Link>
                         {isAdmin ? <li className="btn btn-ghost"><Link to="/admin/dashboard">Управление</Link></li> : ''}
                     </> : <>
                         <Link to="/login" className="btn btn-ghost">Вход</Link>

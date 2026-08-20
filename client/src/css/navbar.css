@@ -40,7 +40,7 @@
 .nav-logo__text strong {
     font-family: var(--font-script);
     font-size: 26px;
-    color: var(--teal-700);
+    color: var(--pink-700);
 }
 
 .nav-logo__text span {
@@ -65,7 +65,7 @@
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 15px;
-    color: var(--teal-900);
+    color: var(--pink-900);
     padding: 10px 14px;
     border-radius: var(--radius-pill);
     transition: color .18s ease, background .18s ease;
@@ -73,12 +73,12 @@
 
 .nav-links a:hover,
 .nav-links a:focus-visible {
-    background: var(--lemon-100);
-    color: var(--teal-700);
+    background: var(--pink-100);
+    color: var(--pink-700);
 }
 
 .nav-links a.is-active {
-    background: var(--teal-500);
+    background: var(--pink-500);
     color: var(--white);
 }
 
@@ -98,7 +98,7 @@
     height: 44px;
     border-radius: 50%;
     background: var(--lemon-100);
-    color: var(--teal-700);
+    color: var(--pink-700);
     transition: background .18s ease, transform .18s ease;
 }
 
@@ -121,7 +121,7 @@
     padding: 0 4px;
     border-radius: 50%;
     background: var(--lemon-500);
-    color: var(--teal-900);
+    color: var(--pink-900);
     font-family: var(--font-heading);
     font-size: 11px;
     font-weight: 700;
@@ -149,7 +149,7 @@
 .nav-toggle-label svg {
     width: 22px;
     height: 22px;
-    color: var(--teal-700);
+    color: var(--pink-700);
 }
 
 @media (max-width: 960px) {

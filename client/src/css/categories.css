@@ -34,7 +34,7 @@
 .category-card__media svg {
     width: 52px;
     height: 52px;
-    color: var(--teal-500);
+    color: var(--pink-500);
     opacity: .5;
 }
 
@@ -42,7 +42,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(0deg, rgba(11, 74, 68, 0.72) 0%, rgba(11, 74, 68, 0.05) 55%, transparent 100%);
+    background: linear-gradient(0deg, rgba(122, 32, 72, 0.72) 0%, rgba(122, 32, 72, 0.05) 55%, transparent 100%);
 }
 
 .category-card__count {
@@ -51,7 +51,7 @@
     right: 14px;
     z-index: 2;
     background: var(--lemon-500);
-    color: var(--teal-900);
+    color: var(--pink-900);
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 12px;
@@ -95,7 +95,7 @@
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 14px;
-    color: var(--teal-700);
+    color: var(--pink-700);
 }
 
 .category-card__link svg {

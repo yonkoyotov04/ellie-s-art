@@ -34,7 +34,7 @@
     border-radius: 50%;
     background: var(--white);
     border: 2px solid var(--lemon-300);
-    color: var(--teal-700);
+    color: var(--pink-700);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -49,7 +49,7 @@
 
 .carousel-arrow:hover {
     background: var(--lemon-500);
-    color: var(--teal-900);
+    color: var(--pink-900);
     transform: scale(1.06);
 }
 
@@ -78,7 +78,7 @@
 .post-card__media svg {
     width: 64px;
     height: 64px;
-    color: var(--teal-500);
+    color: var(--pink-500);
     opacity: .55;
 }
 
@@ -99,7 +99,7 @@
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: var(--teal-500);
+    background: var(--pink-500);
     color: var(--white);
     display: flex;
     align-items: center;
@@ -115,7 +115,7 @@
 .post-card__author-meta strong {
     font-family: var(--font-heading);
     font-size: 15px;
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .post-card__author-meta span {
@@ -162,12 +162,12 @@
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 13.5px;
-    color: var(--teal-700);
+    color: var(--pink-700);
     transition: background .18s ease;
 }
 
 .post-card__actions button:hover {
-    background: var(--teal-100);
+    background: var(--pink-100);
 }
 
 .post-card__actions svg {
@@ -218,7 +218,39 @@
 }
 
 .section--tint {
+    position: relative;
     background: var(--lemon-100);
+    overflow: hidden;
+}
+
+.section--tint::before {
+    content: "";
+    position: absolute;
+    top: 22px;
+    left: 4%;
+    width: 46px;
+    height: 46px;
+    background-image: var(--decor-butterfly);
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .85;
+    transform: rotate(-10deg);
+    pointer-events: none;
+}
+
+.section--tint::after {
+    content: "";
+    position: absolute;
+    bottom: 18px;
+    right: 5%;
+    width: 42px;
+    height: 42px;
+    background-image: var(--decor-lemon);
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .8;
+    transform: rotate(12deg);
+    pointer-events: none;
 }
 
 .section__inner {
@@ -285,7 +317,7 @@
 .product-card__media svg {
     width: 44px;
     height: 44px;
-    color: var(--teal-500);
+    color: var(--pink-500);
     opacity: .5;
 }
 
@@ -294,7 +326,7 @@
     top: 12px;
     left: 12px;
     background: var(--lemon-500);
-    color: var(--teal-900);
+    color: var(--pink-900);
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 11.5px;
@@ -305,7 +337,7 @@
 }
 
 .badge--bestseller {
-    background: var(--teal-500);
+    background: var(--pink-500);
     color: var(--white);
 }
 
@@ -320,7 +352,7 @@
     font-family: var(--font-heading);
     font-size: 16px;
     font-weight: 600;
-    color: var(--teal-900);
+    color: var(--pink-900);
     margin-bottom: 6px;
 }
 
@@ -335,7 +367,7 @@
     font-family: var(--font-heading);
     font-weight: 800;
     font-size: 17px;
-    color: var(--teal-700);
+    color: var(--pink-700);
 }
 
 .product-card__add {
@@ -343,7 +375,7 @@
     height: 38px;
     border-radius: 50%;
     background: var(--lemon-100);
-    color: var(--teal-700);
+    color: var(--pink-700);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -353,7 +385,7 @@
 
 .product-card__add:hover {
     background: var(--lemon-500);
-    color: var(--teal-900);
+    color: var(--pink-900);
     transform: rotate(90deg);
 }
 
@@ -362,14 +394,8 @@
     height: 18px;
 }
 
-.section__more {
-    display: flex;
-    justify-content: center;
-    margin-top: 38px;
-}
-
 .site-footer {
-    background: var(--teal-900);
+    background: var(--pink-900);
     color: var(--cream-50);
     padding: 60px 24px 24px;
 }
@@ -383,9 +409,24 @@
 }
 
 .footer__brand {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 14px;
+}
+
+.footer__brand::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    background-image: var(--decor-lemon);
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .6;
+    pointer-events: none;
 }
 
 .footer__brand .nav-logo__text strong {
@@ -397,7 +438,7 @@
 }
 
 .footer__brand p {
-    color: #BFDAD6;
+    color: #E8B9CE;
     font-size: 14px;
     max-width: 32ch;
 }
@@ -421,7 +462,7 @@
 
 .footer__social a:hover {
     background: var(--lemon-500);
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .footer__social svg {
@@ -429,7 +470,7 @@
     height: 18px;
 }
 
-.footer h4 {
+.footer__inner h4 {
     color: var(--lemon-200);
     font-size: 14px;
     letter-spacing: .06em;
@@ -444,7 +485,7 @@
 }
 
 .footer__links a {
-    color: #BFDAD6;
+    color: #E8B9CE;
     font-size: 14.5px;
     transition: color .18s ease;
 }
@@ -463,7 +504,7 @@
     flex-wrap: wrap;
     gap: 10px;
     font-size: 13px;
-    color: #9DBDB8;
+    color: #C98BAE;
 }
 
 @media (max-width: 900px) {

@@ -5,6 +5,36 @@
     overflow: hidden;
 }
 
+.page-header::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    right: 8%;
+    width: 50px;
+    height: 50px;
+    background-image: var(--decor-butterfly);
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .9;
+    transform: rotate(-8deg);
+    pointer-events: none;
+}
+
+.page-header::after {
+    content: "";
+    position: absolute;
+    bottom: 10px;
+    left: 6%;
+    width: 42px;
+    height: 42px;
+    background-image: var(--decor-lemon);
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .85;
+    transform: rotate(10deg);
+    pointer-events: none;
+}
+
 .page-header__inner {
     max-width: 700px;
     margin-inline: auto;
@@ -80,7 +110,7 @@
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 14px;
-    color: var(--teal-900);
+    color: var(--pink-900);
     white-space: nowrap;
 }
 
@@ -90,8 +120,8 @@
     font-family: var(--font-body);
     font-weight: 600;
     font-size: 14.5px;
-    color: var(--teal-900);
-    background: var(--white) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%2312695F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>') no-repeat right 14px center / 16px;
+    color: var(--pink-900);
+    background: var(--white) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23B23368" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>') no-repeat right 14px center / 16px;
     border: 2px solid var(--line);
     border-radius: var(--radius-pill);
     padding: 12px 42px 12px 20px;
@@ -121,7 +151,7 @@
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 13.5px;
-    color: var(--teal-700);
+    color: var(--pink-700);
     background: var(--lemon-100);
     border: 2px solid transparent;
     border-radius: var(--radius-pill);
@@ -134,7 +164,7 @@
 }
 
 .chip.is-selected {
-    background: var(--teal-500);
+    background: var(--pink-500);
     color: var(--white);
 }
 
@@ -155,7 +185,7 @@
 }
 
 .results-row strong {
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .catalogue-section {
@@ -211,7 +241,7 @@
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 14px;
-    color: var(--teal-900);
+    color: var(--pink-900);
     transition: background .18s ease, color .18s ease;
 }
 
@@ -221,7 +251,7 @@
 
 .pagination .is-current {
     background: var(--lemon-500);
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .pagination .pagination-arrow svg {

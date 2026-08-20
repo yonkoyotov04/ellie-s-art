@@ -4,22 +4,22 @@ import bcrypt from 'bcrypt';
 import { generateAuthToken, generateRefreshToken } from "../utils/tokenUtils.js";
 
 export default {
-    async register(customerData) {
-        const { firstName, lastName, email, password, rePassword, phone } = customerData;
+    async register(adminData) {
+        const { firstName, lastName, email, password, rePassword, phone } = adminData;
 
-        const customerExists = await pool.query(
+        const adminExists = await pool.query(
             ` 
             SELECT
                 *
             FROM
-                customers
+                admins
             WHERE
                 email = $1;
             `,
             [email]
         );
 
-        if (customerExists.rows.length > 0) {
+        if (adminExists.rows.length > 0) {
             throw new errorApi(
                 409,
                 'This email is already registered!'
@@ -35,10 +35,10 @@ export default {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const customer = await pool.query(
+        const admin = await pool.query(
             `
             INSERT INTO
-                customers(first_name, last_name, email, password, phone)
+                admins(first_name, last_name, email, password, phone)
             VALUES
                 ($1, $2, $3, $4, $5)
             RETURNING *;
@@ -46,12 +46,12 @@ export default {
             [firstName, lastName, email, hashedPassword, phone]
         );
 
-        const token = generateAuthToken(customer.rows[0]);
-        const refreshToken = generateRefreshToken(customer.rows[0]);
+        const token = generateAuthToken(admin.rows[0]);
+        const refreshToken = generateRefreshToken(admin.rows[0]);
 
         return {
-            customer: {
-                ...customer.rows[0],
+            admin: {
+                ...admin.rows[0],
                 accessToken: token
             },
             refreshToken
@@ -59,38 +59,38 @@ export default {
     },
 
     async login(email, password) {
-        const customer = await pool.query(
+        const admin = await pool.query(
             `
             SELECT 
                 *
             FROM
-                customers
+                admins
             WHERE
                 email = $1;
             `,
             [email]
         )
 
-        if (!customer.rows.length > 0) {
+        if (!admin.rows.length > 0) {
             throw new errorApi(
                 401,
-                'This customer does not exist'
+                'This admin does not exist'
             )
         }
 
-        const customerPassword = await pool.query(
+        const adminPassword = await pool.query(
             `
             SELECT
                 password
             FROM
-                customers
+                admins
             WHERE
                 email = $1;
             `,
             [email]
         );
 
-        const isValidPassword = bcrypt.compare(password, customerPassword.rows[0].password);
+        const isValidPassword = bcrypt.compare(password, adminPassword.rows[0].password);
 
         if (!isValidPassword) {
             throw new errorApi(
@@ -99,19 +99,19 @@ export default {
             )
         }
 
-        const token = generateAuthToken(customer);
-        const refreshToken = generateRefreshToken(customer);
+        const token = generateAuthToken(admin);
+        const refreshToken = generateRefreshToken(admin);
 
         return {
-            customer: {
-                ...customer.rows[0],
+            admin: {
+                ...admin.rows[0],
                 accessToken: token
             },
             refreshToken
         }
     },
 
-    async getCustomerData(customerId) {
+    async getAdminData(adminId) {
         const result = await pool.query(
             `
             SELECT 
@@ -119,23 +119,23 @@ export default {
                 email,
                 phone
             FROM
-                customers
+                admins
             WHERE
                 id = $1;
             `,
-            [customerId]
+            [adminId]
         );
 
         return result.rows[0];
     },
 
-    async editProile(customerId, newData) {
+    async editProile(adminId, newData) {
         const { firstName, lastName, email, phone } = newData;
 
         const result = await pool.query(
             `
             UPDATE
-                customers
+                admins
             SET
                 first_name = $1,
                 last_name = $2,
@@ -145,26 +145,26 @@ export default {
                 id = $6;
             RETURNING *;
             `,
-            [firstName, lastName, email, phone, customerId]
+            [firstName, lastName, email, phone, adminId]
         );
 
         return result.rows[0];
     },
 
-    async changePassword(customerId, currentPassword, newPassword, repeatNewPassword) {
-        const customerPassword = await pool.query(
+    async changePassword(adminId, currentPassword, newPassword, repeatNewPassword) {
+        const adminPassword = await pool.query(
             `
             SELECT
                 password
             FROM
-                customers
+                admins
             WHERE
                 id = $1;
             `,
-            [customerId]
+            [adminId]
         );
 
-        const isPasswordCorrect = await bcrypt.compare(currentPassword, customerPassword);
+        const isPasswordCorrect = await bcrypt.compare(currentPassword, adminPassword);
 
         if (!isPasswordCorrect) {
             throw new errorApi(
@@ -185,25 +185,25 @@ export default {
         return await pool.query(
             `
             UPDATE
-                customers
+                admins
             SET
                 password = $1
             WHERE
                 id = $2;
             `,
-            [newPassword, customerId]
+            [newPassword, adminId]
         );
     },
 
-    async deleteProfile(customerId) {
+    async deleteProfile(adminId) {
         const result = await pool.query(
             `
             DELETE FROM
-                customers
+                admins
             WHERE
                 id = $1;
             `,
-            [customerId]
+            [adminId]
         );
     }
 }

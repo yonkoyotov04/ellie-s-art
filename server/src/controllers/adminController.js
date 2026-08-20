@@ -1,24 +1,24 @@
 import { Router } from "express";
 import jwt from 'jsonwebtoken';
-import customerService from "../services/customerService.js";
+import adminService from "../services/adminService.js";
 import { getErrorMessage } from "../utils/errorUtil.js";
 import { isAuth, isGuest } from "../middlewares/authMiddleware.js";
 import { generateAuthToken } from "../utils/tokenUtils.js";
 
-const customerController = Router();
+const adminController = Router();
 
-customerController.post('/register', isGuest, async (req, res) => {
-    let customerData = req.body;
+adminController.post('/register', isGuest, async (req, res) => {
+    let adminData = req.body;
 
-    customerData['firstName'] = customerData.firstName.trim();
-    customerData['lastName'] = customerData.lastName.trim();
-    customerData['email'] = customerData.email.trim();
-    customerData['password'] = customerData.password.trim();
-    customerData['rePassword'] = customerData.rePassword.trim();
-    customerData['phone'] = customerData.phone.trim();
+    adminData['firstName'] = adminData.firstName.trim();
+    adminData['lastName'] = adminData.lastName.trim();
+    adminData['email'] = adminData.email.trim();
+    adminData['password'] = adminData.password.trim();
+    adminData['rePassword'] = adminData.rePassword.trim();
+    adminData['phone'] = adminData.phone.trim();
 
     try {
-        const {customer, refreshToken} = await customerService.register(customerData);
+        const {admin, refreshToken} = await adminService.register(adminData);
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
@@ -28,21 +28,21 @@ customerController.post('/register', isGuest, async (req, res) => {
             maxAge: 14 * 24 * 60 * 60 * 1000
         });
 
-        res.status(201).json(customer ?? {});
+        res.status(201).json(admin ?? {});
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         res.status(401).json({message: errorMessage});
     }
 });
 
-customerController.post('/login', isGuest, async (req, res) => {
+adminController.post('/login', isGuest, async (req, res) => {
     let { email, password } = req.body;
 
     email = email.trim();
     password = password.trim();
 
     try {
-        const {customer, refreshToken} = await customerService.login(email, password);
+        const {admin, refreshToken} = await adminService.login(email, password);
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
@@ -52,19 +52,19 @@ customerController.post('/login', isGuest, async (req, res) => {
             maxAge: 14 * 24 * 60 * 60 * 1000
         });
 
-        res.status(201).json(customer ?? {});
+        res.status(201).json(admin ?? {});
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         res.status(401).json({message: errorMessage});
     }
 });
 
-customerController.get('/logout', async (req, res) => {
+adminController.get('/logout', async (req, res) => {
     res.clearCookie('refreshToken');
     res.sendStatus(204);
 })
 
-customerController.get('/refresh', async (req, res) => {
+adminController.get('/refresh', async (req, res) => {
     const token = req.cookies('refreshToken');
 
     console.log(`Refresh Token: ${token}`)
@@ -79,38 +79,38 @@ customerController.get('/refresh', async (req, res) => {
     res.status(201).json({accessToken: newToken});
 })
 
-customerController.get('/:customerId', isAuth, async (req, res) => {
-    const customerId = req.params.customerId;
-    const customerData = await customerService.getCustomerData(customerId);
+adminController.get('/:adminId', isAuth, async (req, res) => {
+    const adminId = req.params.adminId;
+    const adminData = await adminService.getadminData(adminId);
 
-    res.status(200).json(customerData ?? {});
+    res.status(200).json(adminData ?? {});
 });
 
-customerController.put('/customerId', isAuth, async (req, res) => {
-    const customerId = req.params.customerId;
-    const customerData = await customerService.getCustomerData(customerId);
-    let newCustomerData = req.body;
+adminController.put('/adminId', isAuth, async (req, res) => {
+    const adminId = req.params.adminId;
+    const adminData = await adminService.getadminData(adminId);
+    let newadminData = req.body;
 
-    newCustomerData['firstName'] = newData.firstName.trim();
-    newCustomerData['lastName'] = newData.lastName.trim();
-    newCustomerData['email'] = newData.email.trim();
-    newCustomerData['phone'] = newData.phone.trim();
+    newadminData['firstName'] = newData.firstName.trim();
+    newadminData['lastName'] = newData.lastName.trim();
+    newadminData['email'] = newData.email.trim();
+    newadminData['phone'] = newData.phone.trim();
 
     try {
-        const editedCustomer = await customerService.editProile(customerId, {
-            password: customerData.password,
-            ...newCustomerData
+        const editedAdmin = await adminService.editProile(adminId, {
+            password: adminData.password,
+            ...newAdminData
         });
 
-        res.status(201).json(editedCustomer ?? {});
+        res.status(201).json(editedAdmin ?? {});
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         res.status(401).json({message: errorMessage});
     }
 });
 
-customerController.put('/password/:customerId', isAuth, async (req, res) => {
-    const customerId = req.params.customerId;
+adminController.put('/password/:adminId', isAuth, async (req, res) => {
+    const adminId = req.params.adminId;
     let newPasswordData = req.body;
 
     const currentPassword = newPasswordData.currentPassword.trim();
@@ -118,7 +118,7 @@ customerController.put('/password/:customerId', isAuth, async (req, res) => {
     const repeatNewPassword = newPasswordData.repeatNewPassword.trim();
 
     try {
-        await customerService.changePassword(customerId, currentPassword, newPassword, repeatNewPassword);
+        await adminService.changePassword(adminId, currentPassword, newPassword, repeatNewPassword);
         res.status(201).end();
     } catch (error) {
         const errorMessage = getErrorMessage(error);
@@ -126,11 +126,11 @@ customerController.put('/password/:customerId', isAuth, async (req, res) => {
     }
 });
 
-customerController.delete('/:customerId', isAuth, async (req, res) => {
-    const customerId = req.params.customerId;
+adminController.delete('/:adminId', isAuth, async (req, res) => {
+    const adminId = req.params.adminId;
 
     try {
-        await customerService.deleteProfile(customerId);
+        await adminService.deleteProfile(adminId);
         res.status(200).json();
     } catch (error) {
         const errorMessage = getErrorMessage(error);
@@ -138,4 +138,4 @@ customerController.delete('/:customerId', isAuth, async (req, res) => {
     }
 });
 
-export default customerController;
+export default adminController;
