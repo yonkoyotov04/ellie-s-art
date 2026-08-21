@@ -1,9 +1,9 @@
 import { useContext } from "react"
 import { Link } from "react-router"
-import UserContext from "../../contexts/UserContext.jsx"
+import AdminContext from "../../contexts/AdminContext.jsx";
 
 export default function Header() {
-    const { user, isAuthenticated, isAdmin, logoutHandler } = useContext(UserContext);
+    const { user, isAuthenticated, logoutHandler } = useContext(AdminContext);
 
     return (
         <header className="site-header">
@@ -36,7 +36,7 @@ export default function Header() {
                 <div className="nav-actions">
                     {isAuthenticated ? <>
                         <button onClick={logoutHandler} className="btn btn-outline">Изход</button>
-                        {isAdmin ? <li className="btn btn-ghost"><Link to="/admin/dashboard">Управление</Link></li> : ''}
+                        <li className="btn btn-ghost"><Link to="/admin/dashboard">Управление</Link></li>
                     </> : <>
                         <Link to="/login" className="btn btn-ghost">Вход</Link>
                         <Link to="/register" className="btn btn-outline">Регистрация</Link>

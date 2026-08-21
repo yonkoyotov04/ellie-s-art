@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import UserContext from "../contexts/UserContext.jsx";
 import { useNavigate } from "react-router";
 import ErrorContext from "../contexts/ErrorContext.jsx";
+import AdminContext from "../contexts/AdminContext.jsx";
 
 export default function useFetch(url, setData) {
-    const { user, isAuthenticated, loginHandler, logoutHandler } = useContext(UserContext);
+    const { admin, isAuthenticated, loginHandler, logoutHandler } = useContext(AdminContext);
     const navigate = useNavigate();
     const { errorSetter } = useContext(ErrorContext);
     const [refresh, setRefresh] = useState(false);
@@ -15,14 +15,15 @@ export default function useFetch(url, setData) {
     }
 
     const refreshToken = async () => {
-        const result = await fetch('http://localhost:2105/customers/refresh', { method: 'GET', credentials: 'include' });
+        const result = await fetch('http://localhost:2105/admin/refresh', { method: 'GET', credentials: 'include' });
 
         if (!result.ok) {
             return false;
         }
 
-        const newToken = result.json();
-        const newData = { ...user, accessToken: newToken };
+        const newToken = await result.json();
+        console.log(newToken)
+        const newData = { ...admin, accessToken: newToken };
 
         loginHandler(newData);
         return newToken
@@ -49,7 +50,7 @@ export default function useFetch(url, setData) {
         if (isAuthenticated || config.accessToken) {
             options.headers = {
                 ...options.headers,
-                'X-Authorization': user?.accessToken || config.accessToken
+                'X-Authorization': admin?.accessToken || config.accessToken
             }
         }
 
@@ -72,7 +73,7 @@ export default function useFetch(url, setData) {
                     'X-Authorization': newToken
                 }
 
-                response = await fetch(`http://localhost:2105/${url}`, options);
+                response = await fetch(`http://localhost:2105${url}`, options);
             } else {
                 const errorBody = await response.json().catch(() => ({}));
                 const message = errorBody.message || response.statusText;
@@ -92,7 +93,7 @@ export default function useFetch(url, setData) {
 
         setIsLoading(true);
 
-        fetcher(url, 'GET', null, { accessToken: user?.accessToken })
+        fetcher(url, 'GET', null, { accessToken: admin?.accessToken })
             .then(result => setData(result))
             .catch(error => console.log(error.message))
             .finally(() => setIsLoading(false));

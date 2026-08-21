@@ -15,7 +15,6 @@ productController.get('/', async (req, res) => {
 productController.get('/categories', async (req, res) => {
     try {
         const categories = await productService.getCategories();
-        console.log(categories);
         res.status(200).json(categories ?? []);
     } catch (error) {
         const errorMessage = getErrorMessage(error);
@@ -58,8 +57,6 @@ productController.post('/', isAuth, upload.single('image'), async (req, res) => 
     productData['description'] = productData.description?.trim() ?? '';
     productData['price'] = productData.price.trim();
     productData['image'] = `uploads/${req.file.filename}`
-
-    console.log(productData);
 
     try {
         const product = await productService.addNewProduct(productData);

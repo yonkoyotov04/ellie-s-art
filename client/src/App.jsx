@@ -17,7 +17,6 @@ import AddProduct from './components/admin/AdminProducts/AddProduct.jsx'
 import { ErrorProvider } from './contexts/ErrorContext.jsx'
 
 function App() {
-    const [count, setCount] = useState(0)
 
     return (
         <ErrorProvider>

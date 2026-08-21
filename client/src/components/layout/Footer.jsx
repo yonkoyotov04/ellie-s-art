@@ -47,7 +47,6 @@ export default function Footer() {
                     <div className="footer__links">
                         <Link to="/login">Вход</Link>
                         <Link to="/register">Регистрация</Link>
-                        <Link to="/cart">Количка</Link>
                     </div>
                 </div>
 
@@ -55,7 +54,7 @@ export default function Footer() {
 
             <div className="footer__bottom">
                 <span>2026 Ellie Art.</span>
-                <span>Направено с ❤️ и много боя.</span>
+                <span>Направено с ❤️ и много труд.</span>
             </div>
         </footer>
     )

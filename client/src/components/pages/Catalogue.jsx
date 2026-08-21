@@ -9,8 +9,6 @@ export default function Catalogue() {
 
     useFetch('/products', setProducts)
 
-    console.log(products);
-
     return (
         <>
             <section className="page-header section--tint">
@@ -28,7 +26,7 @@ export default function Catalogue() {
                 </div>
             </section>
 
-            <svg className="citrus-divider" viewBox="0 0 1200 60" preserveAspectRatio="none" style={{color:'var(--lemon-100)'}}>
+            <svg className="citrus-divider" viewBox="0 0 1200 60" preserveAspectRatio="none" style={{ color: 'var(--lemon-100)' }}>
                 <path
                     d="M0 30 Q 50 60 100 30 T 200 30 T 300 30 T 400 30 T 500 30 T 600 30 T 700 30 T 800 30 T 900 30 T 1000 30 T 1100 30 T 1200 30 V0 H0 Z"
                     fill="currentColor" />
@@ -78,9 +76,18 @@ export default function Catalogue() {
             <section className="catalogue-section">
                 <div className="catalogue-section__inner">
                     <div className="product-grid">
+                        {products.length > 0
+                            ?
+                            products.map(product => <ProductCard key={product.id} {...product} />)
+                            :
+                            <div className="empty-state">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+                                <h3>Няма намерени продукти</h3>
+                                <p>Опитай с друга дума за търсене или премахни някой от филтрите.</p>
+                            </div>
+                        }
 
-                        {products.map(product => <ProductCard key={product.id} {...product} />)}
-                        
+
                     </div>
 
                     <nav className="pagination" aria-label="Странициране">
@@ -103,12 +110,6 @@ export default function Catalogue() {
                             </svg>
                         </Link>
                     </nav>
-
-                    {/* <div className="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
-                        <h3>Няма намерени продукти</h3>
-                        <p>Опитай с друга дума за търсене или премахни някой от филтрите.</p>
-                    </div> */}
 
                 </div>
             </section>

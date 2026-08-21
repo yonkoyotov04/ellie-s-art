@@ -3,7 +3,7 @@ CREATE TABLE admins (
 	first_name VARCHAR(30) NOT NULL,
 	last_name VARCHAR(30) NOT NULL,
 	email VARCHAR(40) NOT NULL,
-	password VARCHAR(25) NOT NULL
+	password TEXT NOT NULL
 );
 
 CREATE TABLE categories (
@@ -16,7 +16,7 @@ CREATE TABLE products (
 	title VARCHAR(100) NOT NULL,
 	description TEXT,
 	price DECIMAL(5, 2) NOT NULL CHECK(price > 0.00),
-	category_id INT REFERENCES categories(id) 
+	category INT REFERENCES categories(id) 
 	ON DELETE CASCADE 
 	ON UPDATE CASCADE
 	NOT NULL,

@@ -15,7 +15,6 @@ adminController.post('/register', isGuest, async (req, res) => {
     adminData['email'] = adminData.email.trim();
     adminData['password'] = adminData.password.trim();
     adminData['rePassword'] = adminData.rePassword.trim();
-    adminData['phone'] = adminData.phone.trim();
 
     try {
         const {admin, refreshToken} = await adminService.register(adminData);
@@ -65,9 +64,7 @@ adminController.get('/logout', async (req, res) => {
 })
 
 adminController.get('/refresh', async (req, res) => {
-    const token = req.cookies('refreshToken');
-
-    console.log(`Refresh Token: ${token}`)
+    const token = req.cookies['refreshToken']
 
     if (!token) {
         return res.sendStatus(401);
@@ -76,25 +73,26 @@ adminController.get('/refresh', async (req, res) => {
     const decodedToken = jwt.verify(token, process.env.REFRESH_JWT_SECRET);
     const newToken = generateAuthToken(decodedToken);
 
+    console.log(newToken)
+
     res.status(201).json({accessToken: newToken});
 })
 
 adminController.get('/:adminId', isAuth, async (req, res) => {
     const adminId = req.params.adminId;
-    const adminData = await adminService.getadminData(adminId);
+    const adminData = await adminService.getAdminData(adminId);
 
     res.status(200).json(adminData ?? {});
 });
 
 adminController.put('/adminId', isAuth, async (req, res) => {
     const adminId = req.params.adminId;
-    const adminData = await adminService.getadminData(adminId);
-    let newadminData = req.body;
+    const adminData = await adminService.getAdminData(adminId);
+    let newAdminData = req.body;
 
-    newadminData['firstName'] = newData.firstName.trim();
-    newadminData['lastName'] = newData.lastName.trim();
-    newadminData['email'] = newData.email.trim();
-    newadminData['phone'] = newData.phone.trim();
+    newAdminData['firstName'] = newData.firstName.trim();
+    newAdminData['lastName'] = newData.lastName.trim();
+    newAdminData['email'] = newData.email.trim();
 
     try {
         const editedAdmin = await adminService.editProile(adminId, {

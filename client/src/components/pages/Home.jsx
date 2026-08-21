@@ -53,9 +53,9 @@ export default function Home() {
                                 </svg>
                                 Любимците на клиентите
                             </span>
-                            <h2 className="script-heading">Най-продавани</h2>
+                            <h2 className="script-heading">Най-пoпулярни</h2>
                         </div>
-                        <a to="catalogue.html?sort=bestselling" className="btn btn-outline">Разгледай всички →</a>
+                        <Link to="catalogue.html?sort=bestselling" className="btn btn-outline">Разгледай всички →</Link>
                     </div>
 
                     <div className="product-grid">

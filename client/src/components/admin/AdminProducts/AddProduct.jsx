@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import useFetch from "../../../hooks/useFetch.js";
-import UserContext from "../../../contexts/UserContext.jsx";
 import useControlledForm from "../../../hooks/useControlledForm.js";
+import AdminContext from "../../../contexts/AdminContext.jsx";
 
 export default function AddProduct() {
     const [categories, setCategories] = useState([]);
 
     const { fetcher } = useFetch('/products/categories', setCategories);
-    const { user } = useContext(UserContext);
+    const { user } = useContext(AdminContext);
     const navigate = useNavigate();
 
     const [previewURL, setPreviewURL] = useState(null);

@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router";
 import useControlledForm from "../../hooks/useControlledForm.js";
 import { useContext, useState } from "react";
-import UserContext from "../../contexts/UserContext.jsx";
 import useFetch from "../../hooks/useFetch.js";
+import AdminContext from "../../contexts/AdminContext.jsx";
 
 export default function Register() {
     const { fetcher } = useFetch();
-    const { loginHandler } = useContext(UserContext);
+    const { loginHandler } = useContext(AdminContext);
     const navigate = useNavigate();
 
     const data = {
@@ -14,8 +14,7 @@ export default function Register() {
         lastName: '',
         email: '',
         password: '',
-        rePassword: '',
-        phone: ''
+        rePassword: ''
     }
 
     const [initialValues, setInitialValues] = useState(data);
@@ -23,7 +22,7 @@ export default function Register() {
     const onSubmit = async (values) => {
         const formValues = values;
 
-        const result = await fetcher('/customers/register', 'POST', formValues);
+        const result = await fetcher('/admin/register', 'POST', formValues);
 
         loginHandler(result);
         navigate('/');
@@ -166,29 +165,10 @@ export default function Register() {
                                 </div>
                             </div>
 
-                            <div className="field">
-                                <label htmlFor="reg-phone">Телефон</label>
-                                <div className="field-input">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                        strokeLinecap="round" strokeLinejoin="round">
-                                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                                        <path d="m22 6-10 7L2 6" />
-                                    </svg>
-                                    <input
-                                        type="text"
-                                        id="reg-phone"
-                                        name="phone"
-                                        onChange={changeHandler}
-                                        value={values.phone}
-                                        autoComplete="phone"
-                                        required />
-                                </div>
-                            </div>
-
                             <button type="submit" className="btn btn-primary">Регистрация</button>
                         </form>
 
-                        <div className="auth__divider">или се регистрирай с</div>
+                        {/* <div className="auth__divider">или се регистрирай с</div>
 
                         <div className="auth__social">
                             <button type="button">
@@ -206,7 +186,7 @@ export default function Register() {
                                 </svg>
                                 Google
                             </button>
-                        </div>
+                        </div> */}
 
                         <p className="auth__switch">Вече имаш акаунт? <Link to="/login">Влез оттук</Link></p>
                     </div>

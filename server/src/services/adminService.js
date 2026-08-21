@@ -5,7 +5,7 @@ import { generateAuthToken, generateRefreshToken } from "../utils/tokenUtils.js"
 
 export default {
     async register(adminData) {
-        const { firstName, lastName, email, password, rePassword, phone } = adminData;
+        const { firstName, lastName, email, password, rePassword } = adminData;
 
         const adminExists = await pool.query(
             ` 
@@ -38,12 +38,12 @@ export default {
         const admin = await pool.query(
             `
             INSERT INTO
-                admins(first_name, last_name, email, password, phone)
+                admins(first_name, last_name, email, password)
             VALUES
-                ($1, $2, $3, $4, $5)
+                ($1, $2, $3, $4)
             RETURNING *;
             `,
-            [firstName, lastName, email, hashedPassword, phone]
+            [firstName, lastName, email, hashedPassword]
         );
 
         const token = generateAuthToken(admin.rows[0]);
@@ -130,7 +130,7 @@ export default {
     },
 
     async editProile(adminId, newData) {
-        const { firstName, lastName, email, phone } = newData;
+        const { firstName, lastName, email } = newData;
 
         const result = await pool.query(
             `
@@ -140,7 +140,6 @@ export default {
                 first_name = $1,
                 last_name = $2,
                 email = $3,
-                phone = $4
             WHERE
                 id = $6;
             RETURNING *;
@@ -201,9 +200,12 @@ export default {
             DELETE FROM
                 admins
             WHERE
-                id = $1;
+                id = $1
+            RETURNING *;
             `,
             [adminId]
         );
+
+        return result;
     }
 }
