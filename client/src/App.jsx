@@ -15,6 +15,7 @@ import Dashboard from './components/admin/Dashboard/Dashboard.jsx'
 import AdminProducts from './components/admin/AdminProducts/AdminProducts.jsx'
 import AddProduct from './components/admin/AdminProducts/AddProduct.jsx'
 import { ErrorProvider } from './contexts/ErrorContext.jsx'
+import ProductDetails from './components/products/ProductDetails.jsx'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
                 <Route element={<PublicLayout />}>
                     <Route path='/' element={<Home />} />
                     <Route path='/catalogue' element={<Catalogue />} />
+                    <Route path='/product/:productId/details' element={<ProductDetails />} />
                     <Route path='/categories' element={<Categories />} />
                     <Route path='/about' element={<AboutUs />} />
                     <Route path='/register' element={<Register />} />

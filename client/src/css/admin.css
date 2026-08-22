@@ -33,7 +33,7 @@ body.dash {
     letter-spacing: .04em;
     color: var(--ink-500);
     padding: 5px 14px;
-    background: var(--teal-100);
+    background: var(--pink-100);
     border-radius: var(--radius-pill);
 }
 
@@ -89,12 +89,12 @@ body.dash {
 }
 
 .dash-nav__link:hover {
-    background: var(--teal-100);
-    color: var(--teal-700);
+    background: var(--pink-100);
+    color: var(--pink-700);
 }
 
 .dash-nav__link.is-active {
-    background: var(--teal-500);
+    background: var(--pink-500);
     color: var(--white);
 }
 
@@ -147,7 +147,7 @@ body.dash {
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 14px;
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .form-field__input {
@@ -168,7 +168,7 @@ body.dash {
 
 .form-field__input:focus-visible {
     outline: none;
-    border-color: var(--teal-500);
+    border-color: var(--pink-500);
     background: var(--white);
 }
 
@@ -225,14 +225,19 @@ body.dash {
     min-width: 0;
 }
 
+.category-field__new-input {
+    flex: 1;
+    min-width: 0;
+}
+
 .category-field__toggle-btn {
     order: 3;
     flex-shrink: 0;
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: var(--teal-100);
-    color: var(--teal-700);
+    background: var(--pink-100);
+    color: var(--pink-700);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -247,11 +252,11 @@ body.dash {
 
 .category-field__toggle-btn:hover {
     background: var(--lemon-500);
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .category-toggle:checked~.category-field__toggle-btn {
-    background: var(--teal-700);
+    background: var(--pink-700);
     color: var(--white);
 }
 
@@ -274,7 +279,7 @@ body.dash {
     transition: background .18s ease, border-color .18s ease;
 }
 
-.image.drop__preview {
+.image-drop__preview {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -287,21 +292,21 @@ body.dash {
 }
 
 .image-drop:has(input:focus-visible) {
-    outline: 3px solid var(--teal-500);
+    outline: 3px solid var(--pink-500);
     outline-offset: 2px;
 }
 
 .image-drop__icon {
     width: 38px;
     height: 38px;
-    color: var(--teal-500);
+    color: var(--pink-500);
 }
 
 .image-drop__title {
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 14px;
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .image-drop__hint {
@@ -389,8 +394,8 @@ body.dash {
 }
 
 .stat-card--teal .stat-card__icon {
-    background: var(--teal-100);
-    color: var(--teal-700);
+    background: var(--pink-100);
+    color: var(--pink-700);
 }
 
 .stat-card--lemon .stat-card__icon {
@@ -408,7 +413,7 @@ body.dash {
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 26px;
-    color: var(--teal-900);
+    color: var(--pink-900);
     line-height: 1.1;
 }
 
@@ -440,7 +445,7 @@ body.dash {
 }
 
 .quick-action-card--primary {
-    background: var(--teal-900);
+    background: var(--pink-900);
     color: var(--cream-50);
 }
 
@@ -466,12 +471,12 @@ body.dash {
 
 .quick-action-card--primary .quick-action-card__icon {
     background: var(--lemon-500);
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .quick-action-card--outline .quick-action-card__icon {
     background: var(--lemon-100);
-    color: var(--teal-700);
+    color: var(--pink-700);
 }
 
 .quick-action-card__title {
@@ -485,7 +490,7 @@ body.dash {
 }
 
 .quick-action-card--outline .quick-action-card__title {
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .quick-action-card__hint {
@@ -494,7 +499,7 @@ body.dash {
 }
 
 .quick-action-card--primary .quick-action-card__hint {
-    color: #BFDAD6;
+    color: #E8B9CE;
 }
 
 .quick-action-card--outline .quick-action-card__hint {
@@ -531,7 +536,7 @@ body.dash {
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 13px;
-    color: var(--teal-700);
+    color: var(--pink-700);
 }
 
 .dash-panel__head a:hover {
@@ -570,7 +575,7 @@ body.dash {
 
 .recent-item__media--post {
     border-radius: 50%;
-    background: var(--teal-500);
+    background: var(--pink-500);
     color: var(--white);
     font-family: var(--font-heading);
     font-weight: 700;
@@ -580,7 +585,7 @@ body.dash {
 .recent-item__media svg {
     width: 18px;
     height: 18px;
-    color: var(--teal-500);
+    color: var(--pink-500);
     opacity: .6;
 }
 
@@ -622,8 +627,8 @@ body.dash {
 }
 
 .recent-item__edit:hover {
-    background: var(--teal-100);
-    color: var(--teal-700);
+    background: var(--pink-100);
+    color: var(--pink-700);
 }
 
 @media (max-width: 1080px) {
@@ -688,7 +693,7 @@ body.dash {
 
 .table-search input:focus-visible {
     outline: none;
-    border-color: var(--teal-500);
+    border-color: var(--pink-500);
 }
 
 .table-filter {
@@ -701,12 +706,12 @@ body.dash {
     font-family: var(--font-body);
     font-weight: 600;
     font-size: 13.5px;
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .table-filter:focus-visible {
     outline: none;
-    border-color: var(--teal-500);
+    border-color: var(--pink-500);
 }
 
 .table-toolbar .btn {
@@ -783,7 +788,7 @@ body.dash {
 .table-product__media svg {
     width: 20px;
     height: 20px;
-    color: var(--teal-500);
+    color: var(--pink-500);
     opacity: .6;
 }
 
@@ -796,7 +801,7 @@ body.dash {
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 14.5px;
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .table-product__id {
@@ -807,7 +812,7 @@ body.dash {
 .table-price {
     font-family: var(--font-heading);
     font-weight: 700;
-    color: var(--teal-700);
+    color: var(--pink-700);
 }
 
 .status-badge {
@@ -864,8 +869,8 @@ body.dash {
 }
 
 .row-actions .row-edit:hover {
-    background: var(--teal-100);
-    color: var(--teal-700);
+    background: var(--pink-100);
+    color: var(--pink-700);
 }
 
 .row-actions .row-delete:hover {
@@ -899,7 +904,7 @@ body.dash {
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 13px;
-    color: var(--teal-900);
+    color: var(--pink-900);
     transition: background .18s ease;
 }
 
@@ -908,7 +913,7 @@ body.dash {
 }
 
 .table-pagination__pages .is-current {
-    background: var(--teal-500);
+    background: var(--pink-500);
     color: var(--white);
 }
 
@@ -932,7 +937,7 @@ body.dash {
 }
 
 .table-product__media.recent-item__media--post {
-    background: var(--teal-500);
+    background: var(--pink-500);
     border-radius: 50%;
     width: 46px;
     height: 46px;
@@ -951,7 +956,7 @@ body.dash {
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 15px;
-    color: var(--teal-900);
+    color: var(--pink-900);
 }
 
 .post-composer__author-meta {

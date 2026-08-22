@@ -25,11 +25,20 @@ export default {
     async getSpecificProduct(productId) {
         const result = await pool.query(
             `
-            SELECT *
+            SELECT
+                p.id,
+                p.title,
+                p.price,
+                p.image,
+                c.name AS category 
             FROM
-                products
+                products AS p
+            JOIN
+                categories AS c
+            ON
+                p.category = c.id
             WHERE
-                id = $1;
+                p.id = $1;
             `,
             [productId]
         );
