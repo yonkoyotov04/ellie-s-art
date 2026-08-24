@@ -1,8 +1,19 @@
 import { Link } from "react-router"
 
-export default function ProductCard({ id, title, price, image }) {
+export default function ProductCard({ id, title, price, image, added_on }) {
 
     const apiURL = 'http://localhost:2105/'
+
+    const isNew = (added_on) => {
+        const addedDate = new Date(added_on);
+        const now = new Date();
+
+        const difference = now - addedDate;
+
+        const tenDaysTime = 10 * 24 * 60 * 60 * 1000;
+
+        return difference < tenDaysTime;
+    }
 
     return (
         <article className="product-card">
@@ -22,7 +33,7 @@ export default function ProductCard({ id, title, price, image }) {
                         </>
                     }
                 </div>
-                <span className="badge">Ново</span>
+                {isNew(added_on) && (<span className="badge">Ново</span>)}
                 <div className="product-card__body">
                     <h3 className="product-card__name">{title}</h3>
                     <div className="product-card__meta">

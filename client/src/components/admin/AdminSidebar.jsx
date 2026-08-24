@@ -30,20 +30,6 @@ export default function AdminSideBar() {
                     </svg>
                     Добави продукт
                 </Link>
-                <Link to="/admin/posts" className="dash-nav__link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                        strokeLinejoin="round">
-                        <path d="M4 5h16M4 12h16M4 19h10" />
-                    </svg>
-                    Публикации
-                </Link>
-                <Link to="/admin/posts/add" className="dash-nav__link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                        strokeLinejoin="round">
-                        <path d="M12 5v14M5 12h14" />
-                    </svg>
-                    Добави публикация
-                </Link>
             </nav>
         </aside>
     )

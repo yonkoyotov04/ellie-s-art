@@ -9,13 +9,38 @@ export default {
                 p.title,
                 p.price,
                 p.image,
-                c.name AS category
+                c.name AS category,
+                p.added_on
             FROM 
                 products AS p
             JOIN
                 categories AS c
             ON
                 p.category = c.id;
+            `
+        );
+
+        return result.rows;
+    },
+
+    async getAllProductsSortedByTime() {
+        const result = await pool.query(
+            `
+            SELECT 
+                p.id,
+                p.title,
+                p.price,
+                p.image,
+                c.name AS category,
+                p.added_on
+            FROM 
+                products AS p
+            JOIN
+                categories AS c
+            ON
+                p.category = c.id
+            ORDER BY
+                added_on ASC;
             `
         );
 
@@ -30,7 +55,8 @@ export default {
                 p.title,
                 p.price,
                 p.image,
-                c.name AS category 
+                c.name AS category, 
+                p.added_on
             FROM
                 products AS p
             JOIN
@@ -47,7 +73,7 @@ export default {
     },
 
     async addNewProduct(productData) {
-        const {title, description, price, category, image} = productData;
+        const { title, description, price, category, image } = productData;
 
         const result = await pool.query(
             `
@@ -59,6 +85,27 @@ export default {
             `,
             [title, description, price, category, image]
         );
+
+        return result.rows[0];
+    },
+
+    async addAClick(productId) {
+        const result = await pool.query(
+            `
+            UPDATE
+                products
+            SET
+                clicks = clicks + 1
+            WHERE
+                id = $1
+            RETURNING *
+            `,
+            [productId]
+        )
+
+        if (result.rowCount === 0) {
+            return result.status(404).send('Product not found');
+        };
 
         return result.rows[0];
     },
@@ -95,7 +142,7 @@ export default {
     },
 
     async editProduct(productId, newProductData) {
-        const {title, description, price, category_id, image} = newProductData;
+        const { title, description, price, category_id, image } = newProductData;
 
         const result = await pool.query(
             `

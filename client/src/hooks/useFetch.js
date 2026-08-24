@@ -22,7 +22,7 @@ export default function useFetch(url, setData) {
         }
 
         const newToken = await result.json();
-        console.log(newToken)
+        console.log('Refresh:', newToken)
         const newData = { ...admin, accessToken: newToken };
 
         loginHandler(newData);

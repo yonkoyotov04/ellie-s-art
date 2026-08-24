@@ -73,9 +73,7 @@ adminController.get('/refresh', async (req, res) => {
     const decodedToken = jwt.verify(token, process.env.REFRESH_JWT_SECRET);
     const newToken = generateAuthToken(decodedToken);
 
-    console.log(newToken)
-
-    res.status(201).json({accessToken: newToken});
+    res.status(201).json(newToken ?? {});
 })
 
 adminController.get('/:adminId', isAuth, async (req, res) => {

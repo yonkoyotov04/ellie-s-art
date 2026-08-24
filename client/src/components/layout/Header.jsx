@@ -9,7 +9,7 @@ export default function Header() {
         <header className="site-header">
             <nav className="navbar">
 
-                <Link to="Home.html" className="nav-logo">
+                <Link to="/" className="nav-logo">
                     <img src="./logo.png" alt="Ellie Art лого" className="nav-logo__img" />
                     <span className="nav-logo__text">
                         <strong>Ellie's</strong>

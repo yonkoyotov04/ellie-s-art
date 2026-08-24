@@ -85,6 +85,14 @@ productController.put('/:productId', isAuth, async (req, res) => {
     }
 });
 
+productController.put('/:productId/click', async (req, res) => {
+    const productId = req.params.productId;
+
+    const result = await productService.addAClick(productId);
+
+    res.status(200).json(result ?? {});
+})
+
 productController.delete('/:productId', isAuth, async (req, res) => {
     const productId = req.params.productId;
 

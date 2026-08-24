@@ -7,7 +7,11 @@ export default function ProductDetails() {
     const apiURL = 'http://localhost:2105/'
     const [productData, setProductData] = useState({});
 
-    useFetch(`/products/${productId}`, setProductData);
+    const { fetcher } = useFetch(`/products/${productId}`, setProductData);
+
+    const addClick = async () => {
+        await fetcher(`/products/${productId}/click`, 'PUT', null);
+    }
 
     return (
         <>
@@ -44,6 +48,7 @@ export default function ProductDetails() {
                         <Link
                             to="https://www.facebook.com/messages/t/187292397806207"
                             target="_blank"
+                            onClick={addClick}
                             rel="noopener noreferrer"
                             className="btn btn-primary product-details__cta">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
