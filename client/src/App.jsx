@@ -1,11 +1,7 @@
-import { useState } from 'react'
 import './App.css'
-import Header from './components/layout/Header.jsx'
-import Footer from './components/layout/Footer.jsx'
 import Home from './components/pages/Home.jsx'
 import { Route, Routes } from 'react-router'
 import Catalogue from './components/pages/Catalogue.jsx'
-import Categories from './components/pages/Categories.jsx'
 import AboutUs from './components/pages/About Us.jsx'
 import Register from './components/auth/Register.jsx'
 import Login from './components/auth/Login.jsx'
@@ -16,6 +12,7 @@ import AdminProducts from './components/admin/AdminProducts/AdminProducts.jsx'
 import AddProduct from './components/admin/AdminProducts/AddProduct.jsx'
 import { ErrorProvider } from './contexts/ErrorContext.jsx'
 import ProductDetails from './components/products/ProductDetails.jsx'
+import Categories from './components/categories/Categories.jsx'
 
 function App() {
 

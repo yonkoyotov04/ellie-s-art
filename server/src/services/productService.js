@@ -55,6 +55,7 @@ export default {
                 p.title,
                 p.price,
                 p.image,
+                p.description,
                 c.name AS category, 
                 p.added_on
             FROM

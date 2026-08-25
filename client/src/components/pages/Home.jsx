@@ -2,7 +2,6 @@ import { Link } from "react-router"
 import ProductCard from "../products/ProductCard.jsx"
 
 export default function Home() {
-    
 
     return (
         <>

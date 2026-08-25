@@ -45,6 +45,12 @@ export default function ProductDetails() {
                         <h1 className="script-heading product-details__name">{productData.title}</h1>
                         <p className="product-details__price">{productData.price} €</p>
 
+                        {productData.description &&
+                            <div className="product-details__description">
+                                <p>{productData.description}</p>
+                            </div>
+                        }
+
                         <Link
                             to="https://www.facebook.com/messages/t/187292397806207"
                             target="_blank"
@@ -61,13 +67,6 @@ export default function ProductDetails() {
                     </div>
 
                 </div>
-
-                {productData.description &&
-                    <div className="product-details__description">
-                        <h2>Описание</h2>
-                        <p>{productData.description}</p>
-                    </div>
-                }
             </section>
         </>
     )
