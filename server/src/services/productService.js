@@ -1,9 +1,35 @@
 import pool from "../database/db.js"
 
 export default {
-    async getAllProducts() {
-        const result = await pool.query(
+    async getAllProducts(filter = {}) {
+        let result = null;
+
+        console.log(filter.category);
+
+        if (filter.category) {
+            result = await pool.query(
             `
+            SELECT 
+                p.id,
+                p.title,
+                p.price,
+                p.image,
+                c.name AS category,
+                p.added_on
+            FROM 
+                products AS p
+            JOIN
+                categories AS c
+            ON
+                p.category = c.id
+            WHERE
+                p.category = $1;
+            `,
+                [filter.category]
+            );
+        } else {
+            result = await pool.query(
+                `
             SELECT 
                 p.id,
                 p.title,
@@ -18,7 +44,8 @@ export default {
             ON
                 p.category = c.id;
             `
-        );
+            );
+        }
 
         return result.rows;
     },

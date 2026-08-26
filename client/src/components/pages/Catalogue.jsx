@@ -1,13 +1,20 @@
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import ProductCard from "../products/ProductCard.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch.js";
 
 export default function Catalogue() {
+    let { category } = useParams();
+
+    const [currentCategory, setCurrentCategory] = useState(null);
+
+    useEffect(() => {
+        setCurrentCategory(category);
+    }, [category])
 
     const [products, setProducts] = useState([]);
 
-    useFetch('/products', setProducts)
+    useFetch('/products', setProducts, { category: currentCategory });
 
     return (
         <>
@@ -53,20 +60,6 @@ export default function Catalogue() {
                         <option value="name-asc">Име: Я–А</option>
                     </select>
                 </div>
-            </div>
-
-            <div className="filter-chips">
-                <Link to="/categories" className="chip is-selected">
-                    Всички
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                </Link>
-                <Link to="catalogue.html?category=paintings" className="chip">Картини</Link>
-                <Link to="catalogue.html?category=cards" className="chip">Картички</Link>
-                <Link to="catalogue.html?category=ceramics" className="chip">Керамика</Link>
-                <Link to="catalogue.html?category=accessories" className="chip">Аксесоари</Link>
-                <Link to="catalogue.html?category=gifts" className="chip">Комплекти подаръци</Link>
             </div>
 
             <div className="results-row">

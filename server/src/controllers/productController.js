@@ -7,7 +7,8 @@ import upload from "../middlewares/upload.js";
 const productController = Router();
 
 productController.get('/', async (req, res) => {
-    const products = await productService.getAllProducts();
+    const filter = req.query;
+    const products = await productService.getAllProducts(filter);
 
     res.status(200).json(products ?? []);
 });

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import ErrorContext from "../contexts/ErrorContext.jsx";
 import AdminContext from "../contexts/AdminContext.jsx";
 
-export default function useFetch(url, setData) {
+export default function useFetch(url, setData, extras = {}) {
     const { admin, isAuthenticated, loginHandler, logoutHandler } = useContext(AdminContext);
     const navigate = useNavigate();
     const { errorSetter } = useContext(ErrorContext);
@@ -91,13 +91,17 @@ export default function useFetch(url, setData) {
             return
         }
 
+        if (extras.category) {
+            url = url + `/?category=${extras.category}`;
+        }
+
         setIsLoading(true);
 
         fetcher(url, 'GET', null, { accessToken: admin?.accessToken })
             .then(result => setData(result))
             .catch(error => console.log(error.message))
             .finally(() => setIsLoading(false));
-    }, [url, refresh])
+    }, [url, extras.category, refresh])
 
     return { fetcher, isLoading, refresher }
 

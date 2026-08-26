@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function CategoryCard({id, name}) {
     return (
-        <Link to="catalogue.html?category=paintings" className="category-card category-card--pink">
+        <Link to={`/catalogue/${id}`} className="category-card category-card--pink">
             <span className="category-card__icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="3" />

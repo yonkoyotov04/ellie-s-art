@@ -35,7 +35,6 @@ export default function Categories() {
 
             <section className="category-grid">
                 {categories.map(category => <CategoryCard key={category.id} {...category} />)}
-            
             </section>
         </>
 

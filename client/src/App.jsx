@@ -22,6 +22,7 @@ function App() {
                 <Route element={<PublicLayout />}>
                     <Route path='/' element={<Home />} />
                     <Route path='/catalogue' element={<Catalogue />} />
+                    <Route path='/catalogue/:category' element={<Catalogue />} />
                     <Route path='/product/:productId/details' element={<ProductDetails />} />
                     <Route path='/categories' element={<Categories />} />
                     <Route path='/about' element={<AboutUs />} />
