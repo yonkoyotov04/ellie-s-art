@@ -37,7 +37,7 @@ export default function AddProduct() {
             }
         })
 
-        const result = await fetcher('/products', 'POST', formData, { accessToken: user?.accessToken });
+        await fetcher('/products', 'POST', formData, { accessToken: user?.accessToken });
         navigate('/admin/products');
     }
 

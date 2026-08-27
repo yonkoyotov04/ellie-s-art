@@ -2,77 +2,84 @@ import pool from "../database/db.js"
 
 export default {
     async getAllProducts(filter = {}) {
-        let result = null;
-
-        console.log(filter.category);
+        let query = `
+        SELECT  
+            p.id,
+            p.title,
+            p.price,
+            p.image,
+            c.name AS category,
+            p.added_on
+        FROM 
+            products AS p
+        JOIN
+            categories AS c
+        ON
+            p.category = c.id
+        `;
+        let conditions = [];
+        let values = [];
 
         if (filter.category) {
-            result = await pool.query(
-            `
-            SELECT 
-                p.id,
-                p.title,
-                p.price,
-                p.image,
-                c.name AS category,
-                p.added_on
-            FROM 
-                products AS p
-            JOIN
-                categories AS c
-            ON
-                p.category = c.id
-            WHERE
-                p.category = $1;
-            `,
-                [filter.category]
-            );
-        } else {
-            result = await pool.query(
-                `
-            SELECT 
-                p.id,
-                p.title,
-                p.price,
-                p.image,
-                c.name AS category,
-                p.added_on
-            FROM 
-                products AS p
-            JOIN
-                categories AS c
-            ON
-                p.category = c.id;
-            `
-            );
+            values.push(filter.category);
+            conditions.push(`category = $${values.length}`)
+        } 
+
+        if (filter.search) {
+            values.push(`%${filter.search}%`);
+            conditions.push(`title ILIKE $${values.length}`)
         }
 
+        if (conditions.length > 0) {
+            query += `WHERE ${conditions.join(' AND ')}
+            
+            `;
+        }
+
+        if (filter.sort === 'newest') {
+            query += `ORDER BY added_on DESC`;
+        } else if (filter.sort === 'popular') {
+            query += `ORDER BY clicks DESC`;
+        } else if (filter.sort === 'lowestPrice') {
+            query += `ORDER BY price ASC`;
+        } else if (filter.sort === 'highestPrice') {
+            query += `ORDER BY price DESC`;
+        } else if (filter.sort === 'titleAsc') {
+            query += `ORDER BY title ASC`;
+        } else if (filter.sort === 'titleDesc') {
+            query += `ORDER BY title DESC`;
+        }
+
+        console.log(query);
+
+        const result = await pool.query(query, values);
+
         return result.rows;
     },
 
-    async getAllProductsSortedByTime() {
-        const result = await pool.query(
-            `
-            SELECT 
-                p.id,
-                p.title,
-                p.price,
-                p.image,
-                c.name AS category,
-                p.added_on
-            FROM 
-                products AS p
-            JOIN
-                categories AS c
-            ON
-                p.category = c.id
-            ORDER BY
-                added_on ASC;
-            `
-        );
+    // async getAllProductsSortedByTime() {
+    //     const result = await pool.query(
+    //         `
+    //         SELECT 
+    //             p.id,
+    //             p.title,
+    //             p.price,
+    //             p.image,
+    //             c.name AS category,
+    //             p.added_on
+    //         FROM 
+    //             products AS p
+    //         JOIN
+    //             categories AS c
+    //         ON
+    //             p.category = c.id
+    //         ORDER BY
+    //             added_on ASC;
+    //         `
+    //     );
 
-        return result.rows;
-    },
+    //     return result.rows;
+    // },
 
     async getSpecificProduct(productId) {
         const result = await pool.query(

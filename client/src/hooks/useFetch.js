@@ -91,17 +91,31 @@ export default function useFetch(url, setData, extras = {}) {
             return
         }
 
+        const params = new URLSearchParams();
+
+
         if (extras.category) {
-            url = url + `/?category=${extras.category}`;
+           params.append('category', extras.category);
         }
+
+        if (extras.search) {
+            params.append('search', extras.search);
+        }
+
+        if (extras.sort) {
+            params.append('sort', extras.sort);
+        }
+
+        const searchQuery = params.toString();
+        const finalUrl = searchQuery ? `${url}?${searchQuery}` : url;
 
         setIsLoading(true);
 
-        fetcher(url, 'GET', null, { accessToken: admin?.accessToken })
+        fetcher(finalUrl, 'GET', null, { accessToken: admin?.accessToken })
             .then(result => setData(result))
             .catch(error => console.log(error.message))
             .finally(() => setIsLoading(false));
-    }, [url, extras.category, refresh])
+    }, [url, extras.category, extras.search, extras.sort, refresh])
 
     return { fetcher, isLoading, refresher }
 

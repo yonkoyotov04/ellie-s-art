@@ -2,11 +2,37 @@ import { Link, useParams } from "react-router";
 import ProductCard from "../products/ProductCard.jsx";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch.js";
+import useControlledForm from "../../hooks/useControlledForm.js";
 
 export default function Catalogue() {
     let { category } = useParams();
+    const data = {
+        sort: '',
+        search: ''
+    }
 
+    const [initialValues, setInitialValues] = useState(data);
     const [currentCategory, setCurrentCategory] = useState(null);
+    const [currentSort, setCurrentSort] = useState(null);
+    const [currentSearch, setCurrentSearch] = useState(null);
+
+
+    const onSubmit = (values) => {
+        const formData = values;
+
+        console.log(formData);
+
+        if (formData.search) {
+            setCurrentSearch(formData.search);
+        }
+
+        if (formData.sort) {
+            setCurrentSort(formData.sort);
+        }
+
+    }
+
+    const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
 
     useEffect(() => {
         setCurrentCategory(category);
@@ -14,7 +40,7 @@ export default function Catalogue() {
 
     const [products, setProducts] = useState([]);
 
-    useFetch('/products', setProducts, { category: currentCategory });
+    useFetch('/products', setProducts, { category: currentCategory, sort: currentSort, search: currentSearch });
 
     return (
         <>
@@ -39,28 +65,36 @@ export default function Catalogue() {
                     fill="currentColor" />
             </svg>
 
-            <div className="catalogue-toolbar">
+            <form className="catalogue-toolbar" onSubmit={submitHandler}>
                 <div className="search-field">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                         <circle cx="11" cy="11" r="7" />
                         <path d="M21 21l-4.3-4.3" />
                     </svg>
                     <label htmlFor="catalogue-search" className="sr-only">Търсене в каталога</label>
-                    <input type="search" id="catalogue-search" placeholder="Търси продукт, напр. „лимон“ или „картичка“…" />
+                    <input
+                        type="search"
+                        name="search"
+                        id="catalogue-search"
+                        value={values.search}
+                        onChange={changeHandler}
+                        placeholder="Търси продукт, напр. „лимон“ или „картичка“…" />
+                    <button className="btn btn-primary" type="submit">Търси</button>
                 </div>
 
                 <div className="sort-field">
                     <label htmlFor="catalogue-sort">Подреди по:</label>
-                    <select id="catalogue-sort">
+                    <select id="catalogue-sort" name="sort" onChange={changeHandler}>
+                        <option value="">Сортирай</option>
                         <option value="newest">Най-нови</option>
-                        <option value="bestselling">Най-продавани</option>
-                        <option value="price-asc">Цена: ниска към висока</option>
-                        <option value="price-desc">Цена: висока към ниска</option>
-                        <option value="name-asc">Име: А–Я</option>
-                        <option value="name-asc">Име: Я–А</option>
+                        <option value="popular">Най-пoпулярни</option>
+                        <option value="lowestPrice">Цена: ниска към висока</option>
+                        <option value="highestPrice">Цена: висока към ниска</option>
+                        <option value="titleAsc">Име: А–Я</option>
+                        <option value="titleDesc">Име: Я–А</option>
                     </select>
                 </div>
-            </div>
+            </form>
 
             <div className="results-row">
                 <span>Показани <strong>12</strong> от <strong>48</strong> продукта</span>
