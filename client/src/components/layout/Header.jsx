@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { Link } from "react-router"
+import { Link, NavLink } from "react-router"
 import AdminContext from "../../contexts/AdminContext.jsx";
 
 export default function Header() {
@@ -27,10 +27,10 @@ export default function Header() {
                 </label>
 
                 <ul className="nav-links">
-                    <li><Link to="/" className="is-active">Начало</Link></li>
-                    <li><Link to="/catalogue">Каталог</Link></li>
-                    <li><Link to="/categories">Категории</Link></li>
-                    <li><Link to="/about">За нас</Link></li>
+                    <li><NavLink to="/" className={({isActive}) =>  isActive ? 'is-active' : ''}>Начало</NavLink></li>
+                    <li><NavLink to="/catalogue" className={({isActive}) =>  isActive ? 'is-active' : ''}>Каталог</NavLink></li>
+                    <li><NavLink to="/categories" className={({isActive}) =>  isActive ? 'is-active' : ''}>Категории</NavLink></li>
+                    <li><NavLink to="/about" className={({isActive}) =>  isActive ? 'is-active' : ''}>За нас</NavLink></li>
                 </ul>
 
                 <div className="nav-actions">
