@@ -1,4 +1,4 @@
-import e, { Router } from "express"
+import { Router } from "express"
 import productService from "../services/productService.js";
 import { getErrorMessage } from "../utils/errorUtil.js";
 import { isAuth } from "../middlewares/authMiddleware.js";

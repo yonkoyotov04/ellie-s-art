@@ -113,8 +113,6 @@ export default function Catalogue() {
                                 <p>Опитай с друга дума за търсене или премахни някой от филтрите.</p>
                             </div>
                         }
-
-
                     </div>
 
                     <nav className="pagination" aria-label="Странициране">

@@ -106,16 +106,20 @@ export default function useFetch(url, setData, extras = {}) {
             params.append('sort', extras.sort);
         }
 
+        if (extras.limit) {
+            params.append('limit', extras.limit);
+        }
+
         const searchQuery = params.toString();
         const finalUrl = searchQuery ? `${url}?${searchQuery}` : url;
 
         setIsLoading(true);
-
+        
         fetcher(finalUrl, 'GET', null, { accessToken: admin?.accessToken })
             .then(result => setData(result))
             .catch(error => console.log(error.message))
             .finally(() => setIsLoading(false));
-    }, [url, extras.category, extras.search, extras.sort, refresh])
+    }, [url, extras.category, extras.search, extras.sort, extras.limit, refresh])
 
     return { fetcher, isLoading, refresher }
 

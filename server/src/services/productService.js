@@ -37,20 +37,28 @@ export default {
         }
 
         if (filter.sort === 'newest') {
-            query += `ORDER BY added_on DESC`;
+            query += `ORDER BY added_on DESC
+            `;
         } else if (filter.sort === 'popular') {
-            query += `ORDER BY clicks DESC`;
+            query += `ORDER BY clicks DESC
+            `;
         } else if (filter.sort === 'lowestPrice') {
-            query += `ORDER BY price ASC`;
+            query += `ORDER BY price ASC
+            `;
         } else if (filter.sort === 'highestPrice') {
-            query += `ORDER BY price DESC`;
+            query += `ORDER BY price DESC
+            `;
         } else if (filter.sort === 'titleAsc') {
-            query += `ORDER BY title ASC`;
+            query += `ORDER BY title ASC
+            `;
         } else if (filter.sort === 'titleDesc') {
-            query += `ORDER BY title DESC`;
+            query += `ORDER BY title DESC
+            `;
         }
 
-        console.log(query);
+        if (filter.limit) {
+            query += `LIMIT ${filter.limit}`;
+        }
 
         const result = await pool.query(query, values);
 

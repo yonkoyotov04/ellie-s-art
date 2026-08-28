@@ -1,7 +1,15 @@
 import { Link } from "react-router"
 import ProductCard from "../products/ProductCard.jsx"
+import { useState } from "react"
+import useFetch from "../../hooks/useFetch.js";
 
 export default function Home() {
+
+    const [newestProducts, setNewestProducts] = useState([]);
+    const [mostPopularProducts, setMostPopularProducts] = useState([]);
+    
+    useFetch('/products', setNewestProducts, {sort: 'newest', limit: 4})
+    useFetch('/products', setMostPopularProducts, {sort: 'popular', limit: 4})
 
     return (
         <>
@@ -17,16 +25,11 @@ export default function Home() {
                             </span>
                             <h2 className="script-heading">Нови продукти</h2>
                         </div>
-                        <Link to="catalogue.html?sort=newest" className="btn btn-outline">Разгледай всички →</Link>
+                        <Link to="/products?sort=newest" className="btn btn-outline">Разгледай всички →</Link>
                     </div>
 
                     <div className="product-grid">
-
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-
+                        {newestProducts.map(product => <ProductCard key={product.id} {...product} />)}
                     </div>
                 </div>
             </section>
@@ -55,15 +58,12 @@ export default function Home() {
                             </span>
                             <h2 className="script-heading">Най-пoпулярни</h2>
                         </div>
-                        <Link to="catalogue.html?sort=bestselling" className="btn btn-outline">Разгледай всички →</Link>
+                        <Link to="/products?sort=popular" className="btn btn-outline">Разгледай всички →</Link>
                     </div>
 
                     <div className="product-grid">
 
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
+                       {mostPopularProducts.map(product => <ProductCard key={product.id} {...product} />)}
 
                     </div>
                 </div>
