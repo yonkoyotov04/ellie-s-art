@@ -1,6 +1,8 @@
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import AdminHeader from "../components/admin/AdminHeader.jsx";
 import AdminSideBar from "../components/admin/AdminSidebar.jsx";
+import { useContext } from "react";
+import AdminContext from "../contexts/AdminContext.jsx";
 
 export default function AdminLayout() {
     return (
@@ -18,4 +20,9 @@ export default function AdminLayout() {
 
         </div>
     )
+}
+
+export function AdminRoutes() {
+    const { isAuthenticated } = useContext(AdminContext);
+    return isAuthenticated ? <Outlet /> : <Navigate to={'/'} />
 }

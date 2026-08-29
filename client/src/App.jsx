@@ -5,8 +5,8 @@ import Catalogue from './components/pages/Catalogue.jsx'
 import AboutUs from './components/pages/About Us.jsx'
 import Register from './components/auth/Register.jsx'
 import Login from './components/auth/Login.jsx'
-import PublicLayout from './utils/PublicLayout.jsx'
-import AdminLayout from './utils/AdminLayout.jsx'
+import PublicLayout, { GuestRoutes } from './utils/PublicLayout.jsx'
+import AdminLayout, { AdminRoutes } from './utils/AdminLayout.jsx'
 import Dashboard from './components/admin/Dashboard/Dashboard.jsx'
 import AdminProducts from './components/admin/AdminProducts/AdminProducts.jsx'
 import AddProduct from './components/admin/AdminProducts/AddProduct.jsx'
@@ -26,15 +26,21 @@ function App() {
                     <Route path='/product/:productId/details' element={<ProductDetails />} />
                     <Route path='/categories' element={<Categories />} />
                     <Route path='/about' element={<AboutUs />} />
+                </Route>
+
+                <Route element={<GuestRoutes />}>
                     <Route path='/register' element={<Register />} />
                     <Route path='/login' element={<Login />} />
                 </Route>
 
-                <Route path='/admin' element={<AdminLayout />}>
-                    <Route path='dashboard' element={<Dashboard />} />
-                    <Route path='products' element={<AdminProducts />} />
-                    <Route path='addProduct' element={<AddProduct />} />
+                <Route element={<AdminRoutes />}>
+                    <Route path='/admin' element={<AdminLayout />}>
+                        <Route path='dashboard' element={<Dashboard />} />
+                        <Route path='products' element={<AdminProducts />} />
+                        <Route path='addProduct' element={<AddProduct />} />
+                    </Route>
                 </Route>
+
 
             </Routes>
         </ErrorProvider>

@@ -37,10 +37,7 @@ export default function Header() {
                     {isAuthenticated ? <>
                         <button onClick={logoutHandler} className="btn btn-outline">Изход</button>
                         <li className="btn btn-ghost"><Link to="/admin/dashboard">Управление</Link></li>
-                    </> : <>
-                        <Link to="/login" className="btn btn-ghost">Вход</Link>
-                        <Link to="/register" className="btn btn-outline">Регистрация</Link>
-                    </>}
+                    </> : <></>}
 
                 </div>
 
