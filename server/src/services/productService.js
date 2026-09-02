@@ -98,7 +98,8 @@ export default {
                 p.price,
                 p.image,
                 p.description,
-                c.name AS category, 
+                c.name AS category,
+                p.category AS category_id, 
                 p.added_on
             FROM
                 products AS p
@@ -195,7 +196,7 @@ export default {
                 title = $1,
                 description = $2,
                 price = $3,
-                category_id = $4
+                category = $4,
                 image = $5
             WHERE
                 id = $6

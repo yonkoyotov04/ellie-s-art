@@ -90,7 +90,7 @@ export default function Dashboard() {
                     </span>
                     <span>
                         <span className="quick-action-card__title">Добави продукт</span>
-                        <span className="quick-action-card__hint">Качи нов артикул в каталога</span>
+                        <span className="quick-action-card__hint"> Качи нов артикул в каталога</span>
                     </span>
                 </Link>
 
@@ -103,7 +103,7 @@ export default function Dashboard() {
                     </span>
                     <span>
                         <span className="quick-action-card__title">Добави публикация</span>
-                        <span className="quick-action-card__hint">Сподели новина или процес на работа</span>
+                        <span className="quick-action-card__hint"> Сподели новина или процес на работа</span>
                     </span>
                 </Link>
             </div>

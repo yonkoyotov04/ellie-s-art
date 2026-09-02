@@ -26,7 +26,15 @@ productController.get('/categories', async (req, res) => {
 productController.get('/:productId', async (req, res) => {
     const productId = req.params.productId;
 
-    const product = await productService.getSpecificProduct(productId);
+    const result = await productService.getSpecificProduct(productId);
+    
+    const product = {
+        category: {
+            id: result.cateegory_id,
+            name: result.category
+        },
+        ...result
+    }
 
     res.status(200).json(product ?? {});
 });
@@ -68,7 +76,7 @@ productController.post('/', isAuth, upload.single('image'), async (req, res) => 
     }
 });
 
-productController.put('/:productId', isAuth, async (req, res) => {
+productController.put('/:productId', isAuth, upload.single('image'), async (req, res) => {
     const productId = req.params.productId;
     const newProductData = req.body;
 
@@ -76,7 +84,7 @@ productController.put('/:productId', isAuth, async (req, res) => {
     newProductData['description'] = newProductData.description.trim();
     newProductData['price'] = newProductData.price.trim();
     newProductData['category'] = newProductData.category.trim();
-
+    
     try {
         const updatedProduct = await productService.editProduct(productId, newProductData);
         res.status(200).json(updatedProduct ?? {});

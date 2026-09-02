@@ -1,4 +1,4 @@
-import { Link, useFetcher } from "react-router";
+import { Link } from "react-router";
 import AdminProductCard from "./AdminProductCard.jsx";
 import { useState } from "react";
 import useFetch from "../../../hooks/useFetch.js";

@@ -31,7 +31,7 @@ export default function AdminProductCard({ id, title, price, image, category }) 
             <td className="col-status"><span className="status-badge status-badge--active">Активен</span></td>
             <td className="col-actions">
                 <span className="row-actions">
-                    <Link to="add-product.html" className="row-edit" aria-label="Редактирай">
+                    <Link to={`${id}/edit`} className="row-edit" aria-label="Редактирай">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <path d="M12 20h9" />

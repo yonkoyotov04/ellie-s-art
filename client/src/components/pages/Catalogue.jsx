@@ -20,8 +20,6 @@ export default function Catalogue() {
     const onSubmit = (values) => {
         const formData = values;
 
-        console.log(formData);
-
         if (formData.search) {
             setCurrentSearch(formData.search);
         }

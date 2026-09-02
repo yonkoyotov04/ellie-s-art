@@ -13,6 +13,7 @@ import AddProduct from './components/admin/AdminProducts/AddProduct.jsx'
 import { ErrorProvider } from './contexts/ErrorContext.jsx'
 import ProductDetails from './components/products/ProductDetails.jsx'
 import Categories from './components/categories/Categories.jsx'
+import EditProduct from './components/admin/AdminProducts/EditProduct.jsx'
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
                         <Route path='dashboard' element={<Dashboard />} />
                         <Route path='products' element={<AdminProducts />} />
                         <Route path='addProduct' element={<AddProduct />} />
+                        <Route path='products/:productId/edit' element={<EditProduct />} />
                     </Route>
                 </Route>
 

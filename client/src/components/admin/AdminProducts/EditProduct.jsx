@@ -1,13 +1,14 @@
+import { useNavigate, useParams } from "react-router";
+import useFetch from "../../../hooks/useFetch.js";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router";
 import AdminContext from "../../../contexts/AdminContext.jsx";
 import ProductForm from "./ProductForm.jsx";
 import useControlledForm from "../../../hooks/useControlledForm.js";
-import useFetch from "../../../hooks/useFetch.js";
 
-export default function AddProduct() {
+export default function EditProduct() {
+    const { productId } = useParams();
+    const { fetcher } = useFetch();
     const { admin } = useContext(AdminContext);
-    const {fetcher} = useFetch();
     const navigate = useNavigate();
 
     const data = {
@@ -15,27 +16,35 @@ export default function AddProduct() {
         descriptipn: '',
         price: 0,
         category: '',
+        category_id: '',
         image: ''
     }
 
     const [initialValues, setInitialValues] = useState(data);
 
+    useFetch(`/products/${productId}`, setInitialValues);
+
     const onSubmit = async (e) => {
         const formData = new FormData();
 
+        console.log(Object.entries(values));
+
         Object.entries(values).forEach(([key, value]) => {
             if (value !== null & value !== undefined) {
+                console.log('Entered')
                 formData.append(key, value);
             }
         })
 
-        await fetcher('/products', 'POST', formData, { accessToken: admin?.accessToken });
+        console.log(formData)
+
+        await fetcher(`/products/${productId}`, 'PUT', formData, { accessToken: admin?.accessToken });
         navigate('/admin/products');
     }
 
     const {values, changeHandler, submitHandler} = useControlledForm(initialValues, onSubmit);
 
-    return (
-       <ProductForm passedValues={values} changeHandler={changeHandler} submitHandler={submitHandler}/> 
+    return(
+        <ProductForm passedValues={values} changeHandler={changeHandler} submitHandler={submitHandler}/>
     )
 }
