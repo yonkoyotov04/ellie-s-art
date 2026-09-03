@@ -508,7 +508,7 @@ body.dash {
 
 .dash-panels {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 24px;
 }
 
@@ -529,7 +529,9 @@ body.dash {
 
 .dash-panel__head h2 {
     font-family: var(--font-heading);
+    color: var(--pink-900);
     font-size: 17px;
+    font-weight: 700;
 }
 
 .dash-panel__head a {
@@ -564,8 +566,8 @@ body.dash {
 
 .recent-item__media {
     flex-shrink: 0;
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
     border-radius: var(--radius-sm);
     background: linear-gradient(150deg, var(--lemon-300), var(--lemon-100));
     display: flex;
@@ -592,6 +594,8 @@ body.dash {
 .recent-item__body {
     flex: 1;
     min-width: 0;
+    align-items: center;
+    text-align: left;
 }
 
 .recent-item__title {

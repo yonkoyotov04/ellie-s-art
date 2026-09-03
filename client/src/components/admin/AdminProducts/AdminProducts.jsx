@@ -42,7 +42,7 @@ export default function AdminProducts() {
                     <option value="portreti">Портрети по поръчка</option>
                 </select>
 
-                <Link to="/admin/products/add" className="btn btn-primary btn-sm">
+                <Link to="/admin/addProduct" className="btn btn-primary btn-sm">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"
                         width="16" height="16">
                         <path d="M12 5v14M5 12h14" />

@@ -12,8 +12,6 @@ export default function AboutUs() {
                         Опознай ателието
                     </span>
                     <h1 className="script-heading">За нас</h1>
-                    <p className="section-sub">Малко за Ели, за четката, която не се разделя с нея, и за историята зад Ellie
-                        Art.</p>
                 </div>
             </section>
 

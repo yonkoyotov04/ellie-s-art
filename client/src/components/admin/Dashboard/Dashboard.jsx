@@ -1,10 +1,14 @@
 import { Link } from "react-router";
-import DashboardProduct from "./DashProductCard.jsx";
-import DashboardPosts from "./DashPostCard.jsx";
-import DashPostCard from "./DashPostCard.jsx";
 import DashProductCard from "./DashProductCard.jsx";
+import { useState } from "react";
+import useFetch from "../../../hooks/useFetch.js";
 
 export default function Dashboard() {
+
+    const [products, setProducts] = useState([]);
+
+    useFetch('/products', setProducts, {sort: 'newest', limit: 4})
+
     return (
         <>
             <div className="dash-content__head">
@@ -81,7 +85,7 @@ export default function Dashboard() {
             </div>
 
             <div className="quick-actions">
-                <Link to="add-product.html" className="quick-action-card quick-action-card--primary">
+                <Link to="/admin/addProduct" className="quick-action-card quick-action-card--primary">
                     <span className="quick-action-card__icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
                             strokeLinecap="round">
@@ -93,48 +97,17 @@ export default function Dashboard() {
                         <span className="quick-action-card__hint"> Качи нов артикул в каталога</span>
                     </span>
                 </Link>
-
-                <Link to="add-post.html" className="quick-action-card quick-action-card--outline">
-                    <span className="quick-action-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
-                            strokeLinecap="round">
-                            <path d="M12 5v14M5 12h14" />
-                        </svg>
-                    </span>
-                    <span>
-                        <span className="quick-action-card__title">Добави публикация</span>
-                        <span className="quick-action-card__hint"> Сподели новина или процес на работа</span>
-                    </span>
-                </Link>
             </div>
 
 
             <div className="dash-panels">
-
                 <section className="dash-panel">
                     <div className="dash-panel__head">
                         <h2>Последни продукти</h2>
-                        <Link to="products.html">Виж всички →</Link>
+                        <Link to="/admin/products">Виж всички →</Link>
                     </div>
                     <div className="recent-list">
-                        <DashProductCard />
-                        <DashProductCard />
-                        <DashProductCard />
-                        <DashProductCard />
-                    </div>
-                </section>
-
-                <section className="dash-panel">
-                    <div className="dash-panel__head">
-                        <h2>Последни публикации</h2>
-                        <Link to="posts-admin.html">Виж всички →</Link>
-                    </div>
-                    <div className="recent-list">
-                        <DashPostCard />
-                        <DashPostCard />
-                        <DashPostCard />
-                        <DashPostCard />
-                       
+                        {products ? products.map(product => <DashProductCard key={product.id} {...product} />) : ''}
                     </div>
                 </section>
 
