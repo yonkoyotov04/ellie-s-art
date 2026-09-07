@@ -2,11 +2,13 @@ import { Link } from "react-router";
 import AdminProductCard from "./AdminProductCard.jsx";
 import { useState } from "react";
 import useFetch from "../../../hooks/useFetch.js";
+import useDelete from "../../../hooks/useDelete.jsx";
 
 export default function AdminProducts() {
-
     const [products, setProducts] = useState([]);
     useFetch('/products', setProducts);
+
+    const { DeletePrompt, onDeleteClick } = useDelete(products, setProducts);
 
     return (
         <>
@@ -64,10 +66,15 @@ export default function AdminProducts() {
                     </thead>
                     <tbody>
 
-                        {products.map(product => <AdminProductCard key={product.id} {...product} />)}
+                        {products.map(product => 
+                        <AdminProductCard 
+                        key={product.id}
+                        deleteTrigger={onDeleteClick} 
+                        {...product} />)}
 
                     </tbody>
                 </table>
+                {DeletePrompt}
 
                 <div className="table-pagination">
                     <span>Показани <strong>6</strong> от <strong>24</strong> продукта</span>
