@@ -6,7 +6,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import 'dotenv/config';
 import authMiddleware from './middlewares/authMiddleware.js';
-import { getErrorMessage } from './utils/errorUtil.js';
+import errorApi, { getErrorMessage } from './utils/errorUtil.js';
+import { json } from 'stream/consumers';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,6 +34,17 @@ app.use((error, req, res, next) => {
     res.status(error.status || 500).json({
         message: getErrorMessage(error)
     })
+})
+
+app.use((err, req, res, next) => {
+    console.error(err);
+
+    if (err instanceof errorApi) {
+        return res.status(err.status).json({message: err.message});
+    }
+
+    return res.status(500).json({message: 'Something went wrong! Try again!'})
+    
 })
 
 app.listen(2105, '0.0.0.0', () => console.log('Server is listening on port http://localhost:2105.....'));

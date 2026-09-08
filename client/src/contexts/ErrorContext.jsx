@@ -1,4 +1,5 @@
 import { createContext, useRef, useState } from "react";
+import ErrorBox from "../components/layout/ErrorBox.jsx";
 
 const ErrorContext = createContext({
     error: null,
@@ -21,6 +22,14 @@ export function ErrorProvider({children}) {
         }, "5000")
     }
 
+    const removeError = () => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        setError(null);
+    }
+
     const contextValues = {
         error,
         errorSetter
@@ -29,6 +38,8 @@ export function ErrorProvider({children}) {
     return(
         <ErrorContext.Provider value={contextValues}>
             {children}
+
+            {error ? <ErrorBox errorMessage={error} remove={removeError} /> : ''}
         </ErrorContext.Provider>
     )
 }

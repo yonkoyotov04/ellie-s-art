@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-import useDelete from "../../../hooks/useDelete.jsx";
 
 export default function AdminProductCard({ id, title, price, image, category, deleteTrigger }) {
 

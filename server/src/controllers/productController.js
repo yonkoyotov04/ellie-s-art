@@ -1,39 +1,54 @@
 import { Router } from "express"
 import productService from "../services/productService.js";
-import { getErrorMessage } from "../utils/errorUtil.js";
+import errorApi, { getErrorMessage } from "../utils/errorUtil.js";
 import { isAuth } from "../middlewares/authMiddleware.js";
-import upload from "../middlewares/upload.js";
+import upload, { uploadDir } from "../middlewares/upload.js";
+import path from "path";
+import fs from 'fs'
 
 const productController = Router();
 
 productController.get('/', async (req, res) => {
     const filter = req.query;
-    const products = await productService.getAllProducts(filter);
+    let products = [];
+
+    try {
+        products = await productService.getAllProducts(filter);
+    } catch (error) {
+        throw new errorApi(400, 'Failed to fetch products!')
+    }
 
     res.status(200).json(products ?? []);
 });
 
 productController.get('/categories', async (req, res) => {
+
     try {
         const categories = await productService.getCategories();
         res.status(200).json(categories ?? []);
     } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        res.status(400).json({ message: errorMessage });
+        throw new errorApi(400, 'Failed to fetch categories!');
     }
+
+    
 })
 
 productController.get('/:productId', async (req, res) => {
     const productId = req.params.productId;
+    let product = {};
 
-    const result = await productService.getSpecificProduct(productId);
-    
-    const product = {
-        category: {
-            id: result.cateegory_id,
-            name: result.category
-        },
-        ...result
+    try {
+        const result = await productService.getSpecificProduct(productId);
+
+        product = {
+            category: {
+                id: result.cateegory_id,
+                name: result.category
+            },
+            ...result
+        }
+    } catch (error) {
+        throw new errorApi(400, 'Failed to fetch product!');
     }
 
     res.status(200).json(product ?? {});
@@ -59,7 +74,7 @@ productController.post('/', isAuth, upload.single('image'), async (req, res) => 
     }
 
     if (!req.file) {
-        return res.status(400).json({ message: 'Product image is required!' })
+        throw new errorApi(400, 'A product image is required!');
     }
 
     productData['title'] = productData.title.trim();
@@ -71,8 +86,7 @@ productController.post('/', isAuth, upload.single('image'), async (req, res) => 
         const product = await productService.addNewProduct(productData);
         res.status(200).json(product ?? {});
     } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        res.status(400).json({ message: errorMessage });
+        throw new errorApi(400, 'Failed to upload the new product!');
     }
 });
 
@@ -84,13 +98,12 @@ productController.put('/:productId', isAuth, upload.single('image'), async (req,
     newProductData['description'] = newProductData.description.trim();
     newProductData['price'] = newProductData.price.trim();
     newProductData['category'] = newProductData.category.trim();
-    
+
     try {
         const updatedProduct = await productService.editProduct(productId, newProductData);
         res.status(200).json(updatedProduct ?? {});
     } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        res.status(400).json({ message: errorMessage });
+       throw new errorApi(400, 'Failed to edit product!');
     }
 });
 
@@ -107,10 +120,22 @@ productController.delete('/:productId', isAuth, async (req, res) => {
 
     try {
         const deletedProduct = await productService.deleteProduct(productId);
+
+        if (!deletedProduct) {
+            throw new errorApi(404, 'Product not found!')
+        }
+
+        if (deletedProduct.image) {
+            const imagePath = path.join(uploadDir, deletedProduct.image);
+            console.log(imagePath);
+            fs.unlink(imagePath, (err) => {
+                throw new errorApi(400, 'Image deletion failed!');
+            })
+        }
+
         res.status(200).json(deletedProduct ?? {});
     } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        res.status(400).json({ message: errorMessage });
+       throw new errorApi(400, 'Failed to delete product!');
     }
 });
 

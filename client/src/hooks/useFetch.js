@@ -22,7 +22,6 @@ export default function useFetch(url, setData, extras = {}) {
         }
 
         const newToken = await result.json();
-        console.log('Refresh:', newToken)
         const newData = { ...admin, accessToken: newToken };
 
         loginHandler(newData);
@@ -65,7 +64,8 @@ export default function useFetch(url, setData, extras = {}) {
                 if (!newToken) {
                     logoutHandler();
                     navigate('/login');
-                    throw new Error('Session Expired')
+                    errorSetter('Session Expired');
+                    throw new Error('Session Expired');
                 }
 
                 options.headers = {
@@ -117,7 +117,10 @@ export default function useFetch(url, setData, extras = {}) {
         
         fetcher(finalUrl, 'GET', null, { accessToken: admin?.accessToken })
             .then(result => setData(result))
-            .catch(error => console.log(error.message))
+            .catch(error => {
+                console.log(error.message);
+                errorSetter(error.message);
+            })
             .finally(() => setIsLoading(false));
     }, [url, extras.category, extras.search, extras.sort, extras.limit, refresh])
 

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import jwt from 'jsonwebtoken';
 import adminService from "../services/adminService.js";
-import { getErrorMessage } from "../utils/errorUtil.js";
+import errorApi, { getErrorMessage } from "../utils/errorUtil.js";
 import { isAuth, isGuest } from "../middlewares/authMiddleware.js";
 import { generateAuthToken } from "../utils/tokenUtils.js";
 
@@ -29,8 +29,7 @@ adminController.post('/register', isGuest, async (req, res) => {
 
         res.status(201).json(admin ?? {});
     } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        res.status(401).json({message: errorMessage});
+        throw new errorApi(401, 'Failed to register!');
     }
 });
 
@@ -53,8 +52,7 @@ adminController.post('/login', isGuest, async (req, res) => {
 
         res.status(201).json(admin ?? {});
     } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        res.status(401).json({message: errorMessage});
+        throw new errorApi(401, 'Failed to login!');
     }
 });
 
@@ -100,8 +98,7 @@ adminController.put('/adminId', isAuth, async (req, res) => {
 
         res.status(201).json(editedAdmin ?? {});
     } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        res.status(401).json({message: errorMessage});
+        throw new errorApi(401, 'Failed to edit admin!');
     }
 });
 
@@ -117,8 +114,7 @@ adminController.put('/password/:adminId', isAuth, async (req, res) => {
         await adminService.changePassword(adminId, currentPassword, newPassword, repeatNewPassword);
         res.status(201).end();
     } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        res.status(401).json({message: errorMessage});
+        throw new errorApi(401, 'Failed to edit password!');
     }
 });
 
@@ -129,8 +125,7 @@ adminController.delete('/:adminId', isAuth, async (req, res) => {
         await adminService.deleteProfile(adminId);
         res.status(200).json();
     } catch (error) {
-        const errorMessage = getErrorMessage(error);
-        res.status(401).json({message: errorMessage});
+        throw new errorApi(401, 'Failed to delete admin!');
     }
 });
 

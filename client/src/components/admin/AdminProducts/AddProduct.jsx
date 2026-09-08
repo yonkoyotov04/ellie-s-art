@@ -37,5 +37,6 @@ export default function AddProduct() {
 
     return (
        <ProductForm passedValues={values} changeHandler={changeHandler} submitHandler={submitHandler}/> 
+       
     )
 }
