@@ -1,0 +1,111 @@
+.not-found {
+    position: relative;
+    min-height: calc(100vh - 82px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    background: var(--lemon-100);
+    overflow: hidden;
+}
+
+.not-found::before {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 8%;
+    width: 54px;
+    height: 54px;
+    background-image: var(--decor-butterfly);
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .9;
+    transform: rotate(-12deg);
+    pointer-events: none;
+}
+
+.not-found::after {
+    content: "";
+    position: absolute;
+    bottom: 12%;
+    right: 9%;
+    width: 48px;
+    height: 48px;
+    background-image: var(--decor-lemon);
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .9;
+    transform: rotate(14deg);
+    pointer-events: none;
+}
+
+.not-found__inner {
+    position: relative;
+    max-width: 520px;
+}
+
+.not-found__inner::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    right: -10px;
+    width: 40px;
+    height: 40px;
+    background-image: var(--decor-lemon);
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .85;
+    transform: rotate(-8deg);
+    pointer-events: none;
+}
+
+.not-found__inner::after {
+    content: "";
+    position: absolute;
+    bottom: 40px;
+    left: -34px;
+    width: 40px;
+    height: 40px;
+    background-image: var(--decor-butterfly);
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .85;
+    transform: rotate(10deg);
+    pointer-events: none;
+}
+
+.not-found__code {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(90px, 18vw, 170px);
+    line-height: 1;
+    margin-top: 14px;
+    color: var(--pink-500);
+    text-shadow: 6px 6px 0 var(--lemon-300);
+}
+
+.not-found__heading {
+    font-size: clamp(26px, 3.6vw, 36px);
+    margin-top: 6px;
+}
+
+.not-found .section-sub {
+    margin: 14px auto 0;
+}
+
+.not-found__actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+
+    .not-found__inner::before,
+    .not-found__inner::after {
+        display: none;
+    }
+}

@@ -14,6 +14,7 @@ import { ErrorProvider } from './contexts/ErrorContext.jsx'
 import ProductDetails from './components/products/ProductDetails.jsx'
 import Categories from './components/categories/Categories.jsx'
 import EditProduct from './components/admin/AdminProducts/EditProduct.jsx'
+import NotFound from './components/pages/NotFound.jsx'
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
                     <Route path='/product/:productId/details' element={<ProductDetails />} />
                     <Route path='/categories' element={<Categories />} />
                     <Route path='/about' element={<AboutUs />} />
+                    <Route path='*' element={<NotFound />} />
                 </Route>
 
                 <Route element={<GuestRoutes />}>
