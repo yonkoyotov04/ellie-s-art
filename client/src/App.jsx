@@ -15,6 +15,7 @@ import ProductDetails from './components/products/ProductDetails.jsx'
 import Categories from './components/categories/Categories.jsx'
 import EditProduct from './components/admin/AdminProducts/EditProduct.jsx'
 import NotFound from './components/pages/NotFound.jsx'
+import AdminPage from './components/admin/Dashboard/AdminPage.jsx'
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
                         <Route path='products' element={<AdminProducts />} />
                         <Route path='addProduct' element={<AddProduct />} />
                         <Route path='products/:productId/edit' element={<EditProduct />} />
+                        <Route path='info' element={<AdminPage />} />
                     </Route>
                 </Route>
 

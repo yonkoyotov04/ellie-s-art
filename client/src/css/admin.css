@@ -1048,3 +1048,67 @@ body.dash {
     background: #A83A2C;
     box-shadow: var(--shadow-lift);
 }
+
+.profile-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 32px;
+}
+
+.profile-card__header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 26px;
+    margin-bottom: 26px;
+    border-bottom: 1px solid var(--line);
+}
+
+.profile-card__avatar {
+    flex-shrink: 0;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: var(--pink-500);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.profile-card__name {
+    font-size: 20px;
+    margin-bottom: 4px;
+    color: var(--pink-900);
+}
+
+.profile-card__email {
+    color: var(--ink-500);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.profile-card__badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--pink-700);
+    background: var(--pink-100);
+    padding: 5px 13px;
+    border-radius: var(--radius-pill);
+}
+
+.profile-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}

@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router";
+import AdminContext from "../../contexts/AdminContext.jsx";
 
 export default function AdminSideBar() {
+    const { isAuthenticated } = useContext(AdminContext);
     return (
         <aside className="dash-sidebar">
             <nav className="dash-nav">
@@ -30,6 +33,16 @@ export default function AdminSideBar() {
                     </svg>
                     Добави продукт
                 </NavLink>
+                {isAuthenticated ?
+                    <NavLink to="/admin/info" className={({ isActive }) => isActive ? 'dash-nav__link is-active' : 'dash-nav__link'}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                            strokeLinejoin="round">
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+                        </svg>
+                        Профил
+                    </NavLink> : ''}
+
             </nav>
         </aside>
     )
