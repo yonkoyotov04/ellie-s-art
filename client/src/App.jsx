@@ -16,6 +16,7 @@ import Categories from './components/categories/Categories.jsx'
 import EditProduct from './components/admin/AdminProducts/EditProduct.jsx'
 import NotFound from './components/pages/NotFound.jsx'
 import AdminPage from './components/admin/Dashboard/AdminPage.jsx'
+import EditAdmin from './components/admin/Dashboard/EditAdmin.jsx'
 
 function App() {
 

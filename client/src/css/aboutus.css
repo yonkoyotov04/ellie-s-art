@@ -26,6 +26,12 @@
     opacity: .5;
 }
 
+.about-story__media img {
+    width: 100%;
+    height: 120%;
+    border-radius: 20px;
+}
+
 .about-story__text .eyebrow {
     margin-bottom: 10px;
 }

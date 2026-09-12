@@ -81,14 +81,14 @@ adminController.get('/:adminId', isAuth, async (req, res) => {
     res.status(200).json(adminData ?? {});
 });
 
-adminController.put('/adminId', isAuth, async (req, res) => {
+adminController.put('/:adminId', isAuth, async (req, res) => {
     const adminId = req.params.adminId;
     const adminData = await adminService.getAdminData(adminId);
     let newAdminData = req.body;
 
-    newAdminData['firstName'] = newData.firstName.trim();
-    newAdminData['lastName'] = newData.lastName.trim();
-    newAdminData['email'] = newData.email.trim();
+    newAdminData['firstName'] = newAdminData.firstName.trim();
+    newAdminData['lastName'] = newAdminData.lastName.trim();
+    newAdminData['email'] = newAdminData.email.trim();
 
     try {
         const editedAdmin = await adminService.editProile(adminId, {

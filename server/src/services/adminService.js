@@ -116,8 +116,7 @@ export default {
             `
             SELECT 
                 CONCAT_WS(' ', first_name, last_name) AS full_name,
-                email,
-                phone
+                email
             FROM
                 admins
             WHERE
@@ -139,12 +138,12 @@ export default {
             SET
                 first_name = $1,
                 last_name = $2,
-                email = $3,
+                email = $3
             WHERE
-                id = $6;
+                id = $4
             RETURNING *;
             `,
-            [firstName, lastName, email, phone, adminId]
+            [firstName, lastName, email, adminId]
         );
 
         return result.rows[0];

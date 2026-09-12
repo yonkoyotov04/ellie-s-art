@@ -1,9 +1,21 @@
 import { useContext } from "react";
 import { Link } from "react-router";
 import AdminContext from "../../../contexts/AdminContext.jsx";
+import { useState } from "react";
+import EditAdmin from "./EditAdmin.jsx";
 
 export default function AdminPage() {
     const { admin } = useContext(AdminContext)
+    const [showEdit, setShowEdit] = useState(false);
+
+    const showEditForm = () => {
+        setShowEdit(true);
+    }
+
+    const hideEditForm = () => {
+        setShowEdit(false);
+    }
+
     return (
         <>
             <div className="dash-content__head">
@@ -29,14 +41,14 @@ export default function AdminPage() {
                 </div>
 
                 <div className="profile-card__actions">
-                    <Link to="/admin/profile/edit" className="btn btn-outline">
+                    <button type="button" onClick={showEditForm} className="btn btn-outline">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <path d="M12 20h9" />
                             <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
                         </svg>
                         Редактирай данните
-                    </Link>
+                    </button>
 
                     <Link to="/admin/profile/change-password" className="btn btn-ghost">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
@@ -56,6 +68,7 @@ export default function AdminPage() {
                     </button>
                 </div>
             </section>
+            {showEdit ? <EditAdmin hide={hideEditForm} /> : ''}
         </>
     )
 }
