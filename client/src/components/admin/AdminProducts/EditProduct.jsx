@@ -27,16 +27,12 @@ export default function EditProduct() {
     const onSubmit = async (e) => {
         const formData = new FormData();
 
-        console.log(Object.entries(values));
-
         Object.entries(values).forEach(([key, value]) => {
             if (value !== null & value !== undefined) {
                 console.log('Entered')
                 formData.append(key, value);
             }
         })
-
-        console.log(formData)
 
         await fetcher(`/products/${productId}`, 'PUT', formData, { accessToken: admin?.accessToken });
         navigate('/admin/products');

@@ -122,8 +122,8 @@ adminController.delete('/:adminId', isAuth, async (req, res) => {
     const adminId = req.params.adminId;
 
     try {
-        await adminService.deleteProfile(adminId);
-        res.status(200).json();
+        const deletedAdmin = await adminService.deleteProfile(adminId);
+        res.status(200).json(deletedAdmin);
     } catch (error) {
         throw new errorApi(401, 'Failed to delete admin!');
     }

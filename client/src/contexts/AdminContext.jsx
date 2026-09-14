@@ -19,6 +19,7 @@ export function AdminProvider({children}) {
 
     const onLogout = async () => {
         await fetch('http://localhost:2105/admin/logout', {method: 'GET', credentials: 'include'});
+        console.log('passed logout')
         setAdmin(null);
         navigate('/');
     }

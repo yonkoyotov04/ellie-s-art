@@ -2,10 +2,10 @@ import { useContext, useState } from "react"
 import AdminContext from "../contexts/AdminContext.jsx";
 import useFetch from "./useFetch.js"
 
-export default function useDelete(data, setData) {
+export default function useDelete(profileDelete, data, setData) {
     const [showDeletePrompt, setShowDeletePrompt] = useState(false);
     const [targetId, setTargetId] = useState(null);
-    const { admin } = useContext(AdminContext);
+    const { admin, logoutHandler } = useContext(AdminContext);
     const { fetcher } = useFetch();
 
     const onDeleteClick = (id) => {
@@ -18,7 +18,19 @@ export default function useDelete(data, setData) {
     }
 
     const onYesClick = () => {
-        fetcher(`/products/${targetId}`, 'DELETE', null, { accessToken: admin?.accessToken });
+        let url = `/products/${targetId}`
+        
+        if (profileDelete) {
+            url = `/admin/${targetId}`
+        }
+
+        fetcher(url, 'DELETE', null, { accessToken: admin?.accessToken });
+
+        if (profileDelete) {
+            logoutHandler();
+            return;
+        }
+
         setData(data => data.filter(product => product.id !== targetId));
         setShowDeletePrompt(false);
     }
@@ -35,7 +47,7 @@ export default function useDelete(data, setData) {
                     </span>
 
                     <p className="modal-card__text">
-                        Сигурна ли си, че искаш да изтриеш това? Действието е необратимо.
+                        Сигурна ли си, че искаш да изтриеш {profileDelete ? 'своя профил' : 'това'}? Действието е необратимо.
                     </p>
 
                     <div className="modal-card__actions">

@@ -3,10 +3,12 @@ import { Link } from "react-router";
 import AdminContext from "../../../contexts/AdminContext.jsx";
 import { useState } from "react";
 import EditAdmin from "./EditAdmin.jsx";
+import useDelete from "../../../hooks/useDelete.jsx";
 
 export default function AdminPage() {
     const { admin } = useContext(AdminContext)
     const [showEdit, setShowEdit] = useState(false);
+    const {DeletePrompt, onDeleteClick} = useDelete(true, null, null);
 
     const showEditForm = () => {
         setShowEdit(true);
@@ -59,7 +61,7 @@ export default function AdminPage() {
                         Смени паролата
                     </Link>
 
-                    <button type="button" className="btn btn-danger">
+                    <button type="button" onClick={() => onDeleteClick(admin.id)} className="btn btn-danger">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
@@ -69,6 +71,7 @@ export default function AdminPage() {
                 </div>
             </section>
             {showEdit ? <EditAdmin hide={hideEditForm} /> : ''}
+            {DeletePrompt}
         </>
     )
 }

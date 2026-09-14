@@ -8,7 +8,7 @@ export default function AdminProducts() {
     const [products, setProducts] = useState([]);
     useFetch('/products', setProducts);
 
-    const { DeletePrompt, onDeleteClick } = useDelete(products, setProducts);
+    const { DeletePrompt, onDeleteClick } = useDelete(false, products, setProducts);
 
     return (
         <>
