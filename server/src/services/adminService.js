@@ -149,7 +149,7 @@ export default {
         return result.rows[0];
     },
 
-    async changePassword(adminId, currentPassword, newPassword, repeatNewPassword) {
+    async changePassword(adminId, oldPassword, newPassword, repeatNewPassword) {
         const adminPassword = await pool.query(
             `
             SELECT
@@ -162,7 +162,7 @@ export default {
             [adminId]
         );
 
-        const isPasswordCorrect = await bcrypt.compare(currentPassword, adminPassword);
+        const isPasswordCorrect = await bcrypt.compare(oldPassword, adminPassword.rows[0].password);
 
         if (!isPasswordCorrect) {
             throw new errorApi(

@@ -106,13 +106,13 @@ adminController.put('/password/:adminId', isAuth, async (req, res) => {
     const adminId = req.params.adminId;
     let newPasswordData = req.body;
 
-    const currentPassword = newPasswordData.currentPassword.trim();
+    const oldPassword = newPasswordData.oldPassword.trim();
     const newPassword = newPasswordData.newPassword.trim();
     const repeatNewPassword = newPasswordData.repeatNewPassword.trim();
 
     try {
-        await adminService.changePassword(adminId, currentPassword, newPassword, repeatNewPassword);
-        res.status(201).end();
+        const result = await adminService.changePassword(adminId, oldPassword, newPassword, repeatNewPassword);
+        res.status(201).json(result ?? {});
     } catch (error) {
         throw new errorApi(401, 'Failed to edit password!');
     }

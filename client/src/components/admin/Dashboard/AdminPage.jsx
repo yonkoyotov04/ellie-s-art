@@ -4,18 +4,28 @@ import AdminContext from "../../../contexts/AdminContext.jsx";
 import { useState } from "react";
 import EditAdmin from "./EditAdmin.jsx";
 import useDelete from "../../../hooks/useDelete.jsx";
+import EditPassword from "./EditPassword.jsx";
 
 export default function AdminPage() {
     const { admin } = useContext(AdminContext)
     const [showEdit, setShowEdit] = useState(false);
+    const [showEditPassword, setShowEditPassword] = useState(false);
     const {DeletePrompt, onDeleteClick} = useDelete(true, null, null);
 
     const showEditForm = () => {
         setShowEdit(true);
     }
 
+    const showEditPasswordForm = () => {
+        setShowEditPassword(true);
+    }
+
     const hideEditForm = () => {
         setShowEdit(false);
+    }
+
+    const hidePasswordEditForm = () => {
+        setShowEditPassword(false);
     }
 
     return (
@@ -52,14 +62,14 @@ export default function AdminPage() {
                         Редактирай данните
                     </button>
 
-                    <Link to="/admin/profile/change-password" className="btn btn-ghost">
+                    <button type="button" onClick={showEditPasswordForm} className="btn btn-ghost">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <rect x="3" y="11" width="18" height="10" rx="2" />
                             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                         </svg>
                         Смени паролата
-                    </Link>
+                    </button>
 
                     <button type="button" onClick={() => onDeleteClick(admin.id)} className="btn btn-danger">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
@@ -71,6 +81,7 @@ export default function AdminPage() {
                 </div>
             </section>
             {showEdit ? <EditAdmin hide={hideEditForm} /> : ''}
+            {showEditPassword ? <EditPassword hide={hidePasswordEditForm} /> : ''}
             {DeletePrompt}
         </>
     )
