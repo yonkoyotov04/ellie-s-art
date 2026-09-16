@@ -57,33 +57,32 @@ export default function useFetch(url, setData, extras = {}) {
 
         let response = await fetch(`http://localhost:2105${url}`, options);
 
-        if (!response.ok) {
-            if (response.status === 401) {
-                const newToken = await refreshToken();
+        if (!response.ok && response.status === 401) {
+            const newToken = await refreshToken();
 
-                if (!newToken) {
-                    logoutHandler();
-                    navigate('/login');
-                    errorSetter('Session Expired');
-                    throw new Error('Session Expired');
-                }
-
-                options.headers = {
-                    ...options.headers,
-                    'X-Authorization': newToken
-                }
-
-                response = await fetch(`http://localhost:2105${url}`, options);
-            } else {
-                const errorBody = await response.json().catch(() => ({}));
-                const message = errorBody.message || response.statusText;
-                errorSetter(message);
-                throw new Error(message)
+            if (!newToken) {
+                logoutHandler();
+                navigate('/login');
+                errorSetter('Session Expired');
+                throw new Error('Session Expired');
             }
+
+            options.headers = {
+                ...options.headers,
+                'X-Authorization': newToken
+            }
+
+            response = await fetch(`http://localhost:2105${url}`, options);
         }
 
-        const result = response.json();
-        return result;
+        if (!response.ok) {
+            const errorBody = await response.json().catch(() => ({}));
+            const message = errorBody.message || response.statusText;
+            errorSetter(message);
+            throw new Error(message)
+        }
+
+        return response.json();
     }
 
     useEffect(() => {
@@ -95,7 +94,7 @@ export default function useFetch(url, setData, extras = {}) {
 
 
         if (extras.category) {
-           params.append('category', extras.category);
+            params.append('category', extras.category);
         }
 
         if (extras.search) {
@@ -114,7 +113,7 @@ export default function useFetch(url, setData, extras = {}) {
         const finalUrl = searchQuery ? `${url}?${searchQuery}` : url;
 
         setIsLoading(true);
-        
+
         fetcher(finalUrl, 'GET', null, { accessToken: admin?.accessToken })
             .then(result => setData(result))
             .catch(error => {

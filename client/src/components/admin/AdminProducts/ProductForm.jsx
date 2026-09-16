@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useFetch from '../../../hooks/useFetch.js'
 import { Link } from "react-router";
 
-export default function ProductForm({ passedValues, changeHandler, submitHandler }) {
+export default function ProductForm({ passedValues, isSubmitting, changeHandler, submitHandler }) {
     const apiURL = 'http://localhost:2105/'
     const [categories, setCategories] = useState([]);
 
@@ -168,7 +168,13 @@ export default function ProductForm({ passedValues, changeHandler, submitHandler
 
                 <div className="admin-form__actions">
                     <Link to="/admin/dashboard" className="btn btn-ghost">Отказ</Link>
-                    <button type="submit" className="btn btn-primary">Запази продукта</button>
+                    <button
+                        type="submit"
+                        className="btn btn-primary"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? "Запазва се..." : "Запази продукта"}
+                    </button>
                 </div>
             </form>
         </>

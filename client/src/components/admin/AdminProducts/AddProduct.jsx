@@ -7,8 +7,9 @@ import useFetch from "../../../hooks/useFetch.js";
 
 export default function AddProduct() {
     const { admin } = useContext(AdminContext);
-    const {fetcher} = useFetch();
+    const { fetcher } = useFetch();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const data = {
         title: '',
@@ -21,22 +22,31 @@ export default function AddProduct() {
     const [initialValues, setInitialValues] = useState(data);
 
     const onSubmit = async (e) => {
-        const formData = new FormData();
+        if (isSubmitting) {
+            return;
+        }
+        setIsSubmitting(true);
 
-        Object.entries(values).forEach(([key, value]) => {
-            if (value !== null & value !== undefined) {
-                formData.append(key, value);
-            }
-        })
+        try {
+            const formData = new FormData();
 
-        await fetcher('/products', 'POST', formData, { accessToken: admin?.accessToken });
-        navigate('/admin/products');
+            Object.entries(values).forEach(([key, value]) => {
+                if (value !== null & value !== undefined) {
+                    formData.append(key, value);
+                }
+            })
+
+            await fetcher('/products', 'POST', formData, { accessToken: admin?.accessToken });
+            navigate('/admin/products');
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
-    const {values, changeHandler, submitHandler} = useControlledForm(initialValues, onSubmit);
+    const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
 
     return (
-       <ProductForm passedValues={values} changeHandler={changeHandler} submitHandler={submitHandler}/> 
-       
+        <ProductForm passedValues={values} isSubmitting={isSubmitting} changeHandler={changeHandler} submitHandler={submitHandler} />
+
     )
 }
