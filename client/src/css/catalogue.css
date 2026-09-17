@@ -231,8 +231,7 @@
     margin-top: 48px;
 }
 
-.pagination a,
-.pagination span {
+.pagination button{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -243,10 +242,11 @@
     font-weight: 600;
     font-size: 14px;
     color: var(--pink-900);
+    background-color: transparent;
     transition: background .18s ease, color .18s ease;
 }
 
-.pagination a:hover {
+.pagination button:hover {
     background: var(--lemon-100);
 }
 

@@ -3,13 +3,24 @@ import ProductCard from "../products/ProductCard.jsx";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch.js";
 import useControlledForm from "../../hooks/useControlledForm.js";
+import Pagination from "../layout/Pagination.jsx";
 
 export default function Catalogue() {
     let { category } = useParams();
+    const [products, setProducts] = useState([]);
+
     const data = {
         sort: '',
         search: ''
     }
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage, setProductsPerPage] = useState(12);
+    
+    const lastProductIndex = currentPage * productsPerPage;
+    const firstProductIndex = lastProductIndex - productsPerPage;
+
+    const productsDisplayed = products.slice(firstProductIndex, lastProductIndex);
 
     const [initialValues, setInitialValues] = useState(data);
     const [currentCategory, setCurrentCategory] = useState(null);
@@ -35,8 +46,6 @@ export default function Catalogue() {
     useEffect(() => {
         setCurrentCategory(category);
     }, [category])
-
-    const [products, setProducts] = useState([]);
 
     useFetch('/products', setProducts, { category: currentCategory, sort: currentSort, search: currentSearch });
 
@@ -101,9 +110,9 @@ export default function Catalogue() {
             <section className="catalogue-section">
                 <div className="catalogue-section__inner">
                     <div className="product-grid">
-                        {products.length > 0
+                        {productsDisplayed.length > 0
                             ?
-                            products.map(product => <ProductCard key={product.id} {...product} />)
+                            productsDisplayed.map(product => <ProductCard key={product.id} {...product} />)
                             :
                             <div className="empty-state">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
@@ -113,26 +122,12 @@ export default function Catalogue() {
                         }
                     </div>
 
-                    <nav className="pagination" aria-label="Странициране">
-                        <Link to="#" className="pagination-arrow" aria-label="Предишна страница">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
-                                strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M15 18l-6-6 6-6" />
-                            </svg>
-                        </Link>
-                        <span className="is-current">1</span>
-                        <Link to="#">2</Link>
-                        <Link to="#">3</Link>
-                        <Link to="#">4</Link>
-                        <span className="pagination-dots">…</span>
-                        <Link to="#">12</Link>
-                        <Link to="#" className="pagination-arrow" aria-label="Следваща страница">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
-                                strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M9 18l6-6-6-6" />
-                            </svg>
-                        </Link>
-                    </nav>
+                    {products.length > productsPerPage && <Pagination
+                        totalProducts={products.length}
+                        productsPerPage={productsPerPage}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                    />}
 
                 </div>
             </section>
