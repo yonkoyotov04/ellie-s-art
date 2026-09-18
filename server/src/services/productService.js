@@ -227,11 +227,19 @@ export default {
         const result = await pool.query(
             `
             SELECT 
-                *
+                c.id,
+                c.name,
+                COUNT(p.id) AS product_count
             FROM
-                categories
+                categories AS c
+            LEFT JOIN
+                products AS p
+            ON 
+                p.category = c.id
+            GROUP BY
+                c.id, c.name
             ORDER BY
-                id;
+                c.id;
             `
         );
 

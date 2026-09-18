@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-export default function CategoryCard({id, name}) {
+export default function CategoryCard({id, name, product_count}) {
     return (
         <Link to={`/catalogue/${id}`} className="category-card category-card--pink">
             <span className="category-card__icon">
@@ -11,7 +11,7 @@ export default function CategoryCard({id, name}) {
                 </svg>
             </span>
             <span className="category-card__title">{name}</span>
-            <span className="category-card__count">18 продукта</span>
+            <span className="category-card__count">{product_count} {Number(product_count) === 1 ? 'продукт' : 'продукта'}</span>
         </Link>
     )
 }
