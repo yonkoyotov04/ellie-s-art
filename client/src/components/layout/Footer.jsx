@@ -16,7 +16,7 @@ export default function Footer() {
                     </Link>
                     <p>Ръчно рисувано изкуство и авторски подаръци, направени с много любов и по чаша лимонада.</p>
                     <div className="footer__social">
-                        <Link to="#" aria-label="Facebook">
+                        <Link to="https://www.facebook.com/profile.php?id=61554987511639" aria-label="Facebook">
                             <svg viewBox="0 0 24 24" fill="currentColor">
                                 <path
                                     d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z" />
@@ -37,7 +37,6 @@ export default function Footer() {
                     <div className="footer__links">
                         <Link to="/catalogue">Каталог</Link>
                         <Link to="/categories">Категории</Link>
-                        <Link to="/posts">Публикации</Link>
                         <Link to="/about">За нас</Link>
                     </div>
                 </div>

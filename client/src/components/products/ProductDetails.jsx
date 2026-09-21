@@ -13,6 +13,12 @@ export default function ProductDetails() {
         await fetcher(`/products/${productId}/click`, 'PUT', null);
     }
 
+    const date = new Date(productData.added_on);
+    const months = ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'];
+    const year = date.getFullYear();
+    const month = months[date.getMonth()];
+    const day = date.getDate()
+
     return (
         <>
             <section className="product-details">
@@ -64,6 +70,10 @@ export default function ProductDetails() {
                             </svg>
                             Пиши на Ели за този продукт
                         </Link>
+
+                        <div className="product-details__addedOn">
+                            <p>Добавен на: {`${day} ${month}, ${year}`}</p>
+                        </div>
                     </div>
 
                 </div>
