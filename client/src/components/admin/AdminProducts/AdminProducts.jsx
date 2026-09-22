@@ -3,10 +3,19 @@ import AdminProductCard from "./AdminProductCard.jsx";
 import { useState } from "react";
 import useFetch from "../../../hooks/useFetch.js";
 import useDelete from "../../../hooks/useDelete.jsx";
+import AdminProductsPagination from "./APPagination.jsx";
 
 export default function AdminProducts() {
     const [products, setProducts] = useState([]);
     useFetch('/products', setProducts);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage, setProductsPerPage] = useState(6);
+
+    const lastProductIndex = currentPage * productsPerPage;
+    const firstProductIndex = lastProductIndex - productsPerPage;
+
+    const displayedProducts = products.slice(firstProductIndex, lastProductIndex);
 
     const { DeletePrompt, onDeleteClick } = useDelete(false, products, setProducts);
 
@@ -66,7 +75,7 @@ export default function AdminProducts() {
                     </thead>
                     <tbody>
 
-                        {products.map(product => 
+                        {displayedProducts.map(product => 
                         <AdminProductCard 
                         key={product.id}
                         deleteTrigger={onDeleteClick} 
@@ -76,15 +85,13 @@ export default function AdminProducts() {
                 </table>
                 {DeletePrompt}
 
-                <div className="table-pagination">
-                    <span>Показани <strong>6</strong> от <strong>24</strong> продукта</span>
-                    <div className="table-pagination__pages">
-                        <span className="is-current">1</span>
-                        <Link to="#">2</Link>
-                        <Link to="#">3</Link>
-                        <Link to="#">4</Link>
-                    </div>
-                </div>
+                {products.length > productsPerPage && <AdminProductsPagination
+                    totalProducts={products.length}
+                    displayedProducts={displayedProducts.length}
+                    productsPerPage={productsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />}
             </div>
         </>
     )

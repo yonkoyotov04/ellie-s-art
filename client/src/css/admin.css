@@ -897,8 +897,7 @@ body.dash {
     gap: 6px;
 }
 
-.table-pagination__pages a,
-.table-pagination__pages span {
+.table-pagination__pages button{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -909,11 +908,13 @@ body.dash {
     font-weight: 600;
     font-size: 13px;
     color: var(--pink-900);
+    background-color: transparent;
     transition: background .18s ease;
 }
 
-.table-pagination__pages a:hover {
+.table-pagination__pages button:hover {
     background: var(--lemon-100);
+    color: var(--pink-900);
 }
 
 .table-pagination__pages .is-current {
