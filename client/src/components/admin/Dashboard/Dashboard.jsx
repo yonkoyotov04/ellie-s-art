@@ -6,8 +6,10 @@ import useFetch from "../../../hooks/useFetch.js";
 export default function Dashboard() {
 
     const [products, setProducts] = useState([]);
+    const [productCount, setProductCount] = useState(0);
 
-    useFetch('/products', setProducts, {sort: 'newest', limit: 4})
+    useFetch('/products', setProducts, { sort: 'newest', limit: 4 })
+    useFetch('/products/count', setProductCount);
 
     return (
         <>
@@ -25,7 +27,7 @@ export default function Dashboard() {
                 <p className="section-sub">Преглед на магазина — продукти, публикации и активност на едно място.</p>
             </div>
 
-            <div className="stat-grid">
+            <div className="quick-actions">
                 <div className="stat-card stat-card--teal">
                     <span className="stat-card__icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
@@ -35,56 +37,9 @@ export default function Dashboard() {
                             <path d="M21 15l-5-5L5 21" />
                         </svg>
                     </span>
-                    <div>
-                        <span className="stat-card__value">24</span>
-                        <span className="stat-card__label">Продукта в каталога</span>
-                    </div>
+                    <span className="stat-card__value">{productCount}</span>
+                    <span className="stat-card__label">Продукта в каталога</span>
                 </div>
-
-                <div className="stat-card stat-card--lemon">
-                    <span className="stat-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
-                            strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M4 5h16M4 12h16M4 19h10" />
-                        </svg>
-                    </span>
-                    <div>
-                        <span className="stat-card__value">18</span>
-                        <span className="stat-card__label">Публикации</span>
-                    </div>
-                </div>
-
-                <div className="stat-card stat-card--leaf">
-                    <span className="stat-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
-                            strokeLinecap="round" strokeLinejoin="round">
-                            <path
-                                d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
-                        </svg>
-                    </span>
-                    <div>
-                        <span className="stat-card__value">146</span>
-                        <span className="stat-card__label">Харесвания тази седмица</span>
-                    </div>
-                </div>
-
-                <div className="stat-card stat-card--teal">
-                    <span className="stat-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
-                            strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="9" cy="21" r="1" />
-                            <circle cx="20" cy="21" r="1" />
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                        </svg>
-                    </span>
-                    <div>
-                        <span className="stat-card__value">37</span>
-                        <span className="stat-card__label">Продадени артикула този месец</span>
-                    </div>
-                </div>
-            </div>
-
-            <div className="quick-actions">
                 <Link to="/admin/addProduct" className="quick-action-card quick-action-card--primary">
                     <span className="quick-action-card__icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"

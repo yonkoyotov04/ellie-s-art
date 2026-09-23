@@ -244,5 +244,15 @@ export default {
         );
 
         return result.rows
+    },
+
+    async getCount() {
+        const result = await pool.query(
+            `
+            SELECT COUNT(*) FROM products
+            `
+        )
+
+        return parseInt(result.rows[0].count, 10)
     }
 }

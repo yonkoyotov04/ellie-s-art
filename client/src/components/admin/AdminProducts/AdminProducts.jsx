@@ -7,6 +7,7 @@ import AdminProductsPagination from "./APPagination.jsx";
 
 export default function AdminProducts() {
     const [products, setProducts] = useState([]);
+
     useFetch('/products', setProducts);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -44,15 +45,6 @@ export default function AdminProducts() {
                     <input type="search" id="products-search" placeholder="Търси по име…" />
                 </div>
 
-                <label htmlFor="products-filter" className="sr-only">Филтър по категория</label>
-                <select id="products-filter" className="table-filter select-input">
-                    <option value="">Всички категории</option>
-                    <option value="platna">Платна</option>
-                    <option value="kartichki">Картички</option>
-                    <option value="keramika">Керамика</option>
-                    <option value="portreti">Портрети по поръчка</option>
-                </select>
-
                 <Link to="/admin/addProduct" className="btn btn-primary btn-sm">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"
                         width="16" height="16">
@@ -75,11 +67,11 @@ export default function AdminProducts() {
                     </thead>
                     <tbody>
 
-                        {displayedProducts.map(product => 
-                        <AdminProductCard 
-                        key={product.id}
-                        deleteTrigger={onDeleteClick} 
-                        {...product} />)}
+                        {displayedProducts.map(product =>
+                            <AdminProductCard
+                                key={product.id}
+                                deleteTrigger={onDeleteClick}
+                                {...product} />)}
 
                     </tbody>
                 </table>

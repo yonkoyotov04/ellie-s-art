@@ -29,8 +29,15 @@ productController.get('/categories', async (req, res) => {
     } catch (error) {
         throw new errorApi(400, 'Failed to fetch categories!');
     }
+})
 
-    
+productController.get('/count', async (req, res) => {
+    try {
+        const count = await productService.getCount();
+        res.status(200).json(count);
+    } catch (error) {
+        throw new errorApi(400, 'Failed to fetch product count!');
+    }
 })
 
 productController.get('/:productId', async (req, res) => {
