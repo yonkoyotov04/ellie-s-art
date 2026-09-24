@@ -47,7 +47,7 @@ export default function Catalogue() {
         setCurrentCategory(category);
     }, [category])
 
-    useFetch('/products', setProducts, { category: currentCategory, sort: currentSort, search: currentSearch });
+    useFetch('/products', setProducts, { active: true, category: currentCategory, sort: currentSort, search: currentSearch });
 
     return (
         <>

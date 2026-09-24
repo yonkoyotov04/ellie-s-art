@@ -9,6 +9,7 @@ export default {
             p.price,
             p.image,
             c.name AS category,
+            p.active,
             p.added_on
         FROM 
             products AS p
@@ -19,6 +20,11 @@ export default {
         `;
         let conditions = [];
         let values = [];
+
+        if (filter.active) {
+            values.push(filter.active);
+            conditions.push(`active = $${values.length}`)
+        }
 
         if (filter.category) {
             values.push(filter.category);
@@ -254,5 +260,39 @@ export default {
         )
 
         return parseInt(result.rows[0].count, 10)
+    },
+
+    async activateProduct(productId) {
+        const result = await pool.query(
+            `
+            UPDATE
+                products
+            SET
+                active = true
+            WHERE
+                id = $1
+            RETURNING *;
+            `,
+            [productId]
+        );
+
+        return result.rows[0];
+    },
+
+    async deactivateProduct(productId) {
+        const result = await pool.query(
+            `
+            UPDATE
+                products
+            SET
+                active = false
+            WHERE
+                id = $1
+            RETURNING *;
+            `,
+            [productId]
+        );
+
+        return result.rows[0];
     }
 }

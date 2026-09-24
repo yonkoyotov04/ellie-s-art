@@ -93,6 +93,10 @@ export default function useFetch(url, setData, extras = {}) {
         const params = new URLSearchParams();
 
 
+        if (extras.active) {
+            params.append('active', extras.active);
+        }
+
         if (extras.category) {
             params.append('category', extras.category);
         }

@@ -8,7 +8,7 @@ export default function Dashboard() {
     const [products, setProducts] = useState([]);
     const [productCount, setProductCount] = useState(0);
 
-    useFetch('/products', setProducts, { sort: 'newest', limit: 4 })
+    useFetch('/products', setProducts, { active: true, sort: 'newest', limit: 4 })
     useFetch('/products/count', setProductCount);
 
     return (

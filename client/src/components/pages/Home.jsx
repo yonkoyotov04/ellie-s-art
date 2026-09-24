@@ -8,8 +8,8 @@ export default function Home() {
     const [newestProducts, setNewestProducts] = useState([]);
     const [mostPopularProducts, setMostPopularProducts] = useState([]);
     
-    useFetch('/products', setNewestProducts, {sort: 'newest', limit: 4})
-    useFetch('/products', setMostPopularProducts, {sort: 'popular', limit: 4})
+    useFetch('/products', setNewestProducts, {active: true, sort: 'newest', limit: 4})
+    useFetch('/products', setMostPopularProducts, {active: true, sort: 'popular', limit: 4})
 
     return (
         <>

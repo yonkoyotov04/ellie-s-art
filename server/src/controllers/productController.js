@@ -1,6 +1,6 @@
 import { Router } from "express"
 import productService from "../services/productService.js";
-import errorApi, { getErrorMessage } from "../utils/errorUtil.js";
+import errorApi from "../utils/errorUtil.js";
 import { isAuth } from "../middlewares/authMiddleware.js";
 import upload, { uploadDir } from "../middlewares/upload.js";
 import path from "path";
@@ -118,6 +118,20 @@ productController.put('/:productId/click', async (req, res) => {
     const productId = req.params.productId;
 
     const result = await productService.addAClick(productId);
+
+    res.status(200).json(result ?? {});
+});
+
+productController.put('/:productId/activate', async (req, res) => {
+    const productId = req.params.productId;
+    const result = await productService.activateProduct(productId);
+
+    res.status(200).json(result ?? {});
+})
+
+productController.put('/:productId/deactivate', async (req, res) => {
+    const productId = req.params.productId;
+    const result = await productService.deactivateProduct(productId);
 
     res.status(200).json(result ?? {});
 })
