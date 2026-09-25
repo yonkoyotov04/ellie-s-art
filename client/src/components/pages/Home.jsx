@@ -25,7 +25,7 @@ export default function Home() {
                             </span>
                             <h2 className="script-heading">Нови продукти</h2>
                         </div>
-                        <Link to="/products?sort=newest" className="btn btn-outline">Разгледай всички →</Link>
+                        <Link to="/catalogue?sort=newest" className="btn btn-outline">Разгледай всички →</Link>
                     </div>
 
                     <div className="product-grid">
@@ -58,7 +58,7 @@ export default function Home() {
                             </span>
                             <h2 className="script-heading">Най-пoпулярни</h2>
                         </div>
-                        <Link to="/products?sort=popular" className="btn btn-outline">Разгледай всички →</Link>
+                        <Link to="/catalogue?sort=popular" className="btn btn-outline">Разгледай всички →</Link>
                     </div>
 
                     <div className="product-grid">

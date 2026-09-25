@@ -47,8 +47,6 @@ function App() {
                         <Route path='info' element={<AdminPage />} />
                     </Route>
                 </Route>
-
-
             </Routes>
         </ErrorProvider>
     )

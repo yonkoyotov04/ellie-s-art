@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router";
+import { Link, useParams, useSearchParams } from "react-router";
 import ProductCard from "../products/ProductCard.jsx";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch.js";
@@ -7,11 +7,12 @@ import Pagination from "../layout/Pagination.jsx";
 
 export default function Catalogue() {
     let { category } = useParams();
+    const [searchParams] = useSearchParams();
     const [products, setProducts] = useState([]);
 
     const data = {
-        sort: '',
-        search: ''
+        sort: searchParams.get('sort') || '',
+        search: searchParams.get('search') || ''
     }
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -44,6 +45,14 @@ export default function Catalogue() {
     const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
 
     useEffect(() => {
+        const sortParam = searchParams.get('sort');
+        const searchParam = searchParams.get('search');
+        if (sortParam) {
+            setCurrentSort(sortParam);
+        }
+        if (searchParam) {
+            setCurrentSearch(searchParam);
+        }
         setCurrentCategory(category);
     }, [category])
 
