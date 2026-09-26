@@ -1,9 +1,13 @@
-export default function Pagination({ totalProducts, productsPerPage, currentPage, setCurrentPage }) {
-    let pages = [];
+import getPaginationRange from "../../utils/PaginationDots.js";
 
-    for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
-        pages.push(i)
+export default function Pagination({ totalProducts, productsPerPage, currentPage, setCurrentPage }) {
+    let totalPages = Math.ceil(totalProducts / productsPerPage);
+
+    if (totalPages <= 1) {
+        return null;
     }
+
+    const pages = getPaginationRange(currentPage, totalPages);
 
     const pageButtonClick = (page) => {
         setCurrentPage(page);
@@ -11,12 +15,12 @@ export default function Pagination({ totalProducts, productsPerPage, currentPage
     }
 
     const nextPageClick = () => {
-        setCurrentPage((state) => state + 1);
+        setCurrentPage(p => Math.min(p + 1, totalPages));
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     const previousPageClick = () => {
-        setCurrentPage((state) => state - 1);
+        setCurrentPage(p => Math.max(p - 1, 1));
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -32,12 +36,16 @@ export default function Pagination({ totalProducts, productsPerPage, currentPage
 
             {
                 pages.map((page, i) => {
-                    return <button
-                        key={i}
-                        className={page === currentPage ? 'is-current' : ''}
-                        onClick={() => pageButtonClick(page)}
-                    >{page}
-                    </button>
+                    return page === '...' ?
+                        <span key={`... - ${i}`} className="pagination-dots">...</span>
+                        :
+                        <button
+                            type="button"
+                            key={i}
+                            className={page === currentPage ? 'is-current' : ''}
+                            onClick={() => pageButtonClick(page)}
+                        >{page}
+                        </button>
                 })
             }
 

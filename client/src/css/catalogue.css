@@ -231,7 +231,9 @@
     margin-top: 48px;
 }
 
-.pagination button{
+.pagination a,
+.pagination span,
+.pagination button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -242,8 +244,15 @@
     font-weight: 600;
     font-size: 14px;
     color: var(--pink-900);
-    background-color: transparent;
+    background: none;
+    border: none;
+    cursor: pointer;
     transition: background .18s ease, color .18s ease;
+}
+
+.pagination button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
 }
 
 .pagination button:hover {
