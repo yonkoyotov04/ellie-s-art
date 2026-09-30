@@ -1,34 +1,20 @@
 import { useEffect, useState } from "react";
 import useFetch from '../../../hooks/useFetch.js'
 import { Link } from "react-router";
+import ImagePreviewItem from "./ImagePreviewItem.jsx";
 
-export default function ProductForm({ passedValues, isSubmitting, changeHandler, submitHandler }) {
-    const apiURL = 'http://localhost:2105/'
+export default function ProductForm({ passedValues, isSubmitting, changeHandler, submitHandler, previews, onImagesChange, removeImage }) {
     const [categories, setCategories] = useState([]);
-
-    const [previewURL, setPreviewURL] = useState(null);
     const [manualCategoryInput, setManualCategoryInput] = useState(false);
 
     useEffect(() => {
-        if (typeof passedValues.image === 'string' && passedValues.image) {
-            setPreviewURL(`${apiURL}${passedValues?.image}`);
-        }
-    }, [passedValues.image])
-
+        return () => previews.forEach(preview => URL.revokeObjectURL(preview))
+    }, [previews]);
 
     useFetch('/products/categories', setCategories);
 
     const changeCategoryInput = () => {
         setManualCategoryInput(state => !state)
-    }
-
-    const imageChangeHandler = (e) => {
-        changeHandler(e);
-
-        const file = e.target.files[0];
-        if (file) {
-            setPreviewURL(URL.createObjectURL(file));
-        }
     }
 
     return (
@@ -137,30 +123,39 @@ export default function ProductForm({ passedValues, isSubmitting, changeHandler,
 
                     <div className="admin-form__col admin-form__col--media">
                         <div className="form-field">
-                            <label htmlFor="product-image" className="form-field__label">Снимка на продукта</label>
                             <label htmlFor="product-image" className="image-drop">
-                                {previewURL ?
-                                    <img src={previewURL} alt="Преглед" className="image-drop__preview" />
-                                    :
-                                    <>
-                                        <svg className="image-drop__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M4 16.8V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10.8" />
-                                            <path d="M4 17l4.5-5 3.5 3.5L16 11l4 4" />
-                                            <circle cx="8.5" cy="8" r="1.4" />
-                                        </svg>
-                                        <span className="image-drop__title">Провлачи снимка тук или натисни за избор</span>
-                                        <span className="image-drop__hint">PNG или JPG, до 5 MB</span>
-                                    </>}
+
+                                <svg className="image-drop__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M4 16.8V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10.8" />
+                                    <path d="M4 17l4.5-5 3.5 3.5L16 11l4 4" />
+                                    <circle cx="8.5" cy="8" r="1.4" />
+                                </svg>
+                                <span className="image-drop__title">Провлачи снимка тук или натисни за избор</span>
+                                <span className="image-drop__hint">PNG или JPG, до 5 MB</span>
 
                                 <input
                                     type="file"
                                     id="product-image"
-                                    name="image"
+                                    name="images"
+                                    multiple
                                     accept="image/png, image/jpeg"
                                     className="sr-only"
-                                    onChange={imageChangeHandler} />
+                                    onChange={onImagesChange} />
                             </label>
+
+                            {previews.length > 0 &&
+                                <div className="image-previews">
+                                    {previews.map((src, index) => {
+                                        return <ImagePreviewItem
+                                            key={src}
+                                            src={src}
+                                            isCover={index === 0}
+                                            onRemove={() => removeImage(index)} />
+                                    })}
+                                </div>
+                            }
+
                             <p className="form-field__hint">Качва се файл — не се приемат връзки (URL) към снимки.</p>
                         </div>
                     </div>

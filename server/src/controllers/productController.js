@@ -61,7 +61,7 @@ productController.get('/:productId', async (req, res) => {
     res.status(200).json(product ?? {});
 });
 
-productController.post('/', isAuth, upload.single('image'), async (req, res) => {
+productController.post('/', isAuth, upload.array('images', 8), async (req, res) => {
     const productData = req.body;
 
     if (!isNaN(Number(productData.category)) && productData.category.trim() !== '') {
@@ -80,19 +80,24 @@ productController.post('/', isAuth, upload.single('image'), async (req, res) => 
 
     }
 
-    if (!req.file) {
-        throw new errorApi(400, 'A product image is required!');
+    if (!req.files?.length) {
+        throw new errorApi(400, 'At least one product image is required!');
     }
 
-    productData['title'] = productData.title.trim();
-    productData['description'] = productData.description?.trim() ?? '';
-    productData['price'] = productData.price.trim();
-    productData['image'] = `uploads/${req.file.filename}`
 
     try {
+        productData['title'] = productData.title.trim();
+        productData['description'] = productData.description?.trim() ?? '';
+        productData['price'] = productData.price.trim();
+        productData['images'] = req.files.map(file => `uploads/${file.filename}`)
+        productData['image'] = productData.images[0];
+
+
         const product = await productService.addNewProduct(productData);
+        console.log('Passed productService');
         res.status(200).json(product ?? {});
     } catch (error) {
+        req.files.forEach(file => fs.unlink(file.path, () => {}))
         throw new errorApi(400, 'Failed to upload the new product!');
     }
 });
@@ -110,7 +115,7 @@ productController.put('/:productId', isAuth, upload.single('image'), async (req,
         const updatedProduct = await productService.editProduct(productId, newProductData);
         res.status(200).json(updatedProduct ?? {});
     } catch (error) {
-       throw new errorApi(400, 'Failed to edit product!');
+        throw new errorApi(400, 'Failed to edit product!');
     }
 });
 
@@ -156,7 +161,7 @@ productController.delete('/:productId', isAuth, async (req, res) => {
 
         res.status(200).json(deletedProduct ?? {});
     } catch (error) {
-       throw new errorApi(400, 'Failed to delete product!');
+        throw new errorApi(400, 'Failed to delete product!');
     }
 });
 

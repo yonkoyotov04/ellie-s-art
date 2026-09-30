@@ -7,6 +7,19 @@ export default function ProductDetails() {
     const apiURL = 'http://localhost:2105/'
     const [productData, setProductData] = useState({});
 
+    const {images = [], image} = productData;
+
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const gallery = images.length ? images : (image ? [image] : []);
+
+    const prevIndex = () => {
+        setActiveImageIndex(i => (i - 1 + gallery.length) % gallery.length);
+    }
+
+    const nextIndex = () => {
+        setActiveImageIndex(i => (i + 1) % gallery.length);
+    }
+
     const { fetcher } = useFetch(`/products/${productId}`, setProductData);
 
     const addClick = async () => {
@@ -24,16 +37,46 @@ export default function ProductDetails() {
             <section className="product-details">
                 <div className="product-details__inner">
 
-                    <div className="product-details__media">
-                        {productData.image
-                            ?
-                            <img src={`${apiURL}${productData.image}`} alt={productData.title} />
-                            :
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                                <rect x="3" y="3" width="18" height="18" rx="3" />
-                                <circle cx="8.5" cy="8.5" r="1.6" />
-                                <path d="M21 15l-5-5L5 21" />
-                            </svg>
+                    <div className="product-details__gallery">
+                        <div className="product-details__media">
+                            <img src={`${apiURL}${gallery[activeImageIndex]}`} alt={productData.title} />
+                            {gallery.length > 1 &&
+                                <>
+                                    <button
+                                        type="button"
+                                        onClick={prevIndex}
+                                        className="gallery__arrow gallery__arrow--prev"
+                                        aria-label="Предишна снимка">‹</button>
+                                    <button
+                                        type="button"
+                                        onClick={nextIndex}
+                                        className="gallery__arrow gallery__arrow--next"
+                                        aria-label="Следваща снимка">›</button>
+                                </>
+                            }
+
+
+                            {/* <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                                    <rect x="3" y="3" width="18" height="18" rx="3" />
+                                    <circle cx="8.5" cy="8.5" r="1.6" />
+                                    <path d="M21 15l-5-5L5 21" />
+                                </svg> */}
+
+                        </div>
+
+                        {gallery.length > 1 &&
+                            <div className="gallery__thumbs">
+                                {gallery.map((img, index) => {
+                                    <button
+                                        key={img}
+                                        type="button"
+                                        className={`gallery__thumb ${index === activeImageIndex ? 'is-active' : ''}`}
+                                        onClick={() => setActiveImageIndex(index)}
+                                    >
+                                        <img src={`${apiURL}${img}`} alt="" />
+                                    </button>
+                                })}
+                            </div>
                         }
                     </div>
 

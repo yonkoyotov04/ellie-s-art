@@ -4,12 +4,15 @@ import AdminContext from "../../../contexts/AdminContext.jsx";
 import ProductForm from "./ProductForm.jsx";
 import useControlledForm from "../../../hooks/useControlledForm.js";
 import useFetch from "../../../hooks/useFetch.js";
+import useProductImages from "../../../hooks/useProductImages.js";
 
 export default function AddProduct() {
     const { admin } = useContext(AdminContext);
     const { fetcher } = useFetch();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const {imageFiles, previews, onImagesChange, removeImage} = useProductImages();
 
     const data = {
         title: '',
@@ -31,10 +34,12 @@ export default function AddProduct() {
             const formData = new FormData();
 
             Object.entries(values).forEach(([key, value]) => {
-                if (value !== null & value !== undefined) {
+                if (key !== 'image' && value !== undefined && value !== null) {
                     formData.append(key, value);
-                }
+                } 
             })
+
+            imageFiles.forEach(file => formData.append('images', file));
 
             await fetcher('/products', 'POST', formData, { accessToken: admin?.accessToken });
             navigate('/admin/products');
@@ -46,7 +51,14 @@ export default function AddProduct() {
     const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
 
     return (
-        <ProductForm passedValues={values} isSubmitting={isSubmitting} changeHandler={changeHandler} submitHandler={submitHandler} />
+        <ProductForm 
+        passedValues={values} 
+        isSubmitting={isSubmitting} 
+        changeHandler={changeHandler} 
+        submitHandler={submitHandler}
+        previews={previews}
+        onImagesChange={onImagesChange}
+        removeImage={removeImage} />
 
     )
 }

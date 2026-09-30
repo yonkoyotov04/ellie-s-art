@@ -1,4 +1,5 @@
 import pool from "../database/db.js"
+import errorApi from "../utils/errorUtil.js";
 
 export default {
     async getAllProducts(filter = {}) {
@@ -29,7 +30,7 @@ export default {
         if (filter.category) {
             values.push(filter.category);
             conditions.push(`category = $${values.length}`)
-        } 
+        }
 
         if (filter.search) {
             values.push(`%${filter.search}%`);
@@ -106,15 +107,30 @@ export default {
                 p.description,
                 c.name AS category,
                 p.category AS category_id, 
-                p.added_on
+                p.added_on,
+                COALESCE(json_agg(pi.path ORDER BY pi.position) 
+	                        FILTER(WHERE pi.id IS NOT NULL), '[]') AS images
             FROM
                 products AS p
             JOIN
                 categories AS c
             ON
                 p.category = c.id
+            LEFT JOIN
+                product_images AS pi
+            ON
+                pi.product_id = p.id
             WHERE
-                p.id = $1;
+                p.id = $1
+            GROUP BY
+                p.id,
+				p.title,
+				p.price,
+				p.image,
+				p.description,
+				p.category,
+				p.added_on,
+				c.name;
             `,
             [productId]
         );
@@ -123,20 +139,43 @@ export default {
     },
 
     async addNewProduct(productData) {
-        const { title, description, price, category, image } = productData;
+        const { title, description, price, category, image, images } = productData;
+        const client = await pool.connect();
 
-        const result = await pool.query(
-            `
+        try {
+            await client.query('BEGIN');
+
+            const result = await pool.query(
+                `
             INSERT INTO
                 products(title, description, price, category, image)
             VALUES
                 ($1, $2, $3, $4, $5)
             RETURNING *;
             `,
-            [title, description, price, category, image]
-        );
+                [title, description, price, category, image]
+            );
 
-        return result.rows[0];
+            const product = result.rows[0];
+
+            for (let i = 0; i < images.length; i++) {
+                await client.query(
+                    `INSERT INTO
+                        product_images(product_id, path, position)
+                    VALUES
+                        ($1, $2, $3)`,
+                    [product.id, images[i], i]
+                )
+            }
+
+            await client.query('COMMIT');
+            return product;
+        } catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        } finally {
+            client.release();
+        }
     },
 
     async addAClick(productId) {
