@@ -102,9 +102,12 @@ productController.post('/', isAuth, upload.array('images', 8), async (req, res) 
     }
 });
 
-productController.put('/:productId', isAuth, upload.single('image'), async (req, res) => {
+productController.put('/:productId', isAuth, upload.array('images', 8), async (req, res) => {
     const productId = req.params.productId;
     const newProductData = req.body;
+
+    const keptPaths = [].concat(req.body.existingImages || []).filter(Boolean);
+    const newPaths = (req.files || []).map(file => `uploads/${file.filename}`);
 
     newProductData['title'] = newProductData.title.trim();
     newProductData['description'] = newProductData.description.trim();
@@ -112,9 +115,13 @@ productController.put('/:productId', isAuth, upload.single('image'), async (req,
     newProductData['category'] = newProductData.category.trim();
 
     try {
-        const updatedProduct = await productService.editProduct(productId, newProductData);
+        const {updatedProduct, removedPaths} = await productService.editProduct(productId, newProductData, keptPaths, newPaths);
+
+        removedPaths.forEach(p => fs.unlink(path.join(uploadDir, p), () => {}));
+
         res.status(200).json(updatedProduct ?? {});
     } catch (error) {
+        (req.files || []).forEach(file => fs.unlink(file.path, () => {}));
         throw new errorApi(400, 'Failed to edit product!');
     }
 });
@@ -146,6 +153,8 @@ productController.delete('/:productId', isAuth, async (req, res) => {
 
     try {
         const deletedProduct = await productService.deleteProduct(productId);
+
+        console.log(deletedProduct);
 
         if (!deletedProduct) {
             throw new errorApi(404, 'Product not found!')

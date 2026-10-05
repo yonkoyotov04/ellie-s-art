@@ -230,27 +230,86 @@ export default {
         return result.rows[0];
     },
 
-    async editProduct(productId, newProductData) {
+    async editProduct(productId, newProductData, keptPaths, newPaths) {
         const { title, description, price, category_id, image } = newProductData;
 
-        const result = await pool.query(
-            `
-            UPDATE 
-                products
-            SET
-                title = $1,
-                description = $2,
-                price = $3,
-                category = $4,
-                image = $5
-            WHERE
-                id = $6
-            RETURNING *;
-            `,
-            [title, description, price, category_id, image, productId]
-        );
+        const client = await pool.connect();
 
-        return result.rows[0];
+        try {
+            await client.query('BEGIN');
+        
+            const currentProductResult = await client.query(
+                `
+                SELECT
+                    id,
+                    path,
+                    position
+                FROM
+                    product_images
+                WHERE
+                    product_id = $1
+                `,
+                [productId]
+            );
+
+            const current = currentProductResult.rows;
+
+            const toDelete = current.filter(row => !keptPaths.includes(row.path));
+
+            const maxKeptPosition = current
+                .filter(row => keptPaths.includes(row.path))
+                .reduce((max, row) => Math.max(max, row.position), -1);
+            
+            for (const row of toDelete) {
+                await client.query(
+                    `DELETE FROM
+                        product_images
+                    WHERE
+                        id = $1
+                    `,
+                    [row.id]);
+            }
+
+            for (let i = 0; i < newPaths.length; i++) {
+                await client.query(
+                    `
+                    INSERT INTO
+                        product_images(product_id, path, position)
+                    VALUES
+                        ($1, $2, $3)
+                    `,
+                    [productId, newPaths[i], maxKeptPosition + 1 + i]
+                );
+            }
+
+            const cover = keptPaths[0] ?? newPaths[0] ?? null;
+
+            const result = await client.query(
+                `
+                UPDATE 
+                    products
+                SET
+                    title = $1,
+                    description = $2,
+                    price = $3,
+                    category = $4,
+                    image = $5
+                WHERE
+                    id = $6
+                RETURNING *;
+            `,
+                [title, description, price, category_id, cover, productId]
+            )
+
+            await client.query(`COMMIT`);
+
+            return {product: result.rows[0], removedPaths: toDelete.map(row => row.path)}
+        } catch (error) {
+            await client.query(`ROLLBACK`);
+            throw new errorApi(error);
+        } finally {
+            client.release();
+        }
     },
 
     async deleteProduct(productId) {

@@ -12,7 +12,7 @@ export default function AddProduct() {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const {imageFiles, previews, onImagesChange, removeImage} = useProductImages();
+    const {items, newFiles, onImagesChange, removeImage} = useProductImages();
 
     const data = {
         title: '',
@@ -39,10 +39,12 @@ export default function AddProduct() {
                 } 
             })
 
-            imageFiles.forEach(file => formData.append('images', file));
+            newFiles.forEach(file => formData.append('images', file));
 
             await fetcher('/products', 'POST', formData, { accessToken: admin?.accessToken });
             navigate('/admin/products');
+        } catch (err) {
+            throw new Error(err)
         } finally {
             setIsSubmitting(false);
         }
@@ -56,7 +58,7 @@ export default function AddProduct() {
         isSubmitting={isSubmitting} 
         changeHandler={changeHandler} 
         submitHandler={submitHandler}
-        previews={previews}
+        items={items}
         onImagesChange={onImagesChange}
         removeImage={removeImage} />
 

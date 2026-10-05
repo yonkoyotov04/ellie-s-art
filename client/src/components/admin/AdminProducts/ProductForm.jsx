@@ -3,13 +3,13 @@ import useFetch from '../../../hooks/useFetch.js'
 import { Link } from "react-router";
 import ImagePreviewItem from "./ImagePreviewItem.jsx";
 
-export default function ProductForm({ passedValues, isSubmitting, changeHandler, submitHandler, previews, onImagesChange, removeImage }) {
+export default function ProductForm({ passedValues, isSubmitting, changeHandler, submitHandler, items, onImagesChange, removeImage }) {
     const [categories, setCategories] = useState([]);
     const [manualCategoryInput, setManualCategoryInput] = useState(false);
 
     useEffect(() => {
-        return () => previews.forEach(preview => URL.revokeObjectURL(preview))
-    }, [previews]);
+        return () => items.forEach(item => URL.revokeObjectURL(item))
+    }, [items]);
 
     useFetch('/products/categories', setCategories);
 
@@ -144,12 +144,12 @@ export default function ProductForm({ passedValues, isSubmitting, changeHandler,
                                     onChange={onImagesChange} />
                             </label>
 
-                            {previews.length > 0 &&
+                            {items.length > 0 &&
                                 <div className="image-previews">
-                                    {previews.map((src, index) => {
+                                    {items.map((item, index) => {
                                         return <ImagePreviewItem
-                                            key={src}
-                                            src={src}
+                                            key={item.src}
+                                            src={item.src}
                                             isCover={index === 0}
                                             onRemove={() => removeImage(index)} />
                                     })}
