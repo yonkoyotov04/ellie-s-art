@@ -12,7 +12,7 @@ export default function EditProduct() {
     const { admin } = useContext(AdminContext);
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const apiUrl = 'http://localhost:2105/'
+    const apiUrl = 'http://localhost:2105/uploads/'
 
     const data = {
         title: '',

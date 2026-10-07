@@ -121,7 +121,6 @@ export default function useFetch(url, setData, extras = {}) {
         fetcher(finalUrl, 'GET', null, { accessToken: admin?.accessToken })
             .then(result => setData(result))
             .catch(error => {
-                console.log(error.message);
                 errorSetter(error.message);
             })
             .finally(() => setIsLoading(false));

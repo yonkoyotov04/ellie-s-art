@@ -5,7 +5,7 @@ import useFetch from "../../hooks/useFetch.js";
 export default function CategoryCard({ id, name, product_count }) {
 
     const [sampleProduct, setSampleProduct] = useState(null);
-    const apiURL = 'http://localhost:2105/'
+    const apiURL = 'http://localhost:2105/uploads/'
 
     useFetch('/products', setSampleProduct, { active: true, category: id, limit: 1 });
 

@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function AdminProductCard({ id, title, price, image, category, active, deleteTrigger }) {
 
-    const apiURL = 'http://localhost:2105/';
+    const apiURL = 'http://localhost:2105/uploads/';
     const { fetcher } = useFetch();
     const { admin } = useContext(AdminContext);
     const [activeStatus, setActiveStatus] = useState(active);

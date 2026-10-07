@@ -4,7 +4,8 @@ import errorApi from "../utils/errorUtil.js";
 import { isAuth } from "../middlewares/authMiddleware.js";
 import upload, { uploadDir } from "../middlewares/upload.js";
 import path from "path";
-import fs from 'fs'
+import fs from 'fs';
+import fsPromises from 'fs/promises';
 
 const productController = Router();
 
@@ -89,15 +90,13 @@ productController.post('/', isAuth, upload.array('images', 8), async (req, res) 
         productData['title'] = productData.title.trim();
         productData['description'] = productData.description?.trim() ?? '';
         productData['price'] = productData.price.trim();
-        productData['images'] = req.files.map(file => `uploads/${file.filename}`)
+        productData['images'] = req.files.map(file => `${file.filename}`)
         productData['image'] = productData.images[0];
 
-
         const product = await productService.addNewProduct(productData);
-        console.log('Passed productService');
         res.status(200).json(product ?? {});
     } catch (error) {
-        req.files.forEach(file => fs.unlink(file.path, () => {}))
+        req.files.forEach(file => fs.unlink(file.path, () => { }))
         throw new errorApi(400, 'Failed to upload the new product!');
     }
 });
@@ -107,7 +106,7 @@ productController.put('/:productId', isAuth, upload.array('images', 8), async (r
     const newProductData = req.body;
 
     const keptPaths = [].concat(req.body.existingImages || []).filter(Boolean);
-    const newPaths = (req.files || []).map(file => `uploads/${file.filename}`);
+    const newPaths = (req.files || []).map(file => `${file.filename}`);
 
     newProductData['title'] = newProductData.title.trim();
     newProductData['description'] = newProductData.description.trim();
@@ -115,13 +114,13 @@ productController.put('/:productId', isAuth, upload.array('images', 8), async (r
     newProductData['category'] = newProductData.category.trim();
 
     try {
-        const {updatedProduct, removedPaths} = await productService.editProduct(productId, newProductData, keptPaths, newPaths);
+        const { updatedProduct, removedPaths } = await productService.editProduct(productId, newProductData, keptPaths, newPaths);
 
-        removedPaths.forEach(p => fs.unlink(path.join(uploadDir, p), () => {}));
+        removedPaths.forEach(p => fs.unlink(path.join(uploadDir, p), () => { }));
 
         res.status(200).json(updatedProduct ?? {});
     } catch (error) {
-        (req.files || []).forEach(file => fs.unlink(file.path, () => {}));
+        (req.files || []).forEach(file => fs.unlink(file.path, () => { }));
         throw new errorApi(400, 'Failed to edit product!');
     }
 });
@@ -154,18 +153,18 @@ productController.delete('/:productId', isAuth, async (req, res) => {
     try {
         const deletedProduct = await productService.deleteProduct(productId);
 
-        console.log(deletedProduct);
-
         if (!deletedProduct) {
             throw new errorApi(404, 'Product not found!')
         }
 
         if (deletedProduct.image) {
             const imagePath = path.join(uploadDir, deletedProduct.image);
-            console.log(imagePath);
-            fs.unlink(imagePath, (err) => {
+
+            try {
+                await fsPromises.unlink(imagePath);
+            } catch (error) {
                 throw new errorApi(400, 'Image deletion failed!');
-            })
+            }
         }
 
         res.status(200).json(deletedProduct ?? {});

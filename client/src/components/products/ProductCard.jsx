@@ -2,7 +2,7 @@ import { Link } from "react-router"
 
 export default function ProductCard({ id, title, price, image, added_on }) {
 
-    const apiURL = 'http://localhost:2105/'
+    const apiURL = 'http://localhost:2105/uploads/'
 
     const isNew = (added_on) => {
         const addedDate = new Date(added_on);

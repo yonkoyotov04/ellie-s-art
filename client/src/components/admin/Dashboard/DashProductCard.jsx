@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function DashProductCard({ id, title, image, price, category }) {
 
-    const apiUrl = 'http://localhost:2105/'
+    const apiUrl = 'http://localhost:2105/uploads/'
 
     return (
         <Link to={`/product/${id}/details`} className="recent-item">

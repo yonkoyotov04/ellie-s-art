@@ -4,7 +4,7 @@ import useFetch from "../../hooks/useFetch.js";
 
 export default function ProductDetails() {
     const { productId } = useParams();
-    const apiURL = 'http://localhost:2105/'
+    const apiURL = 'http://localhost:2105/uploads/'
     const [productData, setProductData] = useState({});
 
     const {images = [], image} = productData;

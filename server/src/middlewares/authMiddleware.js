@@ -16,14 +16,12 @@ export default function authMiddleware(req, res, next) {
 
         return next();
     } catch (error) {
-        console.log('AuthMiddleware error')
         res.status(401).end();
     }
 }
 
 export function isAuth(req, res, next) {
     if (!req.isAuthenticated) {
-        console.log('IsAuth error')
         return res.status(401);
     }
 
