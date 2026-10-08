@@ -151,20 +151,29 @@ productController.delete('/:productId', isAuth, async (req, res) => {
     const productId = req.params.productId;
 
     try {
+        const productImages = await productService.getProductImages(productId);
         const deletedProduct = await productService.deleteProduct(productId);
 
         if (!deletedProduct) {
             throw new errorApi(404, 'Product not found!')
         }
 
-        if (deletedProduct.image) {
-            const imagePath = path.join(uploadDir, deletedProduct.image);
+        console.log(productImages);
 
-            try {
-                await fsPromises.unlink(imagePath);
-            } catch (error) {
-                throw new errorApi(400, 'Image deletion failed!');
+        if (productImages?.length) {
+            console.log('in if statemenet')
+            for (const image of productImages) {
+                console.log(image.path);
+                const imagePath = path.join(uploadDir, image.path);
+                console.log(imagePath);
+
+                try {
+                    await fsPromises.unlink(imagePath);
+                } catch (error) {
+                    throw new errorApi(400, 'Image deletion failed!');
+                }
             }
+
         }
 
         res.status(200).json(deletedProduct ?? {});

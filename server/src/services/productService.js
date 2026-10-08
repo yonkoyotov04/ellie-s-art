@@ -327,6 +327,24 @@ export default {
         return result.rows[0];
     },
 
+    async getProductImages(productId) {
+        const result = await pool.query(
+            `
+            SELECT
+                id,
+                product_id,
+                path,
+                position
+            FROM
+                product_images
+            WHERE
+                product_id = $1;
+            `, [productId]
+        )
+
+        return result.rows;
+    },
+
     async getCategories() {
         const result = await pool.query(
             `
