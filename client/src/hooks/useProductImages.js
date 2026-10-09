@@ -3,39 +3,30 @@ import { useEffect, useMemo, useState } from "react";
 const empty_images = [];
 
 export default function useProductImages(initialImages = empty_images, apiUrl= '', max = 8) {
-    const [existingImages, setExistingImages] = useState(initialImages);
-    const [newFiles, setNewFiles] = useState([]);
 
-    useEffect(() => {
-        setExistingImages(initialImages)
-    }, [initialImages])
-
-    const newPreviews = useMemo(() => newFiles.map(file => URL.createObjectURL(file)), [newFiles]);
-
-    useEffect(() => {
-        return () => newPreviews.forEach(url => URL.revokeObjectURL(url))
-    }, [newPreviews]);
-
-    const items = [
-        ...existingImages.map(path => ({type: 'existing', src: `${apiUrl}${path}`, path})),
-        ...newFiles.map((file, i) => ({type: 'new', src: newPreviews[i], file}))
-    ]
+    const [images, setImages] = useState([]);
 
     const onImagesChange = (e) => {
         const picked = Array.from(e.target.files);
-        const remainingSlots = max - existingImages.length - newFiles.length;
-        setNewFiles(prev => [...prev, ...picked].slice(0, prev.length + remainingSlots));
+        const processedPicks = picked.map(file => ({type: 'new', file, src: URL.createObjectURL(file)}))
+        const remainingSlots = max - images.length;
+        setImages(prev => [...prev, ...processedPicks].slice(0, prev.length + remainingSlots));
         e.target.value = '';
     };
 
     const removeImage = (index) => {
-        if (index < existingImages.length) {
-            setExistingImages(prev => prev.filter((_, i) => i !== index));
-        } else {
-            const newIndex = index - existingImages.length;
-            setNewFiles(prev => prev.filter((_, i) => i !== newIndex));
-        }
+        setImages(images.filter((_, i) => i !== index));
     };
 
-    return {items, existingImages, newFiles, onImagesChange, removeImage};
+    const setCover = (index) => {
+        setImages(prev => {
+            const newOrder = [...prev];
+            const [image] = newOrder.splice(index, 1);
+            newOrder.unshift(image);
+
+            return newOrder;
+        })
+    }
+
+    return {images, onImagesChange, removeImage, setCover};
 }

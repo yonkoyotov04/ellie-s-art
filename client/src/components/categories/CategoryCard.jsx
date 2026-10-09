@@ -9,6 +9,10 @@ export default function CategoryCard({ id, name, product_count }) {
 
     useFetch('/products', setSampleProduct, { active: true, category: id, limit: 1 });
 
+    if (!sampleProduct?.length) {
+        return;
+    }
+
     return (
         <Link to={`/catalogue/${id}`} className="category-card category-card--pink">
             <span className="category-card__icon">

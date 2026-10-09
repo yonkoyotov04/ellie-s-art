@@ -85,7 +85,6 @@ productController.post('/', isAuth, upload.array('images', 8), async (req, res) 
         throw new errorApi(400, 'At least one product image is required!');
     }
 
-
     try {
         productData['title'] = productData.title.trim();
         productData['description'] = productData.description?.trim() ?? '';
@@ -158,14 +157,9 @@ productController.delete('/:productId', isAuth, async (req, res) => {
             throw new errorApi(404, 'Product not found!')
         }
 
-        console.log(productImages);
-
         if (productImages?.length) {
-            console.log('in if statemenet')
             for (const image of productImages) {
-                console.log(image.path);
                 const imagePath = path.join(uploadDir, image.path);
-                console.log(imagePath);
 
                 try {
                     await fsPromises.unlink(imagePath);
