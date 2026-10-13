@@ -27,8 +27,7 @@ export default function EditProduct() {
     const [initialValues, setInitialValues] = useState(data);
 
     useFetch(`/products/${productId}`, setInitialValues);
-
-    const { items, existingImages, newFiles, onImagesChange, removeImage } = useProductImages(
+    const { images, onImagesChange, removeImage } = useProductImages(
         initialValues.images || [],
         apiUrl
     );
@@ -43,23 +42,27 @@ export default function EditProduct() {
             const formData = new FormData();
 
             Object.entries(values).forEach(([key, value]) => {
-                if (value !== null & value !== undefined) {
+                if (value !== null & value !== undefined & key !== 'images') {
                     formData.append(key, value);
                 }
             })
 
-            existingImages.forEach(path => formData.append('existingImages', path))
-            newFiles.forEach(file => formData.append('images', file))
-
+            images.forEach(image => {
+                if (image.type === 'existing') {
+                    formData.append('existingImages', image.imageURL);
+                } else if (image.type === 'new') {
+                    formData.append('newImages', image.file);
+                }
+            })
 
             await fetcher(`/products/${productId}`, 'PUT', formData, { accessToken: admin?.accessToken });
             navigate('/admin/products');
-        } catch(err) {
+        } catch (err) {
             throw new Error(err);
         } finally {
             setIsSubmitting(false);
         }
-        
+
     }
 
     const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
@@ -70,7 +73,7 @@ export default function EditProduct() {
             isSubmitting={isSubmitting}
             changeHandler={changeHandler}
             submitHandler={submitHandler}
-            items={items}
+            images={images}
             onImagesChange={onImagesChange}
             removeImage={removeImage} />
     )

@@ -7,7 +7,7 @@ export default function ProductDetails() {
     const apiURL = 'http://localhost:2105/uploads/'
     const [productData, setProductData] = useState({});
 
-    const {images = [], image} = productData;
+    const { images = [], image } = productData;
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const gallery = images.length ? images : (image ? [image] : []);
@@ -39,7 +39,7 @@ export default function ProductDetails() {
 
                     <div className="product-details__gallery">
                         <div className="product-details__media">
-                            <img src={`${apiURL}${gallery[activeImageIndex]}`} alt={productData.title} />
+                            <img src={`${apiURL}${gallery[activeImageIndex]?.path}`} alt={productData.title} />
                             {gallery.length > 1 &&
                                 <>
                                     <button

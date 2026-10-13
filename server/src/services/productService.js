@@ -108,7 +108,10 @@ export default {
                 c.name AS category,
                 p.category AS category_id, 
                 p.added_on,
-                COALESCE(json_agg(pi.path ORDER BY pi.position) 
+                COALESCE(json_agg(
+                            json_build_object('id', pi.id, 'path', pi.path) 
+                            ORDER BY pi.position
+                            ) 
 	                        FILTER(WHERE pi.id IS NOT NULL), '[]') AS images
             FROM
                 products AS p
@@ -230,15 +233,15 @@ export default {
         return result.rows[0];
     },
 
-    async editProduct(productId, newProductData, keptPaths, newPaths) {
-        const { title, description, price, category_id, image } = newProductData;
+    async editProduct(productId, newProductData, keptImages, newImages) {
+        const { title, description, price, category_id} = newProductData;
 
         const client = await pool.connect();
 
         try {
             await client.query('BEGIN');
         
-            const currentProductResult = await client.query(
+            const currentProductImages = await client.query(
                 `
                 SELECT
                     id,
@@ -252,12 +255,12 @@ export default {
                 [productId]
             );
 
-            const current = currentProductResult.rows;
+            const current = currentProductImages.rows;
 
-            const toDelete = current.filter(row => !keptPaths.includes(row.path));
+            const toDelete = current.filter(row => !keptImages.includes(row.path));
 
             const maxKeptPosition = current
-                .filter(row => keptPaths.includes(row.path))
+                .filter(row => keptImages.includes(row.path))
                 .reduce((max, row) => Math.max(max, row.position), -1);
             
             for (const row of toDelete) {
@@ -270,7 +273,7 @@ export default {
                     [row.id]);
             }
 
-            for (let i = 0; i < newPaths.length; i++) {
+            for (let i = 0; i < newImages.length; i++) {
                 await client.query(
                     `
                     INSERT INTO
@@ -278,11 +281,11 @@ export default {
                     VALUES
                         ($1, $2, $3)
                     `,
-                    [productId, newPaths[i], maxKeptPosition + 1 + i]
+                    [productId, newImages[i], maxKeptPosition + 1 + i]
                 );
             }
 
-            const cover = keptPaths[0] ?? newPaths[0] ?? null;
+            const cover = keptImages[0] ?? newImages[0] ?? null;
 
             const result = await client.query(
                 `

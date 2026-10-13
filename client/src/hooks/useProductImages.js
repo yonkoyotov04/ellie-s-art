@@ -1,10 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const empty_images = [];
 
 export default function useProductImages(initialImages = empty_images, apiUrl= '', max = 8) {
 
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState(initialImages);
+
+    useEffect(() => {
+        setImages(initialImages.map(image => ({type: 'existing', id: image.id, src: `${apiUrl}${image.path}`, imageURL: image.path})))
+    }, [initialImages])
 
     const onImagesChange = (e) => {
         const picked = Array.from(e.target.files);

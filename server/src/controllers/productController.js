@@ -50,7 +50,7 @@ productController.get('/:productId', async (req, res) => {
 
         product = {
             category: {
-                id: result.cateegory_id,
+                id: result.category_id,
                 name: result.category
             },
             ...result
@@ -100,20 +100,20 @@ productController.post('/', isAuth, upload.array('images', 8), async (req, res) 
     }
 });
 
-productController.put('/:productId', isAuth, upload.array('images', 8), async (req, res) => {
+productController.put('/:productId', isAuth, upload.array('newImages', 8), async (req, res) => {
     const productId = req.params.productId;
     const newProductData = req.body;
 
-    const keptPaths = [].concat(req.body.existingImages || []).filter(Boolean);
-    const newPaths = (req.files || []).map(file => `${file.filename}`);
+    let keptImages = [].concat(req.body.existingImages || []).filter(Boolean);
+    let newImages = (req.files || []).map(file => file.filename);
 
     newProductData['title'] = newProductData.title.trim();
     newProductData['description'] = newProductData.description.trim();
     newProductData['price'] = newProductData.price.trim();
-    newProductData['category'] = newProductData.category.trim();
+    newProductData['category_id'] = newProductData.category_id.trim();
 
     try {
-        const { updatedProduct, removedPaths } = await productService.editProduct(productId, newProductData, keptPaths, newPaths);
+        const { updatedProduct, removedPaths } = await productService.editProduct(productId, newProductData, keptImages, newImages);
 
         removedPaths.forEach(p => fs.unlink(path.join(uploadDir, p), () => { }));
 
