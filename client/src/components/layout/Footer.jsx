@@ -40,15 +40,6 @@ export default function Footer() {
                         <Link to="/about">За нас</Link>
                     </div>
                 </div>
-
-                <div className="footer__account">
-                    <h4>Акаунт</h4>
-                    <div className="footer__links">
-                        <Link to="/login">Вход</Link>
-                        <Link to="/register">Регистрация</Link>
-                    </div>
-                </div>
-
             </div>
 
             <div className="footer__bottom">

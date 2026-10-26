@@ -27,7 +27,7 @@ export default function EditProduct() {
     const [initialValues, setInitialValues] = useState(data);
 
     useFetch(`/products/${productId}`, setInitialValues);
-    const { images, onImagesChange, removeImage } = useProductImages(
+    const { images, onImagesChange, removeImage, setCover } = useProductImages(
         initialValues.images || [],
         apiUrl
     );
@@ -75,6 +75,7 @@ export default function EditProduct() {
             submitHandler={submitHandler}
             images={images}
             onImagesChange={onImagesChange}
-            removeImage={removeImage} />
+            removeImage={removeImage}
+            setCover={setCover} />
     )
 }

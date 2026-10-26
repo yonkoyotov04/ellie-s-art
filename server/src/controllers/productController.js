@@ -65,7 +65,11 @@ productController.get('/:productId', async (req, res) => {
 productController.post('/', isAuth, upload.array('images', 8), async (req, res) => {
     const productData = req.body;
 
-    if (!isNaN(Number(productData.category)) && productData.category.trim() !== '') {
+    if (productData.category.trim() === '') {
+        throw new errorApi(400, 'A category is required!')
+    }
+
+    if (!isNaN(Number(productData.category))) {
         productData['category'] = Number(productData.category);
     } else {
         productData['category'] = productData.category.trim();
