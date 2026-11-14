@@ -19,7 +19,7 @@ export default function useDelete(profileDelete, data, setData) {
 
     const onYesClick = () => {
         let url = `/products/${targetId}`
-        
+
         if (profileDelete) {
             url = `/admin/${targetId}`
         }
@@ -39,23 +39,75 @@ export default function useDelete(profileDelete, data, setData) {
         return (
             <div className="modal-backdrop">
                 <div className="modal-card">
-                    <span className="modal-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                            strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
+
+                    <div className="modal-card__icon">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="M3 6h18" />
+                            <path d="M8 6V4h8v2" />
+                            <path d="M19 6l-1 14H6L5 6" />
+                            <path d="M10 11v5m4-5v5" />
                         </svg>
-                    </span>
+                    </div>
+
+                    <span className="modal-card__eyebrow">САМО ЗА ПОТВЪРЖДЕНИЕ</span>
+
+                    <h2 className="modal-card__title">
+                        Сигурни ли сте?
+                    </h2>
 
                     <p className="modal-card__text">
-                        Сигурна ли си, че искаш да изтриеш {profileDelete ? 'своя профил' : 'това'}? Действието е необратимо.
+                        Сигурни ли сте, че искате да изтриете
+                        {profileDelete ? 'своя профил': 'това'}? Действието е необратимо и
+                        няма да можете да възстановите изтритото.
                     </p>
 
                     <div className="modal-card__actions">
-                        <button type="button" onClick={onNoClick} className="btn btn-ghost">Не</button>
-                        <button type="button" onClick={onYesClick} className="btn btn-danger">Да, изтрий</button>
+                        <button
+                            type="button"
+                            className="btn btn-ghost"
+                            onClick={onNoClick}
+                        >
+                            Не, запази го
+                        </button>
+
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={onYesClick}
+                        >
+                            Да, изтрий
+                        </button>
                     </div>
+
                 </div>
             </div>
+
+            // <div className="modal-backdrop">
+            //     <div className="modal-card">
+            //         <span className="modal-card__icon">
+            //             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+            //                 strokeLinecap="round" strokeLinejoin="round">
+            //                 <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6" />
+            //             </svg>
+            //         </span>
+
+            //         <p className="modal-card__text">
+            //             Сигурна ли си, че искаш да изтриеш {profileDelete ? 'своя профил' : 'това'}? Действието е необратимо.
+            //         </p>
+
+            //         <div className="modal-card__actions">
+            //             <button type="button" onClick={onNoClick} className="btn btn-ghost">Не</button>
+            //             <button type="button" onClick={onYesClick} className="btn btn-danger">Да, изтрий</button>
+            //         </div>
+            //     </div>
+            // </div>
         )
     }
 

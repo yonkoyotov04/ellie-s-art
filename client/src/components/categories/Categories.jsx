@@ -1,42 +1,49 @@
-import { Link } from "react-router";
 import useFetch from "../../hooks/useFetch.js";
 import { useState } from "react";
 import CategoryCard from "./CategoryCard.jsx";
+import Pagination from "../layout/Pagination.jsx";
 
 export default function Categories() {
     const [categories, setCategories] = useState([]);
 
+    const [categoriesPerPage, setCategoriesPerPage] = useState(6);
+    const [currentCategoryPage, setCurrentCategoryPage] = useState(1);
+
+    const lastIndex = currentCategoryPage * categoriesPerPage;
+    const firstIndex = lastIndex - categoriesPerPage;
+
+    const categoriesDisplayed = categories.slice(firstIndex, lastIndex);
+
     useFetch('/products/categories', setCategories);
 
     return (
-        <>
-            <section className="page-header section--tint">
-                <div className="page-header__inner">
-                    <span className="eyebrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                            <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                            <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                            <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                        </svg>
-                        Разгледай по вид
-                    </span>
-                    <h1 className="script-heading">Категории</h1>
-                    <p className="section-sub">Избери категория, за да откриеш точните творби за теб — от платна до дребни
-                        авторски подаръци.</p>
-                </div>
+
+        <main className="categories-page">
+
+            <section className="categories-intro">
+                <span className="categories-decoration">♥</span>
+                <p className="categories-eyebrow">Малко вдъхновение за теб</p>
+                <h1>Нашите категории</h1>
+                <p>
+                    Всяко творение има своя история.
+                    Открий това, което най-много ти харесва!
+                </p>
             </section>
 
-            <svg className="citrus-divider" viewBox="0 0 1200 60" preserveAspectRatio="none" style={{ color: 'var(--lemon-100)' }}>
-                <path
-                    d="M0 30 Q 50 60 100 30 T 200 30 T 300 30 T 400 30 T 500 30 T 600 30 T 700 30 T 800 30 T 900 30 T 1000 30 T 1100 30 T 1200 30 V0 H0 Z"
-                    fill="currentColor" />
-            </svg>
+            <section className="categories-grid">
 
-            <section className="category-grid">
-                {categories.map(category => <CategoryCard key={category.id} {...category} />)}
+                {categoriesDisplayed.map(category => <CategoryCard key={category.id} {...category} />)}
+
             </section>
-        </>
+
+            {categories.length > categoriesPerPage && <Pagination
+                totalProducts={categories.length}
+                productsPerPage={categoriesPerPage}
+                currentPage={currentCategoryPage}
+                setCurrentPage={setCurrentCategoryPage}
+            />}
+
+        </main>
 
     )
 }

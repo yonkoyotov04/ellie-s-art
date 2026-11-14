@@ -1,22 +1,39 @@
+import { useContext } from "react";
 import { Link } from "react-router";
+import AdminContext from "../../contexts/AdminContext.jsx";
 
 export default function AdminHeader() {
+    const { logoutHandler } = useContext(AdminContext);
+
     return (
-        <header className="dash-topbar">
-            <div className="dash-topbar__inner">
-                <Link to="/admin/dashboard" className="nav-logo">
-                    <img src="/logo.png" alt="Ellie Art лого" className="nav-logo__img" />
-                        <span className="nav-logo__text">
-                            <strong>Ellie's</strong>
-                            <span>ART</span>
-                        </span>
+
+        <header className="admin-header">
+
+            <div className="admin-header-brand">
+                <Link to="/" className="admin-header-logo">
+                    <img src="/logo.png" alt="Ellie's Art" />
                 </Link>
-                <span className="dash-topbar__tag">Табло за управление</span>
-                <div className="dash-topbar__actions">
-                    <Link to="/" className="btn btn-ghost btn-sm">← Към сайта</Link>
-                    <Link to="/" className="btn btn-outline btn-sm">Изход</Link>
+
+                <div className="admin-header-divider"></div>
+
+                <div className="admin-header-title">
+                    <h2>Панел за управление</h2>
+                    <p>Добре дошла в своето творческо пространство!</p>
                 </div>
             </div>
+
+            <div className="admin-header-actions">
+                <Link to="/" className="admin-header-home">
+                    <span>↗</span>
+                    Към сайта
+                </Link>
+
+                <button onClick={logoutHandler} className="admin-header-logout">
+                    <span>⇥</span>
+                    Изход
+                </button>
+            </div>
+
         </header>
     )
 }

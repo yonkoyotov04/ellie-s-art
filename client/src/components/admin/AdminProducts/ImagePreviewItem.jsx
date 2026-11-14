@@ -1,11 +1,21 @@
-export default function ImagePreviewItem({src, setCover, index, onRemove}) {
+export default function ImagePreviewItem({ src, setCover, index, onRemove }) {
     return (
-        <div className="image-previews__item">
-            <img src={src} onClick={() => setCover(index)} alt="" />
-            {index === 0 && <span className="image-previews__badge">Корица</span>}
-            <button type="button" onClick={() => onRemove(index)} className="image-previews__remove" aria-label="Премахни снимката">
+
+        <div className="product-form-preview-item">
+
+            <img src={src} onClick={() => setCover(index)} alt="Преглед на продукта" />
+
+            {index === 0 && <span className="product-form-cover-badge">Корица</span>}
+
+            <button
+                type="button"
+                onClick={() => onRemove(index)}
+                className="product-form-remove-image"
+                aria-label="Премахни снимката"
+                title="Премахни снимката">
                 ×
             </button>
+
         </div>
     )
 }

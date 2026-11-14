@@ -21,75 +21,89 @@ export default function EditAdmin({ hide }) {
         const formData = values;
 
         const result = await fetcher(`/admin/${admin.id}`, 'PUT', formData, { accessToken: admin.accessToken });
-        
-        loginHandler({accessToken: admin.accessToken, ...result});
+
+        loginHandler({ accessToken: admin.accessToken, ...result });
         navigate('/admin/dashboard');
     }
 
     const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
 
     return (
-        <div className="modal-backdrop">
-            <div className="edit-user-card">
-                <button type="button" onClick={hide} className="edit-user-card__close" aria-label="Затвори">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                </button>
 
-                <div className="edit-user-card__header">
-                    <span className="edit-user-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                            strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="8" r="4" />
-                            <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-                        </svg>
-                    </span>
-                    <div>
-                        <h2>Редактирай профила</h2>
-                        <p>Промени личните си данни</p>
-                    </div>
+        <div className="edit-account-backdrop">
+            <div className="edit-account-modal">
+
+                <div className="edit-account-header">
+                    <div className="edit-account-icon">✿</div>
+
+                    <button type="button" onClick={hide} className="edit-account-close" aria-label="Затвори">
+                        &times;
+                    </button>
+
+                    <span className="edit-account-eyebrow">НАСТРОЙКИ НА ПРОФИЛА</span>
+                    <h2>Редактирай профила си</h2>
+                    <p>Можеш да промениш личните си данни по всяко време.</p>
                 </div>
 
-                <form className="edit-user-card__form" method="PUT" onSubmit={submitHandler}>
-                    <div className="form-field">
-                        <label htmlFor="edit-firstname" className="form-field__label">Име</label>
-                        <input
-                            type="text"
-                            id="edit-firstname"
-                            value={values.firstName}
-                            onChange={changeHandler}
-                            name="firstName"
-                            className="form-field__input" />
+                <form className="edit-account-form" method="PUT" onSubmit={submitHandler}>
+                    <div className="edit-account-fields-row">
+                        <div className="edit-account-field">
+                            <label htmlFor="edit-first-name">Име</label>
+                            <input
+                                type="text"
+                                id="edit-first-name"
+                                name="firstName"
+                                onChange={changeHandler}
+                                value={values.firstName}
+                                placeholder="Твоето име"
+                                required
+                            />
+                        </div>
+
+                        <div className="edit-account-field">
+                            <label htmlFor="edit-last-name">Фамилия</label>
+                            <input
+                                type="text"
+                                id="edit-last-name"
+                                name="lastName"
+                                onChange={changeHandler}
+                                value={values.lastName}
+                                placeholder="Твоята фамилия"
+                                required
+                            />
+                        </div>
                     </div>
 
-                    <div className="form-field">
-                        <label htmlFor="edit-lastname" className="form-field__label">Фамилия</label>
-                        <input
-                            type="text"
-                            id="edit-lastname"
-                            value={values.lastName}
-                            onChange={changeHandler}
-                            name="lastName"
-                            className="form-field__input" />
-                    </div>
-
-                    <div className="form-field">
-                        <label htmlFor="edit-email" className="form-field__label">Имейл</label>
+                    <div className="edit-account-field">
+                        <label htmlFor="edit-email">Имейл адрес</label>
                         <input
                             type="email"
                             id="edit-email"
-                            value={values.email}
-                            onChange={changeHandler}
                             name="email"
-                            className="form-field__input" />
+                            onChange={changeHandler}
+                            value={values.email}
+                            placeholder="example@email.com"
+                            required
+                        />
                     </div>
 
-                    <div className="edit-user-card__actions">
-                        <button type="button" onClick={hide} className="btn btn-ghost">Отказ</button>
-                        <button type="submit" className="btn btn-primary">Запази промените</button>
+                    <div className="edit-account-info">
+                        <span>♡</span>
+                        <p>Увери се, че въведените данни са правилни, преди да запазиш промените.</p>
+                    </div>
+
+                    <div className="edit-account-actions">
+                        <button type="button" onClick={hide} className="edit-account-cancel">
+                            Отказ
+                        </button>
+
+                        <button type="submit" className="edit-account-confirm">
+                            Запази промените
+                            <span>→</span>
+                        </button>
                     </div>
                 </form>
+
             </div>
         </div>
     )

@@ -17,30 +17,26 @@ export default function ProductCard({ id, title, price, image, added_on }) {
 
     return (
         <article className="product-card">
-            <Link to={`/product/${id}/details`}>
-                <div className="product-card__media">
-                    {image
-                        ?
-                        <img src={`${apiURL}${image}`} alt="image" />
-                        :
-                        <>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                strokeWidth="1.6">
-                                <rect x="3" y="3" width="18" height="18" rx="3" />
-                                <circle cx="8.5" cy="8.5" r="1.6" />
-                                <path d="M21 15l-5-5L5 21" />
-                            </svg>
-                        </>
-                    }
-                </div>
-                {isNew(added_on) && (<span className="badge">Ново</span>)}
-                <div className="product-card__body">
-                    <h3 className="product-card__name">{title}</h3>
-                    <div className="product-card__meta">
-                        <span className="product-card__price">{price} €</span>
-                    </div>
-                </div>
+            <Link className="product-image-link" to={`/product/${id}/details`}>
+                {image
+                    ?
+                    <img src={`${apiURL}${image}`} alt={title} />
+                    :
+                    <>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            strokeWidth="1.6">
+                            <rect x="3" y="3" width="18" height="18" rx="3" />
+                            <circle cx="8.5" cy="8.5" r="1.6" />
+                            <path d="M21 15l-5-5L5 21" />
+                        </svg>
+                    </>
+                }
+                {isNew(added_on) && (<span className="product-badge">New</span>)}
             </Link>
+            <div className="product-info">
+                <h2>{title}</h2>
+                <p className="product-price">{price} €</p>
+            </div>
         </article>
     )
 }

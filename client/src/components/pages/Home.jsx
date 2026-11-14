@@ -7,67 +7,56 @@ export default function Home() {
 
     const [newestProducts, setNewestProducts] = useState([]);
     const [mostPopularProducts, setMostPopularProducts] = useState([]);
-    
-    useFetch('/products', setNewestProducts, {active: true, sort: 'newest', limit: 4})
-    useFetch('/products', setMostPopularProducts, {active: true, sort: 'popular', limit: 4})
+
+    useFetch('/products', setNewestProducts, { active: true, sort: 'newest', limit: 6 })
+    useFetch('/products', setMostPopularProducts, { active: true, sort: 'popular', limit: 6 })
 
     return (
-        <>
-            <section className="section section--tint">
-                <div className="section__inner">
-                    <div className="section__head">
-                        <div className="section__head-text">
-                            <span className="eyebrow">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z" />
-                                </svg>
-                                Току-що пристигнали
-                            </span>
-                            <h2 className="script-heading">Нови продукти</h2>
-                        </div>
-                        <Link to="/catalogue?sort=newest" className="btn btn-outline">Разгледай всички →</Link>
-                    </div>
 
-                    <div className="product-grid">
-                        {newestProducts.map(product => <ProductCard key={product.id} {...product} />)}
-                    </div>
+        <main className="home-page">
+
+            <section className="product-section newest-section">
+                <div className="section-heading">
+                    <span className="heading-decoration" aria-hidden="true">♥</span>
+                    <p className="section-eyebrow">Fresh from the studio</p>
+                    <h1>Нови продукти</h1>
+                    <p className="section-description">
+                        Little pieces of happiness, freshly made for you.
+                    </p>
+                </div>
+
+                <div className="product-list">
+                    {newestProducts.map(product => <ProductCard key={product.id} {...product} />)}
+                </div>
+
+                <div className="section-action">
+                    <Link className="catalogue-button" to="/catalogue?sort=newest">
+                        Explore Newest <span aria-hidden="true">→</span>
+                    </Link>
                 </div>
             </section>
 
-            <svg className="citrus-divider" viewBox="0 0 1200 60" preserveAspectRatio="none" style={{color: 'var(--lemon-100)'}}>
-                <path
-                    d="M0 30 Q 50 60 100 30 T 200 30 T 300 30 T 400 30 T 500 30 T 600 30 T 700 30 T 800 30 T 900 30 T 1000 30 T 1100 30 T 1200 30 V0 H0 Z"
-                    fill="currentColor" />
-            </svg>
+            <section className="product-section popular-section">
+                <div className="section-heading">
+                    <span className="heading-decoration" aria-hidden="true">♥</span>
+                    <p className="section-eyebrow">Little customer favourites</p>
+                    <h2>Най-популярни</h2>
+                    <p className="section-description">
+                        The creations everyone seems to fall in love with.
+                    </p>
+                </div>
 
-            <svg className="citrus-divider" viewBox="0 0 1200 60" preserveAspectRatio="none" style={{color: 'var(--lemon-100)'}}>
-                <path
-                    d="M0 30 Q 50 0 100 30 T 200 30 T 300 30 T 400 30 T 500 30 T 600 30 T 700 30 T 800 30 T 900 30 T 1000 30 T 1100 30 T 1200 30 V60 H0 Z"
-                    fill="currentColor" />
-            </svg>
+                <div className="product-list">
+                    {mostPopularProducts.map(product => <ProductCard key={product.id} {...product} />)}
+                </div>
 
-            <section className="section section--tint">
-                <div className="section__inner">
-                    <div className="section__head">
-                        <div className="section__head-text">
-                            <span className="eyebrow">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z" />
-                                </svg>
-                                Любимците на клиентите
-                            </span>
-                            <h2 className="script-heading">Най-пoпулярни</h2>
-                        </div>
-                        <Link to="/catalogue?sort=popular" className="btn btn-outline">Разгледай всички →</Link>
-                    </div>
-
-                    <div className="product-grid">
-
-                       {mostPopularProducts.map(product => <ProductCard key={product.id} {...product} />)}
-
-                    </div>
+                <div className="section-action">
+                    <Link className="catalogue-button popular-button" to="/catalogue?sort=popular">
+                        Explore Favourites <span aria-hidden="true">→</span>
+                    </Link>
                 </div>
             </section>
-        </>
+
+        </main>
     )
 }

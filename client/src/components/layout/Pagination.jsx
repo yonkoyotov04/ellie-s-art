@@ -25,37 +25,36 @@ export default function Pagination({ totalProducts, productsPerPage, currentPage
     }
 
     return (
-        <div className="pagination" aria-label="Странициране">
+
+        <nav class="catalogue-pagination" aria-label="Страници на каталога">
             {currentPage === 1 ||
-                <button className="pagination-arrow" onClick={previousPageClick} aria-label="Предишна страница">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
-                        strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M15 18l-6-6 6-6" />
-                    </svg>
+                <button class="pagination-arrow" onClick={previousPageClick} aria-label="Предишна страница">
+                    <span aria-hidden="true">←</span>
+                    <span>Предишна</span>
                 </button>}
 
-            {
-                pages.map((page, i) => {
-                    return page === '...' ?
-                        <span key={`... - ${i}`} className="pagination-dots">...</span>
+            <div className="pagination-numbers">
+                {pages.map((page, i) => {
+                    return page === '...'
+                        ?
+                        <span key={`... - ${i}`} class="pagination-dots" aria-hidden="true">···</span>
                         :
                         <button
                             type="button"
                             key={i}
-                            className={page === currentPage ? 'is-current' : ''}
+                            className={page === currentPage ? 'pagination-number pagination-current' : 'pagination-number'}
                             onClick={() => pageButtonClick(page)}
-                        >{page}
-                        </button>
-                })
-            }
+                        >{page}</button>
+
+                })}
+            </div>
 
             {currentPage === pages[pages.length - 1] ||
-                <button className="pagination-arrow" onClick={nextPageClick} aria-label="Следваща страница">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
-                        strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M9 18l6-6-6-6" />
-                    </svg>
-                </button>}
-        </div>
+                <button class="pagination-arrow" onClick={nextPageClick} aria-label="Следваща страница">
+                    <span>Следваща</span>
+                    <span aria-hidden="true">→</span>
+                </button>
+            }
+        </nav>
     )
 }

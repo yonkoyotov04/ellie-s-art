@@ -21,75 +21,89 @@ export default function EditPassword({ hide }) {
     const onSubmit = async (values) => {
         const formData = values;
 
-        await fetcher(`/admin/password/${admin.id}`, 'PUT', formData, {accessToken: admin.accessToken});
+        await fetcher(`/admin/password/${admin.id}`, 'PUT', formData, { accessToken: admin.accessToken });
         navigate('/admin/dashboard');
     }
 
-    const {values, changeHandler, submitHandler} = useControlledForm(initialValues, onSubmit);
+    const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
 
     return (
-        <div className="modal-backdrop">
-            <div className="edit-user-card">
-                <button type="button" onClick={hide} className="edit-user-card__close" aria-label="Затвори">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                </button>
 
-                <div className="edit-user-card__header">
-                    <span className="edit-user-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                            strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="8" r="4" />
-                            <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-                        </svg>
-                    </span>
-                    <div>
-                        <h2>Смени паролата</h2>
-                        <p>Промени личните си данни</p>
-                    </div>
+        <div className="edit-account-backdrop">
+            <div className="edit-account-modal">
+
+                <div className="edit-account-header">
+                    <div className="edit-account-icon">♡</div>
+
+                    <button type="button" onClick={hide} className="edit-account-close" aria-label="Затвори">
+                        &times;
+                    </button>
+
+                    <span className="edit-account-eyebrow">СИГУРНОСТ НА ПРОФИЛА</span>
+                    <h2>Промени паролата си</h2>
+                    <p>Избери нова парола, за да защитиш профила си.</p>
                 </div>
 
-                <form className="edit-user-card__form" method="PUT" onSubmit={submitHandler}>
-                    <div className="form-field">
-                        <label htmlFor="oldPassword" className="form-field__label">Стара парола</label>
+                <form className="edit-account-form" method="PUT" onSubmit={submitHandler}>
+
+                    <div className="edit-account-field">
+                        <label htmlFor="old-password">Текуща парола</label>
                         <input
                             type="password"
-                            id="oldPassword"
-                            value={values.oldPassword}
-                            onChange={changeHandler}
+                            id="old-password"
                             name="oldPassword"
-                            className="form-field__input" />
+                            onChange={changeHandler}
+                            value={values.oldPassword}
+                            placeholder="Въведи текущата си парола"
+                            required
+                        />
                     </div>
 
-                    <div className="form-field">
-                        <label htmlFor="newPassword" className="form-field__label">Нова парола</label>
+                    <div className="edit-account-field">
+                        <label htmlFor="new-password">Нова парола</label>
                         <input
                             type="password"
-                            id="newPassword"
-                            value={values.newPassword}
-                            onChange={changeHandler}
+                            id="new-password"
                             name="newPassword"
-                            className="form-field__input" />
+                            onChange={changeHandler}
+                            value={values.newPassword}
+                            placeholder="Въведи нова парола"
+                            required
+                        />
                     </div>
 
-                    <div className="form-field">
-                        <label htmlFor="repeatNewPassword" className="form-field__label">Повтори нова парола</label>
+                    <div className="edit-account-field">
+                        <label htmlFor="repeat-new-password">Повтори новата парола</label>
                         <input
                             type="password"
-                            id="repeatNewPassword"
-                            value={values.repeatNewPassword}
-                            onChange={changeHandler}
+                            id="repeat-new-password"
                             name="repeatNewPassword"
-                            className="form-field__input" />
+                            onChange={changeHandler}
+                            value={values.repeatNewPassword}
+                            placeholder="Въведи новата парола отново"
+                            required
+                        />
                     </div>
 
-                    <div className="edit-user-card__actions">
-                        <button type="button" onClick={hide} className="btn btn-ghost">Отказ</button>
-                        <button type="submit" className="btn btn-primary">Запази промените</button>
+                    <div className="edit-account-info">
+                        <span>♡</span>
+                        <p>Използвай сигурна парола и не я споделяй с никого.</p>
                     </div>
+
+                    <div className="edit-account-actions">
+                        <button type="button" onClick={hide} className="edit-account-cancel">
+                            Отказ
+                        </button>
+
+                        <button type="submit" className="edit-account-confirm">
+                            Запази паролата
+                            <span>→</span>
+                        </button>
+                    </div>
+
                 </form>
             </div>
         </div>
+
     )
 }

@@ -11,7 +11,7 @@ export default function AdminProducts() {
     useFetch('/products', setProducts);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage, setProductsPerPage] = useState(6);
+    const [productsPerPage, setProductsPerPage] = useState(3);
 
     const lastProductIndex = currentPage * productsPerPage;
     const firstProductIndex = lastProductIndex - productsPerPage;
@@ -21,70 +21,82 @@ export default function AdminProducts() {
     const { DeletePrompt, onDeleteClick } = useDelete(false, products, setProducts);
 
     return (
-        <>
-            <div className="dash-content__head">
-                <span className="eyebrow">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <rect x="3" y="3" width="18" height="18" rx="3" />
-                        <circle cx="8.5" cy="8.5" r="1.6" />
-                        <path d="M21 15l-5-5L5 21" />
-                    </svg>
-                    Управление на каталога
-                </span>
-                <h1 className="script-heading dash-content__heading">Продукти</h1>
-                <p className="section-sub">Редактирай, скривай или изтривай продукти от магазина.</p>
-            </div>
 
-            <div className="table-toolbar">
-                <div className="table-search">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                        <circle cx="11" cy="11" r="7" />
-                        <path d="M21 21l-4.3-4.3" />
-                    </svg>
-                    <label htmlFor="products-search" className="sr-only">Търсене на продукт</label>
-                    <input type="search" id="products-search" placeholder="Търси по име…" />
+        <main className="products-page">
+
+            <section className="products-welcome">
+                <div className="products-welcome-content">
+                    <span className="products-eyebrow">ТВОЯТ ТВОРЧЕСКИ КАТАЛОГ</span>
+                    <h1>Всички твои творения на едно място!</h1>
+                    <p>
+                        Тук можеш лесно да разглеждаш и управляваш своите продукти.
+                        Редактирай информацията, променяй тяхната видимост или
+                        добавяй нови идеи към каталога.
+                    </p>
                 </div>
 
-                <Link to="/admin/addProduct" className="btn btn-primary btn-sm">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"
-                        width="16" height="16">
-                        <path d="M12 5v14M5 12h14" />
-                    </svg>
-                    Добави продукт
-                </Link>
-            </div>
+                <div className="products-welcome-decoration">
+                    <span>✿</span>
+                </div>
+            </section>
 
-            <div className="table-panel">
-                <table className="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Продукт</th>
-                            <th>Категория</th>
-                            <th className="col-price">Цена</th>
-                            <th className="col-status">Статус</th>
-                            <th className="col-actions">Действия</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <section className="products-management">
 
-                        {displayedProducts.map(product =>
-                            <AdminProductCard
-                                key={product.id}
-                                deleteTrigger={onDeleteClick}
-                                {...product} />)}
+                <div className="products-section-heading">
+                    <div>
+                        <span className="products-section-eyebrow">ТВОЯТА КОЛЕКЦИЯ</span>
+                        <h2>Управление на продукти</h2>
+                        <p>Всички продукти, които си създала досега.</p>
+                    </div>
 
-                    </tbody>
-                </table>
+                    <Link to="/admin/addProduct" className="products-add-button">
+                        <span>＋</span>
+                        Добави продукт
+                    </Link>
+                </div>
+
+                <div className="products-toolbar">
+                    <div className="products-search">
+                        <span className="products-search-icon">⌕</span>
+                        <input type="text" placeholder="Потърси продукт по име или ID..." />
+                    </div>
+
+                    <span className="products-total">
+                        Общо продукти: <strong>{products.length}</strong>
+                    </span>
+                </div>
+
+                <div className="products-list">
+
+                    {displayedProducts.map(product =>
+                        <AdminProductCard
+                            key={product.id}
+                            deleteTrigger={onDeleteClick}
+                            {...product} />)}
+
+                </div>
                 {DeletePrompt}
 
-                {products.length > productsPerPage && <AdminProductsPagination
-                    totalProducts={products.length}
-                    displayedProducts={displayedProducts.length}
-                    productsPerPage={productsPerPage}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                />}
-            </div>
-        </>
+                <div className="products-pagination">
+
+                    <span className="products-pagination-info">
+                        Показани {firstProductIndex + 1}–{lastProductIndex} от {products.length} продукта
+                    </span>
+
+                    {products.length > productsPerPage
+                        &&
+                        <AdminProductsPagination
+                            totalProducts={products.length}
+                            displayedProducts={displayedProducts.length}
+                            productsPerPage={productsPerPage}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />}
+
+                </div>
+
+            </section>
+
+        </main>
     )
 }

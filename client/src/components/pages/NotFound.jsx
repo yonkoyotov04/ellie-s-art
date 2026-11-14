@@ -2,27 +2,60 @@ import { Link } from "react-router";
 
 export default function NotFound() {
     return (
-        <section className="not-found">
-            <div className="not-found__inner">
-                <span className="eyebrow">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="11" cy="11" r="7" />
-                        <path d="M21 21l-4.3-4.3" />
-                    </svg>
-                    Грешка 404
-                </span>
+        <main className="not-found-page">
+            <div className="not-found-decoration not-found-decoration--one">✿</div>
+            <div className="not-found-decoration not-found-decoration--two">✧</div>
+            <div className="not-found-decoration not-found-decoration--three">♡</div>
 
-                <p className="not-found__code">404</p>
+            <section className="not-found-content">
+                <div className="not-found-illustration">
+                    <div className="not-found-circle"></div>
 
-                <h1 className="script-heading not-found__heading">Ой… тази страница я няма</h1>
-                <p className="section-sub">Изглежда страницата, която търсиш, е отлетяла нанякъде — може би с
-                    някоя пеперуда. Провери адреса или се върни в познатите води.</p>
+                    <div className="not-found-flower not-found-flower--left">✿</div>
+                    <div className="not-found-flower not-found-flower--right">✿</div>
 
-                <div className="not-found__actions">
-                    <Link to="/" className="btn btn-primary">Към началото</Link>
-                    <Link to="/catalogue" className="btn btn-outline">Разгледай каталога</Link>
+                    <span className="not-found-number">4</span>
+                    <div className="not-found-bunny">
+                        <span className="not-found-bunny-ear not-found-bunny-ear--left"></span>
+                        <span className="not-found-bunny-ear not-found-bunny-ear--right"></span>
+                        <div className="not-found-bunny-face">
+                            <span className="not-found-bunny-eye not-found-bunny-eye--left"></span>
+                            <span className="not-found-bunny-eye not-found-bunny-eye--right"></span>
+                            <span className="not-found-bunny-nose"></span>
+                            <span className="not-found-bunny-cheek not-found-bunny-cheek--left"></span>
+                            <span className="not-found-bunny-cheek not-found-bunny-cheek--right"></span>
+                        </div>
+                    </div>
+                    <span className="not-found-number">4</span>
                 </div>
+
+                <span className="not-found-eyebrow">ОПА! МАЛКО СЕ ИЗГУБИХМЕ</span>
+
+                <h1>Тази страница май се скри!</h1>
+
+                <p className="not-found-description">
+                    Изглежда, че страницата, която търсиш, не съществува
+                    или е решила да се премести. Но не се притеснявай —
+                    тук винаги има още красиви творения за разглеждане!
+                </p>
+
+                <Link to="/" className="not-found-home-button">
+                    <span>⌂</span>
+                    Обратно към началото
+                </Link>
+
+                <Link to="/catalogue" className="not-found-catalogue-link">
+                    Или разгледай каталога
+                    <span>→</span>
+                </Link>
+            </section>
+
+            <div className="not-found-footer">
+                <span>Създадено с любов</span>
+                <span className="not-found-footer-heart">♥</span>
+                <span>Ellie's Art</span>
             </div>
-        </section>
+        </main>
+
     )
 }

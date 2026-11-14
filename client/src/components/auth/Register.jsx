@@ -31,167 +31,129 @@ export default function Register() {
     const { values, changeHandler, submitHandler } = useControlledForm(initialValues, onSubmit);
 
     return (
-        <>
-            <section className="auth">
-                <div className="auth__showcase">
-                    <div className="auth__showcase-content">
-                        <img src="./logo.png" alt="Ellie Art лого" className="nav-logo__img" />
-                        <h2>Добре дошъл в семейството на Ellie Art 🍋</h2>
-                        <p>Създай си акаунт, за да пазаруваш по-бързо, следиш поръчките си и харесваш и коментираш
-                            публикациите на Ели.</p>
 
-                        <div className="auth__quote">
-                            „Всяка поръчка е опакована с толкова грижа, сякаш е за близък приятел.“
-                            <strong>— Мария, клиент на Ellie Art</strong>
-                        </div>
+        <main className="auth-page">
+            <section className="auth-welcome">
+                <div className="auth-welcome-decoration auth-welcome-decoration--one">✿</div>
+                <div className="auth-welcome-decoration auth-welcome-decoration--two">♡</div>
+                <div className="auth-welcome-decoration auth-welcome-decoration--three">✧</div>
+
+                <div className="auth-welcome-content">
+                    <span className="auth-welcome-eyebrow">ДОБРЕ ДОШЛА В ELLIE'S ART</span>
+
+                    <h1>Всяко красиво нещо започва с малка идея!</h1>
+
+                    <p>
+                        Създай своя профил и стани част от нашето малко
+                        творческо кътче. Тук те очакват вдъхновение,
+                        цветове и много ръчно изработени съкровища!
+                    </p>
+
+                    <div className="auth-welcome-note">
+                        <span className="auth-welcome-note-icon">♡</span>
+                        <span>Радваме се, че си тук!</span>
                     </div>
                 </div>
 
-                <div className="auth__form-side">
-                    <div className="auth__form-wrap">
-                        <span className="eyebrow">Нов тук?</span>
-                        <h1>Създай акаунт</h1>
-                        <p>Отнема по-малко от минута.</p>
+                <div className="auth-welcome-bottom">
+                    <span>Създадено с любов и въображение</span>
+                    <span>♥</span>
+                </div>
+            </section>
 
-                        <form method="POST" onSubmit={submitHandler}>
-                            <div className="field-row">
-                                <div className="field">
-                                    <label htmlFor="reg-firstname">Име</label>
-                                    <div className="field-input">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                            strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                            <circle cx="12" cy="7" r="4" />
-                                        </svg>
-                                        <input
-                                            type="text" id="reg-firstname"
-                                            name="firstName"
-                                            onChange={changeHandler}
-                                            value={values.firstName}
-                                            placeholder="Твоето име"
-                                            autoComplete="given-name"
-                                            required />
-                                    </div>
-                                </div>
-                                <div className="field">
-                                    <label htmlFor="reg-lastname">Фамилия</label>
-                                    <div className="field-input">
-                                        <input
-                                            type="text"
-                                            id="reg-lastname"
-                                            name="lastName"
-                                            onChange={changeHandler}
-                                            value={values.lastName}
-                                            placeholder="Твоята фамилия"
-                                            autoComplete="family-name" style={{ paddingLeft: '16px' }}
-                                            required />
-                                    </div>
-                                </div>
+            <section className="auth-form-side">
+                <div className="auth-form-container">
+                    <div className="auth-form-heading">
+                        <span className="auth-form-eyebrow">НОВО НАЧАЛО</span>
+                        <h2>Създай профил</h2>
+                        <p>Попълни данните си, за да продължиш.</p>
+                    </div>
+
+                    <form className="auth-form" method="POST" onSubmit={submitHandler}>
+                        <div className="auth-form-row">
+                            <div className="auth-field">
+                                <label htmlFor="register-first-name">Име</label>
+                                <input
+                                    type="text"
+                                    id="register-first-name"
+                                    name="firstName"
+                                    onChange={changeHandler}
+                                    value={values.firstName}
+                                    placeholder="Твоето име"
+                                    required
+                                />
                             </div>
 
-                            <div className="field">
-                                <label htmlFor="reg-email">Имейл</label>
-                                <div className="field-input">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                        strokeLinecap="round" strokeLinejoin="round">
-                                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                                        <path d="m22 6-10 7L2 6" />
-                                    </svg>
-                                    <input
-                                        type="email"
-                                        id="reg-email"
-                                        name="email"
-                                        onChange={changeHandler}
-                                        value={values.email}
-                                        placeholder="ti@example.com"
-                                        autoComplete="email"
-                                        required />
-                                </div>
+                            <div className="auth-field">
+                                <label for="register-last-name">Фамилия</label>
+                                <input
+                                    type="text"
+                                    id="register-last-name"
+                                    name="lastName"
+                                    onChange={changeHandler}
+                                    value={values.lastName}
+                                    placeholder="Твоята фамилия"
+                                    required
+                                />
                             </div>
+                        </div>
 
+                        <div className="auth-field">
+                            <label for="register-email">Имейл адрес</label>
+                            <input
+                                type="email"
+                                id="register-email"
+                                name="email"
+                                onChange={changeHandler}
+                                value={values.email}
+                                placeholder="example@email.com"
+                                required
+                            />
+                        </div>
 
-                            <div className="field">
-                                <label htmlFor="reg-password">Парола</label>
-                                <div className="field-input">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                        strokeLinecap="round" strokeLinejoin="round">
-                                        <rect x="3" y="11" width="18" height="10" rx="2" />
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                                    </svg>
-                                    <input
-                                        type="password"
-                                        id="reg-password"
-                                        name="password"
-                                        onChange={changeHandler}
-                                        value={values.password}
-                                        placeholder="Минимум 8 символа"
-                                        autoComplete="new-password"
-                                        required />
-                                    <button type="button" className="field-input__toggle" aria-label="Покажи паролата">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                            strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
-                                            <circle cx="12" cy="12" r="3" />
-                                        </svg>
-                                    </button>
-                                </div>
-                                <p className="field-hint">Използвай поне 8 символа, включително цифра.</p>
-                            </div>
+                        <div className="auth-field">
+                            <label for="register-password">Парола</label>
+                            <input
+                                type="password"
+                                id="register-password"
+                                name="password"
+                                onChange={changeHandler}
+                                value={values.password}
+                                placeholder="Въведи парола"
+                                required
+                            />
+                        </div>
 
-                            <div className="field">
-                                <label htmlFor="reg-password-confirm">Потвърди парола</label>
-                                <div className="field-input">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                        strokeLinecap="round" strokeLinejoin="round">
-                                        <rect x="3" y="11" width="18" height="10" rx="2" />
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                                    </svg>
-                                    <input
-                                        type="password"
-                                        id="reg-password-confirm"
-                                        name="rePassword"
-                                        onChange={changeHandler}
-                                        value={values.rePassword}
-                                        placeholder="Въведи паролата отново"
-                                        autoComplete="new-password"
-                                        required />
-                                    <button type="button" className="field-input__toggle" aria-label="Покажи паролата">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                            strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
-                                            <circle cx="12" cy="12" r="3" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
+                        <div className="auth-field">
+                            <label for="register-repeat-password">Повтори паролата</label>
+                            <input
+                                type="password"
+                                id="register-repeat-password"
+                                name="rePassword"
+                                onChange={changeHandler}
+                                value={values.rePassword}
+                                placeholder="Въведи паролата отново"
+                                required
+                            />
+                        </div>
 
-                            <button type="submit" className="btn btn-primary">Регистрация</button>
-                        </form>
+                        <button type="submit" className="auth-submit-button">
+                            Създай профил
+                            <span>→</span>
+                        </button>
+                    </form>
 
-                        {/* <div className="auth__divider">или се регистрирай с</div>
+                    <div className="auth-form-switch">
+                        <span>Вече имаш регистрация?</span>
+                        <Link to="/login">Влез в профила си</Link>
+                    </div>
 
-                        <div className="auth__social">
-                            <button type="button">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z" />
-                                </svg>
-                                Facebook
-                            </button>
-                            <button type="button">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                    strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="12" cy="12" r="10" />
-                                    <path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z" />
-                                </svg>
-                                Google
-                            </button>
-                        </div> */}
-
-                        <p className="auth__switch">Вече имаш акаунт? <Link to="/login">Влез оттук</Link></p>
+                    <div className="auth-form-footer">
+                        <span>Ellie's Art</span>
+                        <span>Малко цвят, много любов.</span>
                     </div>
                 </div>
             </section>
-        </>
+        </main>
     )
 }

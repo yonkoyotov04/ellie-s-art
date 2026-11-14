@@ -1,4 +1,4 @@
-import { Link, useParams, useSearchParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import ProductCard from "../products/ProductCard.jsx";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch.js";
@@ -16,8 +16,8 @@ export default function Catalogue() {
     }
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage, setProductsPerPage] = useState(12);
-    
+    const [productsPerPage, setProductsPerPage] = useState(20);
+
     const lastProductIndex = currentPage * productsPerPage;
     const firstProductIndex = lastProductIndex - productsPerPage;
 
@@ -59,87 +59,83 @@ export default function Catalogue() {
     useFetch('/products', setProducts, { active: true, category: currentCategory, sort: currentSort, search: currentSearch });
 
     return (
-        <>
-            <section className="page-header section--tint">
-                <div className="page-header__inner">
-                    <span className="eyebrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="11" cy="11" r="7" />
-                            <path d="M21 21l-4.3-4.3" />
-                        </svg>
-                        Цялото ателие на едно място
-                    </span>
-                    <h1 className="script-heading">Каталог</h1>
-                    <p className="section-sub">Разгледай всички ръчно рисувани творби и авторски подаръци — от платна до
-                        картички и керамика.</p>
-                </div>
+        <main className="catalogue-page">
+
+            <section className="catalogue-intro">
+                <span className="catalogue-decoration" aria-hidden="true">♥</span>
+                <p className="catalogue-eyebrow">Малко красота за всеки ден</p>
+                <h1>Нашият каталог</h1>
+                <p className="catalogue-subtitle">
+                    Открий нещо специално, създадено с любов и внимание към всеки детайл.
+                </p>
             </section>
 
-            <svg className="citrus-divider" viewBox="0 0 1200 60" preserveAspectRatio="none" style={{ color: 'var(--lemon-100)' }}>
-                <path
-                    d="M0 30 Q 50 60 100 30 T 200 30 T 300 30 T 400 30 T 500 30 T 600 30 T 700 30 T 800 30 T 900 30 T 1000 30 T 1100 30 T 1200 30 V0 H0 Z"
-                    fill="currentColor" />
-            </svg>
+            <section className="catalogue-toolbar" aria-label="Търсене и подреждане">
 
-            <form className="catalogue-toolbar" onSubmit={submitHandler}>
-                <div className="search-field">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                        <circle cx="11" cy="11" r="7" />
-                        <path d="M21 21l-4.3-4.3" />
-                    </svg>
-                    <label htmlFor="catalogue-search" className="sr-only">Търсене в каталога</label>
-                    <input
-                        type="search"
+                <form className="catalogue-search" onSubmit={submitHandler}>
+                    <label className="visually-hidden" htmlFor="catalogue-search-input">
+                        Търси продукти
+                    </label>
+
+                    <input type="search"
                         name="search"
-                        id="catalogue-search"
+                        id="catalogue-search-input"
                         value={values.search}
                         onChange={changeHandler}
                         placeholder="Търси продукт, напр. „лимон“ или „картичка“…" />
-                    <button className="btn btn-primary" type="submit">Търси</button>
-                </div>
 
-                <div className="sort-field">
-                    <label htmlFor="catalogue-sort">Подреди по:</label>
-                    <select id="catalogue-sort" name="sort" onChange={changeHandler}>
-                        <option value="">Сортирай</option>
-                        <option value="newest">Най-нови</option>
-                        <option value="popular">Най-пoпулярни</option>
-                        <option value="lowestPrice">Цена: ниска към висока</option>
-                        <option value="highestPrice">Цена: висока към ниска</option>
-                        <option value="titleAsc">Име: А–Я</option>
-                        <option value="titleDesc">Име: Я–А</option>
-                    </select>
-                </div>
-            </form>
+                    <div className="catalogue-sort">
+                        <label htmlFor="catalogue-sort-select">Подреди по:</label>
 
-            <div className="results-row">
-                <span>Показани <strong>12</strong> от <strong>48</strong> продукта</span>
-            </div>
-
-            <section className="catalogue-section">
-                <div className="catalogue-section__inner">
-                    <div className="product-grid">
-                        {productsDisplayed.length > 0
-                            ?
-                            productsDisplayed.map(product => <ProductCard key={product.id} {...product} />)
-                            :
-                            <div className="empty-state">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
-                                <h3>Няма намерени продукти</h3>
-                                <p>Опитай с друга дума за търсене или премахни някой от филтрите.</p>
-                            </div>
-                        }
+                        <select id="catalogue-sort-select" name="sort" onChange={changeHandler}>
+                            <option value="">Сортирай</option>
+                            <option value="newest">Най-нови</option>
+                            <option value="popular">Най-пoпулярни</option>
+                            <option value="lowestPrice">Цена: ниска към висока</option>
+                            <option value="highestPrice">Цена: висока към ниска</option>
+                            <option value="titleAsc">Име: А–Я</option>
+                            <option value="titleDesc">Име: Я–А</option>
+                        </select>
                     </div>
 
-                    {products.length > productsPerPage && <Pagination
-                        totalProducts={products.length}
-                        productsPerPage={productsPerPage}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                    />}
-
-                </div>
+                    <button type="submit" className="catalogue-search-button">
+                        <span aria-hidden="true">⌕</span>
+                        Търси
+                    </button>
+                </form>
             </section>
-        </>
+
+            <div className="catalogue-results-info">
+                <p>Малки съкровища, направени с любов.</p>
+                <span>Показани са {productsDisplayed.length} продукта</span>
+            </div>
+
+            <section className="catalogue-grid" aria-label="Продукти">
+
+                {productsDisplayed.length > 0
+                    ?
+                    productsDisplayed.map(product => <ProductCard key={product.id} {...product} />)
+                    :
+                    <div className="empty-state">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.6"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+                        <h3>Няма намерени продукти</h3>
+                        <p>Опитай с друга дума за търсене или премахни някой от филтрите.</p>
+                    </div>
+                }
+
+            </section>
+
+            {products.length > productsPerPage &&
+                <Pagination
+                    totalProducts={products.length}
+                    productsPerPage={productsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage} />}
+
+        </main>
     )
 }
