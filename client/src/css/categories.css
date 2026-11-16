@@ -1,15 +1,7 @@
 /* CATEGORIES */
 .categories-page {
-    --cat-yellow: #FFE9A8;
-    --cat-pink: #FFDDE3;
-    --cat-cream: #FFFFFF;
-    --cat-accent: #F28B9B;
-    --cat-pink-dark: #DF667E;
-    --cat-brown: #604333;
-    --cat-muted: #927766;
-    --cat-border: #EED8BC;
-
     width: 100%;
+    padding: 48px clamp(20px, 4vw, 60px) 70px;;
     color: var(--cat-brown);
     background: #FFFAF0;
     font-family: 'Nunito', sans-serif;

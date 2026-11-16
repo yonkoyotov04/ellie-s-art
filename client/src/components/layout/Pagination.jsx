@@ -26,9 +26,9 @@ export default function Pagination({ totalProducts, productsPerPage, currentPage
 
     return (
 
-        <nav class="catalogue-pagination" aria-label="Страници на каталога">
+        <nav className="catalogue-pagination" aria-label="Страници на каталога">
             {currentPage === 1 ||
-                <button class="pagination-arrow" onClick={previousPageClick} aria-label="Предишна страница">
+                <button className="pagination-arrow" onClick={previousPageClick} aria-label="Предишна страница">
                     <span aria-hidden="true">←</span>
                     <span>Предишна</span>
                 </button>}
@@ -50,7 +50,7 @@ export default function Pagination({ totalProducts, productsPerPage, currentPage
             </div>
 
             {currentPage === pages[pages.length - 1] ||
-                <button class="pagination-arrow" onClick={nextPageClick} aria-label="Следваща страница">
+                <button className="pagination-arrow" onClick={nextPageClick} aria-label="Следваща страница">
                     <span>Следваща</span>
                     <span aria-hidden="true">→</span>
                 </button>

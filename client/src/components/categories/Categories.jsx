@@ -36,12 +36,13 @@ export default function Categories() {
 
             </section>
 
-            {categories.length > categoriesPerPage && <Pagination
-                totalProducts={categories.length}
-                productsPerPage={categoriesPerPage}
-                currentPage={currentCategoryPage}
-                setCurrentPage={setCurrentCategoryPage}
-            />}
+            {categories.length > categoriesPerPage &&
+                <Pagination
+                    totalProducts={categories.length}
+                    productsPerPage={categoriesPerPage}
+                    currentPage={currentCategoryPage}
+                    setCurrentPage={setCurrentCategoryPage}
+                />}
 
         </main>
 

@@ -93,6 +93,9 @@ export default function ProductForm({ passedValues, isSubmitting, changeHandler,
 
                                 <span>€</span>
                             </div>
+                            <small>
+                                Избери цената на продукта.
+                            </small>
                         </div>
 
                         <div className="product-form-field">

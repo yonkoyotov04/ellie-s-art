@@ -1,14 +1,6 @@
 /*CATALOGUE*/
 
 .catalogue-page {
-    --catalogue-pink: #F28B9B;
-    --catalogue-pink-dark: #DF667E;
-    --catalogue-yellow: #FFDF83;
-    --catalogue-cream: #FFFAF0;
-    --catalogue-brown: #604333;
-    --catalogue-muted: #927766;
-    --catalogue-border: #F0DFC8;
-
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;

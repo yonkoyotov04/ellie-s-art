@@ -16,7 +16,7 @@ export default function Catalogue() {
     }
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage, setProductsPerPage] = useState(20);
+    const [productsPerPage, setProductsPerPage] = useState(5);
 
     const lastProductIndex = currentPage * productsPerPage;
     const firstProductIndex = lastProductIndex - productsPerPage;

@@ -1391,6 +1391,7 @@
 .product-form-field {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     min-width: 0;
 }
 
@@ -1474,6 +1475,7 @@
 
 .product-form-category-control {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 9px;
 }
@@ -1506,7 +1508,7 @@
 }
 
 .product-form-new-category {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 9px;
     margin-top: 15px;
