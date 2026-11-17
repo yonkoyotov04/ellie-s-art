@@ -22,14 +22,14 @@ export default {
         if (adminExists.rows.length > 0) {
             throw new errorApi(
                 409,
-                'This email is already registered!'
+                'Този имейл вече е регистриран!'
             )
         }
 
         if (password !== rePassword) {
             throw new errorApi(
                 401,
-                'Password mismatch!'
+                'Несъвпадащи пароли!'
             )
         }
 
@@ -74,7 +74,7 @@ export default {
         if (!admin.rows.length > 0) {
             throw new errorApi(
                 401,
-                'This admin does not exist'
+                'Този профил не съществува!'
             )
         }
 
@@ -95,7 +95,7 @@ export default {
         if (!isValidPassword) {
             throw new errorApi(
                 401,
-                'Incorrect password!'
+                'Грешна парола!'
             )
         }
 
@@ -167,14 +167,14 @@ export default {
         if (!isPasswordCorrect) {
             throw new errorApi(
                 401,
-                'Incorrect password!'
+                'Грешна парола!'
             )
         }
 
         if (newPassword !== repeatNewPassword) {
             throw new errorApi(
                 401,
-                'Password mismatch!'
+                'Несъвпадащи пароли!'
             )
         }
 

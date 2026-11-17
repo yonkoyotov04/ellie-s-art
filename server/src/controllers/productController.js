@@ -16,7 +16,7 @@ productController.get('/', async (req, res) => {
     try {
         products = await productService.getAllProducts(filter);
     } catch (error) {
-        throw new errorApi(400, 'Failed to fetch products!')
+        throw new errorApi(400, 'Неуспешно получаване на продуките!')
     }
 
     res.status(200).json(products ?? []);
@@ -28,7 +28,7 @@ productController.get('/categories', async (req, res) => {
         const categories = await productService.getCategories();
         res.status(200).json(categories ?? []);
     } catch (error) {
-        throw new errorApi(400, 'Failed to fetch categories!');
+        throw new errorApi(400, 'Неуспешно получаване на категориите!');
     }
 })
 
@@ -37,7 +37,7 @@ productController.get('/count', async (req, res) => {
         const count = await productService.getCount();
         res.status(200).json(count);
     } catch (error) {
-        throw new errorApi(400, 'Failed to fetch product count!');
+        throw new errorApi(400, 'Неуспешно получаване на броя продукти!');
     }
 })
 
@@ -56,7 +56,7 @@ productController.get('/:productId', async (req, res) => {
             ...result
         }
     } catch (error) {
-        throw new errorApi(400, 'Failed to fetch product!');
+        throw new errorApi(400, 'Неуспешно получаване на продукта!');
     }
 
     res.status(200).json(product ?? {});
@@ -66,7 +66,7 @@ productController.post('/', isAuth, upload.array('images', 8), async (req, res) 
     const productData = req.body;
 
     if (productData.category.trim() === '') {
-        throw new errorApi(400, 'A category is required!')
+        throw new errorApi(400, 'Категория е задължителна!')
     }
 
     if (!isNaN(Number(productData.category))) {
@@ -86,7 +86,7 @@ productController.post('/', isAuth, upload.array('images', 8), async (req, res) 
     }
 
     if (!req.files?.length) {
-        throw new errorApi(400, 'At least one product image is required!');
+        throw new errorApi(400, 'Поне една снимка е задължителна!');
     }
 
     try {
@@ -100,7 +100,7 @@ productController.post('/', isAuth, upload.array('images', 8), async (req, res) 
         res.status(200).json(product ?? {});
     } catch (error) {
         req.files.forEach(file => fs.unlink(file.path, () => { }))
-        throw new errorApi(400, 'Failed to upload the new product!');
+        throw new errorApi(400, 'Неуспешно качване на новия продукт!');
     }
 });
 
@@ -124,7 +124,7 @@ productController.put('/:productId', isAuth, upload.array('newImages', 8), async
         res.status(200).json(updatedProduct ?? {});
     } catch (error) {
         (req.files || []).forEach(file => fs.unlink(file.path, () => { }));
-        throw new errorApi(400, 'Failed to edit product!');
+        throw new errorApi(400, 'Неуспешно редактиране на продукта!');
     }
 });
 
@@ -158,7 +158,7 @@ productController.delete('/:productId', isAuth, async (req, res) => {
         const deletedProduct = await productService.deleteProduct(productId);
 
         if (!deletedProduct) {
-            throw new errorApi(404, 'Product not found!')
+            throw new errorApi(404, 'Продукта не е намерен!')
         }
 
         if (productImages?.length) {
@@ -168,7 +168,7 @@ productController.delete('/:productId', isAuth, async (req, res) => {
                 try {
                     await fsPromises.unlink(imagePath);
                 } catch (error) {
-                    throw new errorApi(400, 'Image deletion failed!');
+                    throw new errorApi(400, 'Неуспешно изтриване на снимката!');
                 }
             }
 
@@ -176,7 +176,7 @@ productController.delete('/:productId', isAuth, async (req, res) => {
 
         res.status(200).json(deletedProduct ?? {});
     } catch (error) {
-        throw new errorApi(400, 'Failed to delete product!');
+        throw new errorApi(400, 'Неуспешно изтриване на продукта!');
     }
 });
 

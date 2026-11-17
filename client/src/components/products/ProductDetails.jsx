@@ -97,13 +97,15 @@ export default function ProductDetails() {
 
                     <p className="product-price">{productData.price} €</p>
 
-                    <div className="product-description">
-                        <h2>За продукта</h2>
+                    {productData.description !== "" &&
+                        <div className="product-description">
+                            <h2>За продукта:</h2>
 
-                        <p>
-                            {productData.description}
-                        </p>
-                    </div>
+                            <p>
+                                {productData.description}
+                            </p>
+                        </div>
+                    }
 
                     <Link
                         to="https://www.facebook.com/messages/t/187292397806207"

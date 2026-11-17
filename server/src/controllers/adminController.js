@@ -29,7 +29,7 @@ adminController.post('/register', isGuest, async (req, res) => {
 
         res.status(201).json(admin ?? {});
     } catch (error) {
-        throw new errorApi(401, 'Failed to register!');
+        throw new errorApi(401, 'Грешка при регистриране!');
     }
 });
 
@@ -52,7 +52,7 @@ adminController.post('/login', isGuest, async (req, res) => {
 
         res.status(201).json(admin ?? {});
     } catch (error) {
-        throw new errorApi(401, 'Failed to login!');
+        throw new errorApi(401, 'Грешка при влизане!');
     }
 });
 
@@ -98,7 +98,7 @@ adminController.put('/:adminId', isAuth, async (req, res) => {
 
         res.status(201).json(editedAdmin ?? {});
     } catch (error) {
-        throw new errorApi(401, 'Failed to edit admin!');
+        throw new errorApi(401, 'Неуспешно редактиране на профила!');
     }
 });
 
@@ -114,7 +114,7 @@ adminController.put('/password/:adminId', isAuth, async (req, res) => {
         const result = await adminService.changePassword(adminId, oldPassword, newPassword, repeatNewPassword);
         res.status(201).json(result ?? {});
     } catch (error) {
-        throw new errorApi(401, 'Failed to edit password!');
+        throw new errorApi(401, 'Неуспешно редактиране на паролата!');
     }
 });
 
@@ -125,7 +125,7 @@ adminController.delete('/:adminId', isAuth, async (req, res) => {
         const deletedAdmin = await adminService.deleteProfile(adminId);
         res.status(200).json(deletedAdmin);
     } catch (error) {
-        throw new errorApi(401, 'Failed to delete admin!');
+        throw new errorApi(401, 'Неуспешно изтриване на профила!');
     }
 });
 

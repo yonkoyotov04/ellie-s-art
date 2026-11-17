@@ -72,30 +72,6 @@ export default {
         return result.rows;
     },
 
-    // async getAllProductsSortedByTime() {
-    //     const result = await pool.query(
-    //         `
-    //         SELECT 
-    //             p.id,
-    //             p.title,
-    //             p.price,
-    //             p.image,
-    //             c.name AS category,
-    //             p.added_on
-    //         FROM 
-    //             products AS p
-    //         JOIN
-    //             categories AS c
-    //         ON
-    //             p.category = c.id
-    //         ORDER BY
-    //             added_on ASC;
-    //         `
-    //     );
-
-    //     return result.rows;
-    // },
-
     async getSpecificProduct(productId) {
         const result = await pool.query(
             `
@@ -196,7 +172,7 @@ export default {
         )
 
         if (result.rowCount === 0) {
-            return result.status(404).send('Product not found');
+            return result.status(404).send('Продукта не е намерен!');
         };
 
         return result.rows[0];

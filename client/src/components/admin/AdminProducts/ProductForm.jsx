@@ -17,6 +17,8 @@ export default function ProductForm({ passedValues, isSubmitting, changeHandler,
         setManualCategoryInput(state => !state)
     }
 
+    console.log(passedValues);
+
     return (
 
         <main className="product-form-page">
@@ -116,7 +118,7 @@ export default function ProductForm({ passedValues, isSubmitting, changeHandler,
                                         <input
                                             type="text"
                                             id="new-category-name"
-                                            name="newCategory"
+                                            name="category"
                                             onChange={changeHandler}
                                             value={passedValues.category}
                                             placeholder="Например: Плетени изделия" />

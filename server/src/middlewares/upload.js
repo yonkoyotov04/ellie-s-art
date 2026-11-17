@@ -22,7 +22,7 @@ const fileFilter = (req, file, cb) => {
     const allowed = ['image/png', 'image/jpeg'];
 
     if (!allowed.includes(file.mimetype)) {
-        return cb(new Error('Only png and jpeg images are allowed'));
+        return cb(new Error('Само снимки в png и jpeg формат са позволени!'));
     }
 
     cb(null, true);
