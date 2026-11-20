@@ -8,7 +8,7 @@ import AdminProductsPagination from "./APPagination.jsx";
 export default function AdminProducts() {
     const [products, setProducts] = useState([]);
 
-    useFetch('/products', setProducts);
+    useFetch('/products', setProducts, {sort: 'newest'});
 
     const [currentPage, setCurrentPage] = useState(1);
     const [productsPerPage, setProductsPerPage] = useState(3);

@@ -16,7 +16,7 @@ export default function Catalogue() {
     }
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage, setProductsPerPage] = useState(5);
+    const [productsPerPage, setProductsPerPage] = useState(20);
 
     const lastProductIndex = currentPage * productsPerPage;
     const firstProductIndex = lastProductIndex - productsPerPage;
@@ -64,7 +64,7 @@ export default function Catalogue() {
             <section className="catalogue-intro">
                 <span className="catalogue-decoration" aria-hidden="true">♥</span>
                 <p className="catalogue-eyebrow">Малко красота за всеки ден</p>
-                <h1>Нашият каталог</h1>
+                <h1>Моят каталог</h1>
                 <p className="catalogue-subtitle">
                     Открий нещо специално, създадено с любов и внимание към всеки детайл.
                 </p>

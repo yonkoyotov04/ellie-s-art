@@ -4,7 +4,7 @@ import { useContext } from "react";
 import AdminContext from "../../../contexts/AdminContext.jsx";
 import { useState } from "react";
 
-export default function AdminProductCard({ id, title, price, image, category, active, deleteTrigger }) {
+export default function AdminProductCard({ id, title, price, image, category, active, added_on, clicks, deleteTrigger }) {
 
     const apiURL = 'http://localhost:2105/uploads/';
     const { fetcher } = useFetch();
@@ -41,6 +41,7 @@ export default function AdminProductCard({ id, title, price, image, category, ac
             <div className="products-item-info">
                 <h3>{title}</h3>
                 <span className="products-item-id">ID: #{id}</span>
+                <span className="products-item-id">Популярност: {clicks}</span>
             </div>
 
             <div className="products-item-category">

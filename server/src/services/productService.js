@@ -11,7 +11,8 @@ export default {
             p.image,
             c.name AS category,
             p.active,
-            p.added_on
+            p.added_on,
+            p.clicks
         FROM 
             products AS p
         JOIN
@@ -84,6 +85,7 @@ export default {
                 c.name AS category,
                 p.category AS category_id, 
                 p.added_on,
+                p.clicks,
                 COALESCE(json_agg(
                             json_build_object('id', pi.id, 'path', pi.path) 
                             ORDER BY pi.position

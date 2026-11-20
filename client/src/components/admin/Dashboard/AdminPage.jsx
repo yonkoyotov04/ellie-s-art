@@ -34,7 +34,7 @@ export default function AdminPage() {
                 <div className="profile-page-welcome-content">
                     <span className="profile-page-eyebrow">ТВОЕТО ЛИЧНО ПРОСТРАНСТВО</span>
 
-                    <h1>Радваме се да те видим!</h1>
+                    <h1>Радвам се да те видя!</h1>
 
                     <p>
                         Тук можеш да управляваш своя администраторски акаунт,
